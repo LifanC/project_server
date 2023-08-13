@@ -24,6 +24,14 @@ public class IndexServiceImpl implements IndexService {
         params.forEach((key, value) -> {
             mapA.putAll(value);
         });
+        //Test (種類:食物) (順序:1)
+        mapA.put("details", mapA.get("details").toString()
+                + " (" + "種類" + ":" +
+                mapA.get("radioItems").toString()
+                + ")" + " (" + "順序" + ":" +
+                mapA.get("radio_group_value").toString()
+                + ")"
+        );
         indexMapper.insA(mapA);
         List<A> A = indexMapper.selectA(mapA.get("date").toString());
         Integer AexM = 0;
