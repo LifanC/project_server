@@ -2,6 +2,7 @@ package com.project.server.Controller;
 
 import com.project.server.Model.A;
 import com.project.server.Model.B;
+import com.project.server.Model.TableName;
 import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -50,4 +51,11 @@ public class IndexController {
     public List<A> enter(@RequestBody Map<String, Object> params) {
         return indexService.enter(params);
     }
+
+    @GetMapping("/getTable")
+    public List<TableName> getTable() {
+        return indexService.getTable();
+    }
+
+
 }

@@ -76,4 +76,12 @@
             details     = #{details}
         where a_id = #{a_id}
     </update>
+    <select id="getTable" resultType="com.project.server.Model.TableName">
+        select
+            TABLE_NAME as tableName
+        from
+            Information_Schema.TABLES
+        where
+            TABLE_SCHEMA = 'project_a'
+    </select>
 </mapper>
