@@ -2,6 +2,7 @@ package com.project.server.mapper;
 
 import com.project.server.Model.A;
 import com.project.server.Model.B;
+import com.project.server.Model.TableName;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface IndexMapper {
     List<A> findA(List<String> listDate);
     void del(Map<String, Object> a_id);
     void setUpdate(Map<String, Object> map);
+    List<TableName> getTable();
 }
