@@ -43,7 +43,7 @@ public class IndexServiceImpl implements IndexService {
         }
 
         List<B> B = indexMapper.selectB(mapA.get("date").toString());
-        if (B.size() == 0) {
+        if (B.isEmpty()) {
             Map<String, Object> mapB = new HashMap<>();
             mapB.put("date", mapA.get("date"));
             indexMapper.insB(mapB);
