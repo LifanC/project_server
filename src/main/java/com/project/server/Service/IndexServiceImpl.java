@@ -22,9 +22,7 @@ public class IndexServiceImpl implements IndexService {
     public List<B> ins(Map<String, Map<String, String>> params) {
         LogUtils.info("新增資料", "*************** ins Start ***************");
         Map<String, Object> mapA = new HashMap<>();
-        params.forEach((key, value) -> {
-            mapA.putAll(value);
-        });
+        params.forEach((key, value) -> mapA.putAll(value));
         //Test (種類:食物) (順序:1)
         mapA.put("details", mapA.get("details").toString()
                 + " (" + "種類" + ":" +
@@ -39,12 +37,8 @@ public class IndexServiceImpl implements IndexService {
         Integer BinM = 0;
         for (A a : A) {
             switch (a.getExpense_and_income_number()) {
-                case "A" -> {
-                    AexM += a.getInputMoney();
-                }
-                case "B" -> {
-                    BinM += a.getInputMoney();
-                }
+                case "A" -> AexM += a.getInputMoney();
+                case "B" -> BinM += a.getInputMoney();
             }
         }
 
