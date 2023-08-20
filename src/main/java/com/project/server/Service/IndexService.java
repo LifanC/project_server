@@ -2,9 +2,6 @@ package com.project.server.Service;
 
 import com.project.server.Model.A;
 import com.project.server.Model.B;
-import com.project.server.Model.TableName;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +20,5 @@ public interface IndexService {
     List<A> del(Map<String, Object> params);
 
     List<A> enter(Map<String, Object> params);
-
-    List<TableName> getTable();
 
 }

@@ -52,10 +52,5 @@ public class IndexController {
         return indexService.enter(params);
     }
 
-    @GetMapping("/getTable")
-    public List<TableName> getTable() {
-        return indexService.getTable();
-    }
-
 
 }

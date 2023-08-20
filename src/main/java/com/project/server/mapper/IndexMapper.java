@@ -20,5 +20,4 @@ public interface IndexMapper {
     List<A> findA(List<String> listDate);
     void del(Map<String, Object> a_id);
     void setUpdate(Map<String, Object> map);
-    List<TableName> getTable();
 }

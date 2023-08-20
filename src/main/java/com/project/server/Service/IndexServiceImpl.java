@@ -3,7 +3,6 @@ package com.project.server.Service;
 import com.project.server.LogUtils;
 import com.project.server.Model.A;
 import com.project.server.Model.B;
-import com.project.server.Model.TableName;
 import com.project.server.mapper.IndexMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -137,10 +136,6 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.selectA(params.get("date").toString());
     }
 
-    @Override
-    public List<TableName> getTable() {
-        LogUtils.info("查詢Table", "*************** getTable Start ***************");
-        return indexMapper.getTable();
-    }
+
 
 }
