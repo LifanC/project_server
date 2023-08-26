@@ -2,7 +2,6 @@ package com.project.server.Controller;
 
 import com.project.server.Model.A;
 import com.project.server.Model.B;
-import com.project.server.Model.TableName;
 import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;

@@ -35,9 +35,4 @@ public class SetUpServiceImpl implements SetUpService {
         return data;
     }
 
-    @Override
-    public List<TableName> getTable() {
-        LogUtils.info("查詢Table", "*************** getTable Start ***************");
-        return setUpMapper.getTable();
-    }
 }

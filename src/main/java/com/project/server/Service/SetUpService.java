@@ -9,5 +9,4 @@ import java.util.List;
 public interface SetUpService {
 
     List<String[]> readCsvData(String filePath) throws IOException;
-    List<TableName> getTable();
 }
