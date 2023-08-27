@@ -22,7 +22,6 @@ public class SetUpServiceImpl implements SetUpService {
 
     @Override
     public List<String[]> readCsvData(String filePath) throws IOException {
-        LogUtils.info("讀CSV檔", "*************** readCsvData Start ***************");
         List<String[]> data = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
