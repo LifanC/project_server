@@ -1,7 +1,5 @@
 package com.project.server.Service;
 
-import com.project.server.LogUtils;
-import com.project.server.Model.TableName;
 import com.project.server.mapper.SetUpMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;

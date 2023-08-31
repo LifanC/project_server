@@ -2,7 +2,6 @@ package com.project.server.mapper;
 
 import com.project.server.Model.A;
 import com.project.server.Model.B;
-import com.project.server.Model.TableName;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
