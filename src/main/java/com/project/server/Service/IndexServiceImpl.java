@@ -71,15 +71,11 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public List<A> findA(List<Object> params) {
+    public List<A> findA(Map<String, List<Map<String, Object>>> params) {
         LogUtils.info("查詢資料明細", "*************** findA Start ***************");
-        List<?> list = (List<?>) params.get(0);
-        List<String> listDate = new ArrayList<>();
-        for (Object o : list) {
-            Map<?, ?> m = (Map<?, ?>) o;
-            listDate.add(m.get("date").toString());
-        }
-        return indexMapper.findA(listDate);
+        List<String> list = new ArrayList<>();
+        params.forEach((key, value) -> value.forEach(e -> list.add(e.get("date").toString())));
+        return indexMapper.findA(list);
     }
 
     @Override
@@ -133,7 +129,6 @@ public class IndexServiceImpl implements IndexService {
         indexMapper.setUpdate(map);
         return indexMapper.selectA(params.get("date"));
     }
-
 
 
 }

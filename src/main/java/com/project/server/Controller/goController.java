@@ -14,7 +14,7 @@ public class goController {
     @PostMapping("/getGo")
     public String getGo(@RequestBody Map<String,String> params) {
         Gson gson = new Gson();
-        String[] arr = {"Luke", "admin"};
+        String[] arr = {"admin"};
         if (Arrays.asList(arr).contains(params.get("data"))) {
             return gson.toJson(params.get("data"));
         } else {

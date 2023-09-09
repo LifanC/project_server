@@ -39,8 +39,8 @@ public class IndexController {
     }
 
     @PostMapping("findA")
-    public List<A> findA(@RequestBody Map<String, List<String>> params) {
-        return indexService.findA(Arrays.asList(params.values().toArray()));
+    public List<A> findA(@RequestBody Map<String, List<Map<String,Object>>> params) {
+        return indexService.findA(params);
     }
 
     @PostMapping("/del")

@@ -15,7 +15,7 @@ public interface IndexService {
 
     List<B> find(Map<String, String[]> params);
 
-    List<A> findA(List<Object> params);
+    List<A> findA(Map<String, List<Map<String,Object>>> params);
 
     List<A> del(Map<String, String> params);
 
