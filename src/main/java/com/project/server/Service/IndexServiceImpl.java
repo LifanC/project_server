@@ -18,20 +18,18 @@ public class IndexServiceImpl implements IndexService {
     private IndexMapper indexMapper;
 
     @Override
-    public List<B> ins(Map<String, Map<String, String>> params) {
+    public List<B> ins(Map<String, String> mapA) {
         LogUtils.info("新增資料", "*************** ins Start ***************");
-        Map<String, Object> mapA = new HashMap<>();
-        params.forEach((key, value) -> mapA.putAll(value));
         //Test (種類:食物) (順序:1)
-        mapA.put("details", mapA.get("details").toString()
+        mapA.put("details", (mapA.get("details")
                 + " (" + "種類" + ":" +
-                mapA.get("radioItems").toString()
+                mapA.get("radioItems")
                 + ")" + " (" + "順序" + ":" +
-                mapA.get("radio_group_value").toString()
-                + ")"
+                mapA.get("radio_group_value")
+                + ")").trim()
         );
         indexMapper.insA(mapA);
-        List<A> A = indexMapper.selectA(mapA.get("date").toString());
+        List<A> A = indexMapper.selectA(mapA.get("date"));
         Integer AexM = 0;
         Integer BinM = 0;
         for (A a : A) {
@@ -41,34 +39,34 @@ public class IndexServiceImpl implements IndexService {
             }
         }
 
-        List<B> B = indexMapper.selectB(mapA.get("date").toString());
+        List<B> B = indexMapper.selectB(mapA.get("date"));
         if (B.isEmpty()) {
-            Map<String, Object> mapB = new HashMap<>();
+            Map<String, String> mapB = new HashMap<>();
             mapB.put("date", mapA.get("date"));
             indexMapper.insB(mapB);
         }
-        indexMapper.updateData(mapA.get("date").toString(), AexM, BinM);
-        return indexMapper.selectB(mapA.get("date").toString());
+        indexMapper.updateData(mapA.get("date"), AexM, BinM);
+        return indexMapper.selectB(mapA.get("date"));
     }
 
     @Override
-    public List<B> fin(Map<String, Object> params) {
+    public List<B> fin(Map<String, String> params) {
         LogUtils.info("單一日期查詢===>Table B", "*************** fin Start ***************");
-        return indexMapper.selectB(params.get("date").toString());
+        return indexMapper.selectB(params.get("data"));
     }
 
     @Override
-    public List<A> finA(Map<String, Object> params) {
+    public List<A> finA(Map<String, String> params) {
         LogUtils.info("單一日期查詢===>Table A", "*************** finA Start ***************");
-        return indexMapper.selectA(params.get("date").toString());
+        return indexMapper.selectA(params.get("data"));
     }
 
     @Override
     public List<B> find(Map<String, String[]> params) {
         LogUtils.info("Start~End日期查詢", "*************** find Start ***************");
         Map<String, String> map = new HashMap<>();
-        map.put("DatePickerStart", params.get("dateRange")[0]);
-        map.put("DatePickerEnd", params.get("dateRange")[1]);
+        map.put("DatePickerStart", params.get("data")[0]);
+        map.put("DatePickerEnd", params.get("data")[1]);
         return indexMapper.find(map);
     }
 
@@ -85,39 +83,39 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public List<A> del(Map<String, Object> params) {
+    public List<A> del(Map<String, String> params) {
         LogUtils.info("刪除資料明細", "*************** del Start ***************");
-        List<B> B = indexMapper.selectB(params.get("date").toString());
+        List<B> B = indexMapper.selectB(params.get("date"));
         int AexM = 0;
         int BinM = 0;
         for (B b : B) {
-            switch (params.get("expense_and_income_number").toString()) {
+            switch (params.get("expense_and_income_number")) {
                 case "A" -> {
-                    AexM = b.getExpense() - Integer.parseInt(params.get("inputMoney").toString());
+                    AexM = b.getExpense() - Integer.parseInt(params.get("inputMoney"));
                     BinM = b.getIncome();
                 }
                 case "B" -> {
                     AexM = b.getExpense();
-                    BinM = b.getIncome() - Integer.parseInt(params.get("inputMoney").toString());
+                    BinM = b.getIncome() - Integer.parseInt(params.get("inputMoney"));
                 }
             }
         }
         indexMapper.del(params);
-        indexMapper.updateData(params.get("date").toString(), AexM, BinM);
-        return indexMapper.selectA(params.get("date").toString());
+        indexMapper.updateData(params.get("date"), AexM, BinM);
+        return indexMapper.selectA(params.get("date"));
     }
 
     @Override
-    public List<A> enter(Map<String, Object> params) {
+    public List<A> enter(Map<String, String> params) {
         LogUtils.info("修改資料明細", "*************** enter Start ***************");
-        Map<String, Object> map = new HashMap<>();
-        List<B> B = indexMapper.selectB(params.get("date").toString());
+        Map<String, String> map = new HashMap<>();
+        List<B> B = indexMapper.selectB(params.get("date"));
         int AexM = 0;
         int BinM = 0;
-        int X = Integer.parseInt(params.get("setInputMoney").toString());
-        int Y = Integer.parseInt(params.get("inputMoney").toString());
+        int X = Integer.parseInt(params.get("setInputMoney"));
+        int Y = Integer.parseInt(params.get("inputMoney"));
         for (B b : B) {
-            switch (params.get("expense_and_income_number").toString()) {
+            switch (params.get("expense_and_income_number")) {
                 case "A" -> {
                     AexM = b.getExpense() + (X - Y);
                     BinM = b.getIncome();
@@ -128,12 +126,12 @@ public class IndexServiceImpl implements IndexService {
                 }
             }
         }
-        indexMapper.updateData(params.get("date").toString(), AexM, BinM);
+        indexMapper.updateData(params.get("date"), AexM, BinM);
         map.put("a_id", params.get("a_id"));
         map.put("inputMoney", params.get("setInputMoney"));
         map.put("details", params.get("details"));
         indexMapper.setUpdate(map);
-        return indexMapper.selectA(params.get("date").toString());
+        return indexMapper.selectA(params.get("date"));
     }
 
 

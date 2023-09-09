@@ -38,7 +38,7 @@ public class SetUpController {
     public List<Object> getCsvData(@RequestBody Map<String, String> params) {
         LogUtils.info("讀CSV檔", "*************** readCsvData Start ***************");
         List<Object> list = new ArrayList<>();
-        String fileName = params.get("selectCsv");
+        String fileName = params.get("data");
         try {
             String filePath = "D:\\project3.0\\file_csv\\" + fileName;
             List<String[]> str = setUpService.readCsvData(filePath);

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan(basePackages = "com.project.server.**.mapper")
 public class ServerApplication {
-	public static void main(String[] args) {
+	public static void main(String... args) {
 		SpringApplication.run(ServerApplication.class, args);
 	}
 

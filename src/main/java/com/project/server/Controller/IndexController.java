@@ -18,16 +18,18 @@ public class IndexController {
 
     @PostMapping("/ins")
     public List<B> ins(@RequestBody Map<String, Map<String, String>> params) {
-        return indexService.ins(params);
+        Map<String, String> mapA = new HashMap<>();
+        params.forEach((key, value) -> mapA.putAll(value));
+        return indexService.ins(mapA);
     }
 
     @PostMapping("fin")
-    public List<B> fin(@RequestBody Map<String, Object> params) {
+    public List<B> fin(@RequestBody Map<String, String> params) {
         return indexService.fin(params);
     }
 
     @PostMapping("finA")
-    public List<A> finA(@RequestBody Map<String, Object> params) {
+    public List<A> finA(@RequestBody Map<String, String> params) {
         return indexService.finA(params);
     }
 
@@ -37,18 +39,22 @@ public class IndexController {
     }
 
     @PostMapping("findA")
-    public List<A> findA(@RequestBody Map<String, List<Object>> params) {
+    public List<A> findA(@RequestBody Map<String, List<String>> params) {
         return indexService.findA(Arrays.asList(params.values().toArray()));
     }
 
     @PostMapping("/del")
-    public List<A> del(@RequestBody Map<String, Object> params) {
-        return indexService.del(params);
+    public List<A> del(@RequestBody Map<String, Map<String, String>> params) {
+        Map<String, String> valuesMap = new HashMap<>();
+        params.forEach((key, value) -> valuesMap.putAll(value));
+        return indexService.del(valuesMap);
     }
 
     @PostMapping("/enter")
-    public List<A> enter(@RequestBody Map<String, Object> params) {
-        return indexService.enter(params);
+    public List<A> enter(@RequestBody Map<String, Map<String, String>> params) {
+        Map<String, String> valuesMap = new HashMap<>();
+        params.forEach((key, value) -> valuesMap.putAll(value));
+        return indexService.enter(valuesMap);
     }
 
 

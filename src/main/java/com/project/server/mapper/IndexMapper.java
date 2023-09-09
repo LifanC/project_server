@@ -10,13 +10,13 @@ import java.util.Map;
 @Mapper
 public interface IndexMapper {
 
-    void insA(Map<String,Object> map);
-    void insB(Map<String,Object> map);
+    void insA(Map<String,String> map);
+    void insB(Map<String,String> map);
     List<A> selectA(String date);
     List<B> selectB(String date);
     void updateData(String date,Integer AexM,Integer BinM);
     List<B> find(Map<String,String> map);
     List<A> findA(List<String> listDate);
-    void del(Map<String, Object> a_id);
-    void setUpdate(Map<String, Object> map);
+    void del(Map<String, String> a_id);
+    void setUpdate(Map<String, String> map);
 }
