@@ -6,8 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -15,21 +14,26 @@ import java.util.Map;
 @RequestMapping("/go")
 public class goController {
 
+    private final String[] arr = {"admin","a001","a002","a003","a004","a005"};
+    private final Gson gson = new Gson();
+
     @PostMapping("/getGo")
-    public String getGo(@RequestBody Map<String,String> params) {
-        Gson gson = new Gson();
-        String[] arr = {"admin"};
-        if (Arrays.asList(arr).contains(params.get("data"))) {
+    public String getGo(@RequestBody Map<String, String> params) {
+        if(Arrays.asList(arr).contains(params.get("data"))){
             return gson.toJson(params.get("data"));
-        } else {
-            return "";
+        }else{
+            return gson.toJson("");
         }
     }
 
+    @GetMapping("/getUserName")
+    public String getUserName() {
+        return gson.toJson(arr);
+    }
+
     @Scheduled(fixedRate = 3600000)
-    @GetMapping("/runTask")
     public void runTask() {
-        LogUtils.info("*","執行定時任務...");
+        LogUtils.info("*", "執行定時任務...");
         // 在這裡放置您的任務邏輯
     }
 

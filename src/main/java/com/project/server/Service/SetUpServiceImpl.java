@@ -1,7 +1,5 @@
 package com.project.server.Service;
 
-import com.project.server.mapper.SetUpMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +12,6 @@ import java.util.List;
 @Service
 @Transactional
 public class SetUpServiceImpl implements SetUpService {
-
-    @Resource
-    private SetUpMapper setUpMapper;
 
     @Override
     public List<String[]> readCsvData(String filePath) throws IOException {
