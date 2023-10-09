@@ -1,8 +1,9 @@
 package com.project.server.Controller;
 
-import com.project.server.LogUtils;
 import com.project.server.Service.SetUpService;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,13 +15,13 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 @RequestMapping("/setUp")
 public class SetUpController {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private SetUpService setUpService;
 
     @GetMapping("readCsv")
     public List<Object> readCsv() {
-        LogUtils.info("讀CSV檔名稱", "*************** readCsv Start ***************");
+        logger.info("讀CSV檔名稱: {}", "*************** readCsv Start ***************");
         List<Object> list = new ArrayList<>();
         File folder = new File("D:\\project3.0\\file_csv");
         if (folder.exists() && folder.isDirectory()) {
@@ -36,7 +37,7 @@ public class SetUpController {
 
     @PostMapping("readCsvData")
     public List<Object> getCsvData(@RequestBody Map<String, String> params) {
-        LogUtils.info("讀CSV檔", "*************** readCsvData Start ***************");
+        logger.info("讀CSV檔: {}", "*************** readCsvData Start ***************");
         List<Object> list = new ArrayList<>();
         String fileName = params.get("data");
         try {
@@ -47,7 +48,7 @@ public class SetUpController {
         } catch (IOException e) {
             list.add("error");
             list.add(e.getMessage());
-            LogUtils.info("readCsv Error", e.getMessage());
+            logger.info("readCsv Error: {}", e.getMessage());
             return list;
         }
 
@@ -55,7 +56,7 @@ public class SetUpController {
 
     @PostMapping("/fileUpload")
     public String fileUpload(@RequestParam("file") MultipartFile file) {
-        LogUtils.info("上傳CSV檔", "*************** fileUpload Start ***************");
+        logger.info("上傳CSV檔: {}", "*************** fileUpload Start ***************");
         try {
             // 指定存儲路徑
             String uploadPath = "D:\\project3.0\\file_csv\\";
