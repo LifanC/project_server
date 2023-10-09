@@ -27,7 +27,7 @@ public class ServerApplication {
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
                 for (String s : fields) {
-                    logger.info("*{}", s);
+                    logger.info("{}", s);
                 }
             }
         } catch (IOException e) {

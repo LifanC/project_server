@@ -33,10 +33,10 @@ public class goController {
     }
 
     @Scheduled(fixedRate = 3600000)
-
     public void runTask() {
         logger.info("*: {}", "執行定時任務...");
         // 在這裡放置您的任務邏輯
+
     }
 
 }

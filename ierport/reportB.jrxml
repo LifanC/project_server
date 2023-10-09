@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportB" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2174a0e7-f2ed-481c-8772-4eb54a1e6bb5">
+	<property name="ireport.zoom" value="1.3310000000000035"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="title" class="java.lang.String"/>
+	<parameter name="dateStr1" class="java.lang.String"/>
+	<parameter name="dateStr2" class="java.lang.String"/>
+	<parameter name="time" class="java.lang.String"/>
+	<parameter name="toDay" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="expense" class="java.math.BigDecimal"/>
+	<field name="income" class="java.math.BigDecimal"/>
+	<field name="totleMoney" class="java.math.BigDecimal"/>
+	<variable name="sumExpense" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{expense}]]></variableExpression>
+	</variable>
+	<variable name="sumIncome" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{income}]]></variableExpression>
+	</variable>
+	<variable name="sumtotleMoney" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{totleMoney}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="95" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="35" uuid="b60192b1-9692-4bd6-ab0f-894bf3176c36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="523" y="35" width="30" height="15" uuid="4a7f5118-f370-4882-b0fd-d2027949cc65"/>
+				<box rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="473" y="35" width="50" height="15" uuid="af325165-0721-492f-b9de-675fd209c2aa"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Page]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="35" width="138" height="15" uuid="a44bdcd6-d20f-43e4-ac73-711846279f2c"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Report Name : reportB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="50" width="54" height="15" uuid="4f00c535-b2f8-43ad-8bf4-7fd6c340330c"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Number    : ]]></text>
+			</staticText>
+			<textField pattern="#,##0.###">
+				<reportElement x="55" y="50" width="498" height="15" uuid="1f355889-1c18-492a-8a1a-37321d1cd7d0"/>
+				<box rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="65" width="54" height="15" uuid="dcda5213-6da8-4208-8861-6c4b47ebb7c2"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Print Date : ]]></text>
+			</staticText>
+			<textField pattern="#,##0.###">
+				<reportElement x="55" y="65" width="498" height="15" uuid="6f6c8df8-d6b1-4843-8986-61e38e7316b6"/>
+				<box rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{toDay}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="80" width="552" height="15" uuid="0c3594c8-8303-4cd8-8cd8-fcfb79a6d297"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="1" y="0" width="138" height="30" uuid="1eb46edc-2587-4a36-b861-c2ec41219cc9"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="0" width="138" height="30" uuid="0abfaa6b-718b-40b8-a890-515aa7ac4c7a"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Expense]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="0" width="138" height="30" uuid="712bb18a-c21f-40a3-8f0c-480a5a6c3624"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Income]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="0" width="138" height="30" uuid="24d0716c-540f-43e7-95a1-c1f6d758a8de"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Totle Money]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="138" height="30" uuid="9e9843af-0fa9-4aa0-b0ce-92a98f632892"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="139" y="0" width="138" height="30" uuid="458c9225-bb4f-4762-ad31-537d16eab27d"/>
+				<box rightPadding="10">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="277" y="0" width="138" height="30" uuid="c682c496-9d4f-47de-b640-a0af2652529b"/>
+				<box rightPadding="10">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{income}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="415" y="0" width="138" height="30" uuid="8c576aaf-a804-4fc6-98ce-32484c07050c"/>
+				<box rightPadding="10">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totleMoney}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30">
+			<textField pattern="#,##0.###">
+				<reportElement x="139" y="0" width="138" height="30" uuid="2f6567fd-6074-417b-a5e8-8bb301428d0c"/>
+				<box rightPadding="0">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumExpense}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="0" width="84" height="30" uuid="eb0a54d7-788e-47f4-8226-e05e02585155"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="415" y="0" width="138" height="30" uuid="97d4b6e3-840c-4a65-82da-f267a41e7587"/>
+				<box rightPadding="0">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumtotleMoney}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="277" y="0" width="138" height="30" uuid="e6816795-d93e-455e-adbc-3678895276e2"/>
+				<box rightPadding="0">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumIncome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="0" width="54" height="30" uuid="567811e8-43da-40ee-9bd5-d8fbc41efeff"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Days]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="77" y="17" width="79" height="21" uuid="c81b0421-4611-46a7-9e35-707a98bdb0c4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateStr1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="17" width="79" height="21" uuid="480cb95c-77d6-48f5-a75d-d7b3398ba45e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateStr2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="17" uuid="a0d148b6-5c6d-4602-9c74-eb04d5adcb81"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[===============================================================================================]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="77" height="21" uuid="66b908b3-4a5f-4c1d-add1-b4b1a754926a"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="17" width="77" height="21" uuid="f161c00a-525c-45c6-92af-54b5b9207fa5"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[End Date]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
