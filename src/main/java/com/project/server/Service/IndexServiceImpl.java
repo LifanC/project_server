@@ -21,7 +21,6 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public List<B> ins(Map<String, String> mapA) {
         logger.info("新增資料: {}", "*************** ins Start ***************");
-        //Test (種類:食物) (順序:1)
         mapA.put("details", (mapA.get("details")
                 + " (" + "種類" + ":" +
                 mapA.get("radioItems")

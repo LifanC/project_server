@@ -1,26 +1,21 @@
 package com.project.server.Controller;
 
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@Component
 @RequestMapping("/go")
 public class goController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final String[] arr = {"admin", "a001", "a002", "a003", "a004", "a005"};
+    private final List<String> arr = new ArrayList<>();
     private final Gson gson = new Gson();
 
     @PostMapping("/getGo")
     public String getGo(@RequestBody Map<String, String> params) {
-        if (Arrays.asList(arr).contains(params.get("data"))) {
+        if (arr.contains(params.get("data"))) {
             return gson.toJson(params.get("data"));
         } else {
             return gson.toJson("");
@@ -32,11 +27,34 @@ public class goController {
         return gson.toJson(arr);
     }
 
-    @Scheduled(fixedRate = 3600000)
-    public void runTask() {
-        logger.info("*: {}", "執行定時任務...");
-        // 在這裡放置您的任務邏輯
+    Random random = new Random();
 
+    @Scheduled(fixedRate = 30000)
+    public void runTask() {
+        // 在這裡放置您的任務邏輯
+        arr.clear();
+        //UserName -> 預設5種
+        int z = 5;
+        for (int i = 0; i < z; i++) {
+            arr.add(asciiUserName());
+        }
+    }
+
+    private String asciiUserName() {
+        //ASCII碼(65'A'~90'Z'、97'a'~122'z')
+        int min1 = 65;
+        int max1 = 90;
+        int randomInRange1 = random.nextInt(max1 - min1 + 1) + min1;
+        String asciiString1 = Character.toString(randomInRange1);
+        int min2 = 97;
+        int max2 = 112;
+        int randomInRange2 = random.nextInt(max2 - min2 + 1) + min2;
+        String asciiString2 = Character.toString(randomInRange2);
+        int min3 = 0;
+        int max3 = 10000;
+        int randomInRange3 = random.nextInt(max3 - min3 + 1) + min3;
+        String randomInRangeStr3 = String.format("%05d", randomInRange3);
+        return asciiString1 + asciiString2 + randomInRangeStr3;
     }
 
 }
