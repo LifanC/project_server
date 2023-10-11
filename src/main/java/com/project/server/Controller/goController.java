@@ -57,4 +57,10 @@ public class goController {
         return asciiString1 + asciiString2 + randomInRangeStr3;
     }
 
+    @GetMapping("/time")
+    public String time() throws InterruptedException {
+        Thread.sleep(600000);
+        return gson.toJson(true);
+    }
+
 }
