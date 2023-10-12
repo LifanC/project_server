@@ -29,7 +29,7 @@
 			<textField>
 				<reportElement x="0" y="0" width="555" height="35" uuid="b60192b1-9692-4bd6-ab0f-894bf3176c36"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="14" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="14" isBold="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
@@ -41,7 +41,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -54,7 +54,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Page]]></text>
 			</staticText>
@@ -67,7 +67,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Report Name : reportB]]></text>
 			</staticText>
@@ -80,7 +80,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Number    : ]]></text>
 			</staticText>
@@ -92,7 +92,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{time}]]></textFieldExpression>
 			</textField>
@@ -105,7 +105,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Print Date : ]]></text>
 			</staticText>
@@ -117,7 +117,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{toDay}]]></textFieldExpression>
 			</textField>
@@ -130,7 +130,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
@@ -147,7 +147,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>
 			</staticText>
@@ -160,7 +160,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Expense]]></text>
 			</staticText>
@@ -173,7 +173,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Income]]></text>
 			</staticText>
@@ -186,7 +186,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Totle Money]]></text>
 			</staticText>
@@ -201,7 +201,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
@@ -212,7 +212,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
 			</textField>
@@ -223,7 +223,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{income}]]></textFieldExpression>
 			</textField>
@@ -234,7 +234,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totleMoney}]]></textFieldExpression>
 			</textField>
@@ -250,7 +250,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumExpense}]]></textFieldExpression>
 			</textField>
@@ -262,7 +262,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 			</textField>
@@ -274,7 +274,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumtotleMoney}]]></textFieldExpression>
 			</textField>
@@ -286,7 +286,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumIncome}]]></textFieldExpression>
 			</textField>
@@ -299,7 +299,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Days]]></text>
 			</staticText>
@@ -310,14 +310,14 @@
 			<textField>
 				<reportElement x="77" y="17" width="79" height="21" uuid="c81b0421-4611-46a7-9e35-707a98bdb0c4"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateStr1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="233" y="17" width="79" height="21" uuid="480cb95c-77d6-48f5-a75d-d7b3398ba45e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="10" isBold="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateStr2}]]></textFieldExpression>
 			</textField>
@@ -330,7 +330,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[===============================================================================================]]></text>
 			</staticText>
@@ -343,7 +343,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Start Date]]></text>
 			</staticText>
@@ -356,7 +356,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[End Date]]></text>
 			</staticText>
