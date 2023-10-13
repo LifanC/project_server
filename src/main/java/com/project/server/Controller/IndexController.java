@@ -90,8 +90,8 @@ public class IndexController {
         List<String> list = new ArrayList<>();
         if (folder.exists() && folder.isDirectory()) {
             for (String s: Objects.requireNonNull(folder.list())) {
-                if(toDayYM.equals(s.substring(0,6))){
-                    list.add(s.substring(0,14));
+                if(toDayYM.equals(s.substring(8,14))){
+                    list.add(s.substring(16,s.length() - 4));
                 }
             }
             return gson.toJson(list);
