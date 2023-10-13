@@ -70,6 +70,8 @@ public class IndexController {
             params.values().forEach(strDate -> list.addAll(Arrays.asList(strDate)));
             //列印報表
             List<Object> pdfPathList = new ArrayList<>();
+            //listB值前後對調
+            Collections.reverse(listB);
             String pdfPath = Ireport.reportBprintIreportPdf(listB, list.get(0), list.get(1), "");
             pdfPathList.add(pdfPath);
             pdfPathList.add(listB);

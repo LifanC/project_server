@@ -40,6 +40,8 @@ public class Ireport {
                 map.put("dateStr2", dateStr2);
                 map.put("time", time);
                 map.put("toDay", toDay);
+                Integer sumCount = listB.size();
+                map.put("sumCount", sumCount);
 
                 JRDataSource jrDataSource = new JRBeanCollectionDataSource(listB);
                 JasperDesign jasperDesign = JRXmlLoader.load(iReportFile + "reportB.jrxml");

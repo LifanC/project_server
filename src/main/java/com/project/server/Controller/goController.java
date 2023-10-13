@@ -51,9 +51,9 @@ public class goController {
         int randomInRange2 = random.nextInt(max2 - min2 + 1) + min2;
         String asciiString2 = Character.toString(randomInRange2);
         int min3 = 0;
-        int max3 = 10000;
+        int max3 = 9999;
         int randomInRange3 = random.nextInt(max3 - min3 + 1) + min3;
-        String randomInRangeStr3 = String.format("%05d", randomInRange3);
+        String randomInRangeStr3 = String.format("%04d", randomInRange3);
         return asciiString1 + asciiString2 + randomInRangeStr3;
     }
 

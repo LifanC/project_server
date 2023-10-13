@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportB" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2174a0e7-f2ed-481c-8772-4eb54a1e6bb5">
-	<property name="ireport.zoom" value="1.3310000000000035"/>
+	<property name="ireport.zoom" value="1.3310000000000062"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="title" class="java.lang.String"/>
@@ -8,6 +8,7 @@
 	<parameter name="dateStr2" class="java.lang.String"/>
 	<parameter name="time" class="java.lang.String"/>
 	<parameter name="toDay" class="java.lang.String"/>
+	<parameter name="sumCount" class="java.lang.Integer"/>
 	<field name="date" class="java.lang.String"/>
 	<field name="expense" class="java.math.BigDecimal"/>
 	<field name="income" class="java.math.BigDecimal"/>
@@ -196,44 +197,44 @@
 		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="1" y="0" width="138" height="30" uuid="9e9843af-0fa9-4aa0-b0ce-92a98f632892"/>
-				<box>
-					<leftPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+				<box leftPadding="15">
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="139" y="0" width="138" height="30" uuid="458c9225-bb4f-4762-ad31-537d16eab27d"/>
-				<box rightPadding="10">
-					<leftPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="277" y="0" width="138" height="30" uuid="c682c496-9d4f-47de-b640-a0af2652529b"/>
-				<box rightPadding="10">
-					<leftPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{income}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="415" y="0" width="138" height="30" uuid="8c576aaf-a804-4fc6-98ce-32484c07050c"/>
-				<box rightPadding="10">
-					<leftPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totleMoney}]]></textFieldExpression>
@@ -244,8 +245,8 @@
 		<band height="30">
 			<textField pattern="#,##0.###">
 				<reportElement x="139" y="0" width="138" height="30" uuid="2f6567fd-6074-417b-a5e8-8bb301428d0c"/>
-				<box rightPadding="0">
-					<topPen lineWidth="1.0"/>
+				<box>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
@@ -257,19 +258,19 @@
 			<textField>
 				<reportElement x="55" y="0" width="84" height="30" uuid="eb0a54d7-788e-47f4-8226-e05e02585155"/>
 				<box>
-					<topPen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{sumCount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="415" y="0" width="138" height="30" uuid="97d4b6e3-840c-4a65-82da-f267a41e7587"/>
-				<box rightPadding="0">
-					<topPen lineWidth="1.0"/>
+				<box>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
@@ -280,8 +281,8 @@
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="277" y="0" width="138" height="30" uuid="e6816795-d93e-455e-adbc-3678895276e2"/>
-				<box rightPadding="0">
-					<topPen lineWidth="1.0"/>
+				<box>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
@@ -293,9 +294,8 @@
 			<staticText>
 				<reportElement x="1" y="0" width="54" height="30" uuid="567811e8-43da-40ee-9bd5-d8fbc41efeff"/>
 				<box>
-					<topPen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
