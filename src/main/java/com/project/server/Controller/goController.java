@@ -13,6 +13,11 @@ public class goController {
     private final List<String> arr = new ArrayList<>();
     private final Gson gson = new Gson();
 
+    /**
+     * <h3>home登入功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳UserName值
+     */
     @PostMapping("/getGo")
     public String getGo(@RequestBody Map<String, String> params) {
         if (arr.contains(params.get("data"))) {
@@ -22,13 +27,19 @@ public class goController {
         }
     }
 
+    /**
+     * <h3>home查詢UserName功能</h3>
+     * @return 回傳UserName...
+     */
     @GetMapping("/getUserName")
     public String getUserName() {
         return gson.toJson(arr);
     }
 
     Random random = new Random();
-
+    /**
+     * <h3>home三十秒換UserName的功能</h3>
+     */
     @Scheduled(fixedRate = 30000)
     public void runTask() {
         // 在這裡放置您的任務邏輯
@@ -40,6 +51,10 @@ public class goController {
         }
     }
 
+    /**
+     * <h3>隨機換UserName的功能</h3>
+     * @return 回傳 例:Sl9560
+     */
     private String asciiUserName() {
         //ASCII碼(65'A'~90'Z'、97'a'~122'z')
         int min1 = 65;
@@ -57,6 +72,11 @@ public class goController {
         return asciiString1 + asciiString2 + randomInRangeStr3;
     }
 
+    /**
+     * <h3>home自動登出功能</h3>
+     * @return 回傳true
+     * @throws InterruptedException Thread.sleep
+     */
     @GetMapping("/time")
     public String time() throws InterruptedException {
         Thread.sleep(600000);

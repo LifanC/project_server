@@ -18,6 +18,11 @@ public class IndexServiceImpl implements IndexService {
     @Resource
     private IndexMapper indexMapper;
 
+    /**
+     * <h3>index新增功能</h3>
+     * @param mapA 前端fromData的值
+     * @return 回傳資料庫Table B的值
+     */
     @Override
     public List<B> ins(Map<String, String> mapA) {
         logger.info("新增資料: {}", "*************** ins Start ***************");
@@ -49,18 +54,33 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.selectB(mapA.get("date"));
     }
 
+    /**
+     * <h3>index查詢功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table B的值
+     */
     @Override
     public List<B> fin(Map<String, String> params) {
         logger.info("單一日期查詢===>Table B: {}", "*************** fin Start ***************");
         return indexMapper.selectB(params.get("data"));
     }
 
+    /**
+     * <h3>index查詢功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table A的值
+     */
     @Override
     public List<A> finA(Map<String, String> params) {
         logger.info("單一日期查詢===>Table A: {}", "*************** finA Start ***************");
         return indexMapper.selectA(params.get("data"));
     }
 
+    /**
+     * <h3>index查詢功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table B的值
+     */
     @Override
     public List<B> find(Map<String, String[]> params) {
         logger.info("Start~End日期查詢: {}", "*************** find Start ***************");
@@ -70,6 +90,11 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.find(map);
     }
 
+    /**
+     * <h3>index查詢功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table A的值
+     */
     @Override
     public List<A> findA(Map<String, List<Map<String, Object>>> params) {
         logger.info("查詢資料明細: {}", "*************** findA Start ***************");
@@ -78,6 +103,11 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.findA(list);
     }
 
+    /**
+     * <h3>index刪除功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table A的值
+     */
     @Override
     public List<A> del(Map<String, String> params) {
         logger.info("刪除資料明細: {}", "*************** del Start ***************");
@@ -101,6 +131,11 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.selectA(params.get("date"));
     }
 
+    /**
+     * <h3>index修改資料明細功能</h3>
+     * @param params 前端fromData的值
+     * @return 回傳資料庫Table A的值
+     */
     @Override
     public List<A> enter(Map<String, String> params) {
         logger.info("修改資料明細: {}", "*************** enter Start ***************");

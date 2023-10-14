@@ -24,7 +24,7 @@
              project_a.a
              using (expense_and_income_number)
         where date = #{date}
-        order by date desc,expense_and_income_number desc,inputMoney desc
+        order by date desc, expense_and_income_number desc, inputMoney desc
     </select>
     <resultMap id="MapB" type="com.project.server.Model.B">
         <id property="b_id" column="b_id"/>
@@ -49,7 +49,8 @@
     <select id="find" resultMap="MapB">
         select *
         from project_a.b
-        where date between #{DatePickerStart} and #{DatePickerEnd}
+        where date between #{DatePickerStart}
+          and #{DatePickerEnd}
         order by date desc
     </select>
     <select id="findA" resultMap="MapA">
@@ -72,8 +73,8 @@
     </delete>
     <update id="setUpdate" parameterType="map">
         update project_a.a
-        set inputMoney    = #{inputMoney},
-            details     = #{details}
+        set inputMoney = #{inputMoney},
+            details    = #{details}
         where a_id = #{a_id}
     </update>
 </mapper>

@@ -8,7 +8,6 @@
 	<parameter name="dateStr2" class="java.lang.String"/>
 	<parameter name="time" class="java.lang.String"/>
 	<parameter name="toDay" class="java.lang.String"/>
-	<parameter name="sumCount" class="java.lang.Integer"/>
 	<field name="date" class="java.lang.String"/>
 	<field name="expense" class="java.math.BigDecimal"/>
 	<field name="income" class="java.math.BigDecimal"/>
@@ -21,6 +20,9 @@
 	</variable>
 	<variable name="sumtotleMoney" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{totleMoney}]]></variableExpression>
+	</variable>
+	<variable name="sumCount" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{date}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -266,7 +268,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumExpense}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField evaluationTime="Report">
 				<reportElement x="55" y="0" width="84" height="30" uuid="eb0a54d7-788e-47f4-8226-e05e02585155"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -275,7 +277,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{sumCount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{sumCount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
 				<reportElement x="415" y="0" width="138" height="30" uuid="97d4b6e3-840c-4a65-82da-f267a41e7587"/>
