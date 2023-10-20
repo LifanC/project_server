@@ -28,6 +28,7 @@ public class IndexController {
 
     /**
      * <h3>index新增功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table B的值
      */
@@ -40,6 +41,7 @@ public class IndexController {
 
     /**
      * <h3>index查詢功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table B的值
      */
@@ -50,6 +52,7 @@ public class IndexController {
 
     /**
      * <h3>index查詢功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table A的值
      */
@@ -60,6 +63,7 @@ public class IndexController {
 
     /**
      * <h3>index查詢功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table B的值
      */
@@ -70,6 +74,7 @@ public class IndexController {
 
     /**
      * <h3>index查詢功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table A的值
      */
@@ -80,6 +85,7 @@ public class IndexController {
 
     /**
      * <h3>index刪除功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table A的值
      */
@@ -92,6 +98,7 @@ public class IndexController {
 
     /**
      * <h3>index修改資料明細功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳資料庫Table A的值
      */
@@ -104,55 +111,56 @@ public class IndexController {
 
     /**
      * <h3>index列印報表</h3>
+     *
      * @param params 前端fromData的值
      * @return 輸出PDF路徑位置
      * @throws JRException
      */
     @PostMapping("/printIreport")
-    public String printIreport(@RequestBody Map<String, String[]> params) throws JRException {
-        if (0 != indexService.find(params).size()) {
-            List<B> listB = indexService.find(params);
-            StringBuilder dateStr = new StringBuilder();
-            for (String[] strDate : params.values()) {
-                for (String s : strDate) {
-                    dateStr.append(s.replace("/", ""));
-                }
-            }
-            //listB值前後對調
-            Collections.reverse(listB);
+    public String printIreport(@RequestBody Map<String, List<Map<String, Object>>> params) throws JRException {
+        List<Map<String, Object>> listB = new ArrayList<>();
+        params.values().forEach(listB::addAll);
+        //listB值前後對調
+        Collections.reverse(listB);
+        if (0 != listB.size()) {
+            List<String> stringList = new ArrayList<>();
+            listB.forEach(list -> {
+                stringList.add(list.get("date").toString());
+            });
+            String str = stringList.get(0) + stringList.get(stringList.size() - 1);
+            String dateStr = str.replace("-", "");
             logger.info("PdfReport: {}", "PdfReport Start");
             String iReportFile = rootDirectory + "server\\ierport\\reportB.jrxml";
             String pdfPath = rootDirectory + "reportBpdf\\";
             Ireport.folderMkdirsFunction(pdfPath);
             Date date = new Date();
-            String time = dateStr.toString() + UUID.randomUUID();
+            String time = dateStr + UUID.randomUUID();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String toDay = sdf.format(date);
             Map<String, Object> map = new HashMap<>();
             map.put("title", "Luke Chen's Monthly Report");
-            map.put("dateStr1", dateStr.subSequence(0,dateStr.length()/2));
-            map.put("dateStr2", dateStr.subSequence(dateStr.length()/2,dateStr.length()));
+            map.put("dateStr1", stringList.get(0));
+            map.put("dateStr2", stringList.get(stringList.size() - 1));
             map.put("time", time);
             map.put("toDay", toDay);
-            Ireport.exportReportFunction(listB,iReportFile,map,pdfPath + time+ ".pdf");
+            Ireport.exportReportFunction(listB, iReportFile, map, pdfPath + time + ".pdf");
 
             List<Object> pdfPathList = new ArrayList<>();
             pdfPathList.add(pdfPath);
-            pdfPathList.add(listB);
             return gson.toJson(pdfPathList);
-        } else {
-            return gson.toJson("err");
         }
+        return gson.toJson("err");
     }
 
     /**
      * <h3>index畫面顯示報表名稱</h3>
+     *
      * @param fileName fileName名稱
      * @return 顯示當月fileName名稱
      */
     @GetMapping("/printIreportData")
     public String printIreportData(@PathParam("fileName") String fileName) {
-        File folder = new File(rootDirectory + fileName +"\\");
+        File folder = new File(rootDirectory + fileName + "\\");
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
         String toDayYM = sdf.format(date);
@@ -171,12 +179,13 @@ public class IndexController {
 
     /**
      * <h3>index查詢報表路徑位置</h3>
+     *
      * @param fileName fileName名稱
      * @return 顯示PDF路徑位置
      */
     @GetMapping("/printPath")
     public String printPath(@PathParam("fileName") String fileName) {
-        String pdfPath = rootDirectory + fileName +"\\";
+        String pdfPath = rootDirectory + fileName + "\\";
         return gson.toJson(pdfPath);
     }
 
