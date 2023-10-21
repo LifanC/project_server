@@ -2,7 +2,6 @@ package com.project.server.Controller;
 
 import com.google.gson.Gson;
 import com.project.server.Common.Ireport;
-import com.project.server.Model.B;
 import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
@@ -109,12 +108,18 @@ public class IndexController {
         return gson.toJson(indexService.enter(valuesMap));
     }
 
+    private static String ReTitleName = "";
+    @GetMapping("/printIreport")
+    public String printIreport(@PathParam("titleName") String titleName) {
+        ReTitleName = titleName;
+        return gson.toJson("");
+    }
     /**
      * <h3>index列印報表</h3>
      *
      * @param params 前端fromData的值
      * @return 輸出PDF路徑位置
-     * @throws JRException
+     * @throws JRException Jasper JRException
      */
     @PostMapping("/printIreport")
     public String printIreport(@RequestBody Map<String, List<Map<String, Object>>> params) throws JRException {
@@ -122,28 +127,30 @@ public class IndexController {
         params.values().forEach(listB::addAll);
         //listB值前後對調
         Collections.reverse(listB);
+        final String reportBName = "reportB";
         if (0 != listB.size()) {
             List<String> stringList = new ArrayList<>();
-            listB.forEach(list -> {
-                stringList.add(list.get("date").toString());
-            });
+            listB.forEach(list -> stringList.add(list.get("date").toString()));
             String str = stringList.get(0) + stringList.get(stringList.size() - 1);
             String dateStr = str.replace("-", "");
             logger.info("PdfReport: {}", "PdfReport Start");
-            String iReportFile = rootDirectory + "server\\ierport\\reportB.jrxml";
+            String iReportFile = rootDirectory + "server\\ierport\\" + reportBName + ".jrxml";
             String pdfPath = rootDirectory + "reportBpdf\\";
             Ireport.folderMkdirsFunction(pdfPath);
             Date date = new Date();
-            String time = dateStr + UUID.randomUUID();
+            String time = dateStr + RandomUniqueString();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String toDay = sdf.format(date);
+            //新增Ireport的表頭
             Map<String, Object> map = new HashMap<>();
-            map.put("title", "Luke Chen's Monthly Report");
+            map.put("title", ReTitleName + "'s   Monthly Report");
+            map.put("reportBName",reportBName);
             map.put("dateStr1", stringList.get(0));
             map.put("dateStr2", stringList.get(stringList.size() - 1));
             map.put("time", time);
             map.put("toDay", toDay);
-            Ireport.exportReportFunction(listB, iReportFile, map, pdfPath + time + ".pdf");
+            //輸出PDF
+            Ireport.exportReportFunctionPDF(listB, iReportFile, map, pdfPath + time + ".pdf");
 
             List<Object> pdfPathList = new ArrayList<>();
             pdfPathList.add(pdfPath);
@@ -168,7 +175,7 @@ public class IndexController {
         if (folder.exists() && folder.isDirectory()) {
             for (String s : Objects.requireNonNull(folder.list())) {
                 if (toDayYM.equals(s.substring(8, 14))) {
-                    list.add(s.substring(16, s.length() - 4));
+                    list.add(s.substring(16));
                 }
             }
             return gson.toJson(list);
@@ -187,6 +194,25 @@ public class IndexController {
     public String printPath(@PathParam("fileName") String fileName) {
         String pdfPath = rootDirectory + fileName + "\\";
         return gson.toJson(pdfPath);
+    }
+
+    public String RandomUniqueString(){
+        // 產生所有可能的英文字符和數字
+        String allCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        // 將所有字符放入List中，以便洗牌
+        List<Character> charList = new ArrayList<>();
+        for(char c : allCharacters.toCharArray()){
+            charList.add(c);
+        }
+        // 隨機排列字符
+        Collections.shuffle(charList);
+        // 從List中選取您需要的字符數量
+        int desiredLength = 30; // 設定所需長度
+        StringBuilder randomString = new StringBuilder();
+        for (int i = 0; i < desiredLength; i++) {
+            randomString.append(charList.get(i));
+        }
+        return randomString.toString();
     }
 
 }

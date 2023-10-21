@@ -15,13 +15,43 @@ public class goController {
 
     /**
      * <h3>home登入功能</h3>
+     *
      * @param params 前端fromData的值
      * @return 回傳UserName值
      */
     @PostMapping("/getGo")
     public String getGo(@RequestBody Map<String, String> params) {
         if (arr.contains(params.get("data"))) {
-            return gson.toJson(params.get("data"));
+            String arrName = "";
+            switch (params.get("data").substring(0, 1)) {
+                case "A" -> arrName = "Alice Adams";
+                case "B" -> arrName = "Benjamin Bennett";
+                case "C" -> arrName = "Catherine Clark";
+                case "D" -> arrName = "David Davis";
+                case "E" -> arrName = "Emily Evans";
+                case "F" -> arrName = "Franklin Foster";
+                case "G" -> arrName = "Grace Gray";
+                case "H" -> arrName = "Henry Harris";
+                case "I" -> arrName = "Isabella Ingram";
+                case "J" -> arrName = "James Johnson";
+                case "K" -> arrName = "Karen King";
+                case "L" -> arrName = "Laura Lewis";
+                case "M" -> arrName = "Michael Mitchell";
+                case "N" -> arrName = "Natalie Nelson";
+                case "O" -> arrName = "Olivia Olson";
+                case "P" -> arrName = "Peter Parker";
+                case "Q" -> arrName = "Quentin Quinn";
+                case "R" -> arrName = "Rachel Robinson";
+                case "S" -> arrName = "Samuel Smith";
+                case "T" -> arrName = "Taylor Turner";
+                case "U" -> arrName = "Ulysses Underwood";
+                case "V" -> arrName = "Victoria Vaughn";
+                case "W" -> arrName = "William Walker";
+                case "X" -> arrName = "Xavier Xavier";
+                case "Y" -> arrName = "Yvonne Young";
+                case "Z" -> arrName = "Zachary Zimmerman";
+            }
+            return gson.toJson(arrName);
         } else {
             return gson.toJson("");
         }
@@ -29,6 +59,7 @@ public class goController {
 
     /**
      * <h3>home查詢UserName功能</h3>
+     *
      * @return 回傳UserName...
      */
     @GetMapping("/getUserName")
@@ -37,6 +68,7 @@ public class goController {
     }
 
     Random random = new Random();
+
     /**
      * <h3>home三十秒換UserName的功能</h3>
      */
@@ -53,6 +85,7 @@ public class goController {
 
     /**
      * <h3>隨機換UserName的功能</h3>
+     *
      * @return 回傳 例:Sl9560
      */
     private String asciiUserName() {
@@ -74,6 +107,7 @@ public class goController {
 
     /**
      * <h3>home自動登出功能</h3>
+     *
      * @return 回傳true
      * @throws InterruptedException Thread.sleep
      */

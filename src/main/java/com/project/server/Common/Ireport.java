@@ -34,16 +34,13 @@ public class Ireport {
      * @param pdfPath 輸出PDF檔案位置(String)+名稱(String)
      * @throws JRException Jasper JRException
      */
-    public static void exportReportFunction(List<?> dataList, String iReportFilePath, Map<String, Object> paramsMap, String pdfPath) throws JRException {
-        logger.info("exportReportFunction: {}", "輸出PDF");
+    public static void exportReportFunctionPDF(List<?> dataList, String iReportFilePath, Map<String, Object> paramsMap, String pdfPath) throws JRException {
         JRDataSource jrDataSource = new JRBeanCollectionDataSource(dataList);
         JasperDesign jasperDesign = JRXmlLoader.load(iReportFilePath);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, paramsMap, jrDataSource);
         JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
+        logger.info("exportReportFunction: {}", "PDF輸出成功");
     }
-
-
-
 
 }
