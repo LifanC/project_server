@@ -113,7 +113,7 @@ public class goController {
      */
     @GetMapping("/time")
     public String time() throws InterruptedException {
-        Thread.sleep(600000);
+        Thread.sleep(300000);
         return gson.toJson(true);
     }
 
