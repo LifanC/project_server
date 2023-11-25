@@ -33,6 +33,7 @@ public class IndexController {
      */
     @PostMapping("/ins")
     public String ins(@RequestBody Map<String, Map<String, String>> params) {
+        logger.info("index新增功能");
         Map<String, String> mapA = new HashMap<>();
         params.forEach((key, value) -> mapA.putAll(value));
         return gson.toJson(indexService.ins(mapA));
@@ -46,6 +47,8 @@ public class IndexController {
      */
     @PostMapping("fin")
     public String fin(@RequestBody Map<String, String> params) {
+        logger.info("index查詢功能: {}","fin");
+        logger.info("單一日期查詢: {}","Table B");
         return gson.toJson(indexService.fin(params));
     }
 
@@ -57,6 +60,8 @@ public class IndexController {
      */
     @PostMapping("finA")
     public String finA(@RequestBody Map<String, String> params) {
+        logger.info("index查詢功能: {}","finA");
+        logger.info("單一日期查詢: {}","Table A");
         return gson.toJson(indexService.finA(params));
     }
 
@@ -68,6 +73,8 @@ public class IndexController {
      */
     @PostMapping("find")
     public String find(@RequestBody Map<String, String[]> params) {
+        logger.info("index查詢功能: {}","find");
+        logger.info("Start~End日期查詢: {}","Table B");
         return gson.toJson(indexService.find(params));
     }
 
@@ -79,6 +86,8 @@ public class IndexController {
      */
     @PostMapping("findA")
     public String findA(@RequestBody Map<String, List<Map<String, Object>>> params) {
+        logger.info("index查詢功能: {}","findA");
+        logger.info("查詢資料明細: {}","Table A");
         return gson.toJson(indexService.findA(params));
     }
 
@@ -90,6 +99,7 @@ public class IndexController {
      */
     @PostMapping("/del")
     public String del(@RequestBody Map<String, Map<String, String>> params) {
+        logger.info("刪除資料明細");
         Map<String, String> valuesMap = new HashMap<>();
         params.forEach((key, value) -> valuesMap.putAll(value));
         return gson.toJson(indexService.del(valuesMap));
@@ -103,6 +113,7 @@ public class IndexController {
      */
     @PostMapping("/enter")
     public String enter(@RequestBody Map<String, Map<String, String>> params) {
+        logger.info("修改資料明細");
         Map<String, String> valuesMap = new HashMap<>();
         params.forEach((key, value) -> valuesMap.putAll(value));
         return gson.toJson(indexService.enter(valuesMap));
@@ -110,9 +121,9 @@ public class IndexController {
 
     private static String ReTitleName = "";
     @GetMapping("/printIreport")
-    public String printIreport(@PathParam("titleName") String titleName) {
+    public void printIreport(@PathParam("titleName") String titleName) {
+        logger.info("index列印報表名稱 {}",titleName);
         ReTitleName = titleName;
-        return gson.toJson("");
     }
     /**
      * <h3>index列印報表</h3>
@@ -133,14 +144,12 @@ public class IndexController {
             listB.forEach(list -> stringList.add(list.get("date").toString()));
             String str = stringList.get(0) + stringList.get(stringList.size() - 1);
             String dateStr = str.replace("-", "");
-            logger.info("PdfReport: {}", "PdfReport Start");
             String iReportFile = rootDirectory + "server\\ierport\\" + reportBName + ".jrxml";
             String pdfPath = rootDirectory + "reportBpdf\\";
             Ireport.folderMkdirsFunction(pdfPath);
-            Date date = new Date();
             String time = dateStr + RandomUniqueString();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            String toDay = sdf.format(date);
+            String toDay = sdf.format( new Date());
             //新增Ireport的表頭
             Map<String, Object> map = new HashMap<>();
             map.put("title", ReTitleName + "'s   Monthly Report");
@@ -151,9 +160,9 @@ public class IndexController {
             map.put("toDay", toDay);
             //輸出PDF
             Ireport.exportReportFunctionPDF(listB, iReportFile, map, pdfPath + time + ".pdf");
-
             List<Object> pdfPathList = new ArrayList<>();
             pdfPathList.add(pdfPath);
+            logger.info("index報表資料數量: {}",listB.size());
             return gson.toJson(pdfPathList);
         }
         return gson.toJson("err");
@@ -168,15 +177,10 @@ public class IndexController {
     @GetMapping("/printIreportData")
     public String printIreportData(@PathParam("fileName") String fileName) {
         File folder = new File(rootDirectory + fileName + "\\");
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-        String toDayYM = sdf.format(date);
         List<String> list = new ArrayList<>();
         if (folder.exists() && folder.isDirectory()) {
             for (String s : Objects.requireNonNull(folder.list())) {
-                if (toDayYM.equals(s.substring(8, 14))) {
-                    list.add(s.substring(16));
-                }
+                list.add(s.substring(16));
             }
             return gson.toJson(list);
         } else {

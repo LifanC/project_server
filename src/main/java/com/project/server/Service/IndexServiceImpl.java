@@ -25,14 +25,10 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<B> ins(Map<String, String> mapA) {
-        logger.info("新增資料: {}", "*************** ins Start ***************");
-        mapA.put("details", (mapA.get("details")
-                + " (" + "種類" + ":" +
-                mapA.get("radioItems")
-                + ")" + " (" + "順序" + ":" +
-                mapA.get("radio_group_value")
-                + ")").trim()
-        );
+        mapA.put("details", (mapA.get("details")+
+                " (種類:"+mapA.get("radioItems")+
+                ") (順序:" +mapA.get("radio_group_value")+
+                ")").trim());
         indexMapper.insA(mapA);
         List<A> A = indexMapper.selectA(mapA.get("date"));
         Integer AexM = 0;
@@ -61,7 +57,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<B> fin(Map<String, String> params) {
-        logger.info("單一日期查詢===>Table B: {}", "*************** fin Start ***************");
         return indexMapper.selectB(params.get("data"));
     }
 
@@ -72,7 +67,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<A> finA(Map<String, String> params) {
-        logger.info("單一日期查詢===>Table A: {}", "*************** finA Start ***************");
         return indexMapper.selectA(params.get("data"));
     }
 
@@ -83,7 +77,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<B> find(Map<String, String[]> params) {
-        logger.info("Start~End日期查詢: {}", "*************** find Start ***************");
         Map<String, String> map = new HashMap<>();
         map.put("DatePickerStart", params.get("data")[0]);
         map.put("DatePickerEnd", params.get("data")[1]);
@@ -97,7 +90,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<A> findA(Map<String, List<Map<String, Object>>> params) {
-        logger.info("查詢資料明細: {}", "*************** findA Start ***************");
         List<String> list = new ArrayList<>();
         params.forEach((key, value) -> value.forEach(e -> list.add(e.get("date").toString())));
         return indexMapper.findA(list);
@@ -110,7 +102,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<A> del(Map<String, String> params) {
-        logger.info("刪除資料明細: {}", "*************** del Start ***************");
         List<B> B = indexMapper.selectB(params.get("date"));
         int AexM = 0;
         int BinM = 0;
@@ -138,7 +129,6 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<A> enter(Map<String, String> params) {
-        logger.info("修改資料明細: {}", "*************** enter Start ***************");
         Map<String, String> map = new HashMap<>();
         List<B> B = indexMapper.selectB(params.get("date"));
         int AexM = 0;
