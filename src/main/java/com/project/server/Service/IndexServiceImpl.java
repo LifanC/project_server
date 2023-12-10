@@ -4,8 +4,6 @@ import com.project.server.Model.A;
 import com.project.server.Model.B;
 import com.project.server.mapper.IndexMapper;
 import jakarta.annotation.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,6 @@ import java.util.*;
 @Service
 @Transactional
 public class IndexServiceImpl implements IndexService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private IndexMapper indexMapper;
 

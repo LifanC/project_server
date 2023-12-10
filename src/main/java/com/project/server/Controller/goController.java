@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -55,10 +56,10 @@ public class goController {
                 case "Y" -> arrName = "Yvonne Young";
                 case "Z" -> arrName = "Zachary Zimmerman";
             }
-            logger.info("登入功能: {} 使用者名稱: {}","登入成功",arrName);
+            logger.info("登入功能: {} 使用者名稱: {}", "登入成功", arrName);
             return gson.toJson(arrName);
         } else {
-            logger.info("登入功能: {}","登入失敗");
+            logger.info("登入功能: {}", "登入失敗");
             return gson.toJson("");
         }
     }
@@ -70,7 +71,7 @@ public class goController {
      */
     @GetMapping("/getUserNameAccount")
     public String getUserName() {
-        logger.info("查詢使用者帳號: {}",arr);
+        logger.info("查詢使用者帳號: {}", arr);
         return gson.toJson(arr);
     }
 
@@ -114,13 +115,22 @@ public class goController {
      * <h3>home自動登出功能</h3>
      *
      * @return 回傳true
-     * @throws InterruptedException Thread.sleep
      */
     @GetMapping("/time")
-    public String time() throws InterruptedException {
-        Thread.sleep(600000);
-        logger.info("自動登出");
+    public String time() {
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        Runnable task = () -> logger.info("時間到自動登出");
+        // 啟動定時任務，延遲10分鐘執行
+        ScheduledFuture<?> scheduledFuture = executorService.schedule(task, 10, TimeUnit.MINUTES);
+        // 在中途取消任務
+        try {
+            scheduledFuture.cancel(true);
+            logger.info("登出中斷");
+        } catch (Exception exception) {
+            logger.info("錯誤訊息: {}", exception.getMessage());
+        } finally {
+            executorService.shutdown();
+        }
         return gson.toJson(true);
     }
-
 }

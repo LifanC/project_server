@@ -139,7 +139,7 @@ public class IndexController {
         //listB值前後對調
         Collections.reverse(listB);
         final String reportBName = "reportB";
-        if (0 != listB.size()) {
+        if (!listB.isEmpty()) {
             List<String> stringList = new ArrayList<>();
             listB.forEach(list -> stringList.add(list.get("date").toString()));
             String str = stringList.get(0) + stringList.get(stringList.size() - 1);
