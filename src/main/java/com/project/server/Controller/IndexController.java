@@ -6,6 +6,7 @@ import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
 import net.sf.jasperreports.engine.JRException;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -139,7 +140,7 @@ public class IndexController {
         //listB值前後對調
         Collections.reverse(listB);
         final String reportBName = "reportB";
-        if (!listB.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(listB)) {
             List<String> stringList = new ArrayList<>();
             listB.forEach(list -> stringList.add(list.get("date").toString()));
             String str = stringList.get(0) + stringList.get(stringList.size() - 1);

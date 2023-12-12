@@ -4,6 +4,7 @@ import com.project.server.Model.A;
 import com.project.server.Model.B;
 import com.project.server.mapper.IndexMapper;
 import jakarta.annotation.Resource;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class IndexServiceImpl implements IndexService {
         }
 
         List<B> B = indexMapper.selectB(mapA.get("date"));
-        if (B.isEmpty()) {
+        if (CollectionUtils.isEmpty(B)) {
             Map<String, String> mapB = new HashMap<>();
             mapB.put("date", mapA.get("date"));
             indexMapper.insB(mapB);
