@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -118,19 +119,43 @@ public class goController {
      */
     @GetMapping("/time")
     public String time() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-        Runnable task = () -> logger.info("時間到自動登出");
-        // 啟動定時任務，延遲10分鐘執行
-        ScheduledFuture<?> scheduledFuture = executorService.schedule(task, 10, TimeUnit.MINUTES);
-        // 在中途取消任務
+
+        SharedResource sharedResource = new SharedResource();
+
+        Thread waitingThread = new Thread(() -> {
+            synchronized (sharedResource) {
+                System.out.println("Thread waiting for notification...");
+                sharedResource.waitForNotification();
+                System.out.println("Thread notified.");
+            }
+        });
+
+        Thread notifyingThread = new Thread(() -> {
+            synchronized (sharedResource) {
+                System.out.println("Thread notifying waiting thread...");
+                sharedResource.notifyWaitingThread();
+            }
+        });
+
+        waitingThread.start();
+        notifyingThread.start();
+
+        return gson.toJson(false);
+    }
+}
+
+class SharedResource {
+    public synchronized void waitForNotification() {
         try {
-            scheduledFuture.cancel(true);
-            logger.info("登出中斷");
-        } catch (Exception exception) {
-            logger.info("錯誤訊息: {}", exception.getMessage());
-        } finally {
-            executorService.shutdown();
+            // 在同步方法中使用 wait()
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return gson.toJson(true);
+    }
+
+    public synchronized void notifyWaitingThread() {
+        // 在同步方法中使用 notify()
+        notify();
     }
 }
