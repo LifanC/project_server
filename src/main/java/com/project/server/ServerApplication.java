@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan(basePackages = "com.project.server.**.mapper")
+@MapperScan(basePackages = "com.project.server.**.Mapper")
 @EnableScheduling
 @SpringBootApplication
 public class ServerApplication {
