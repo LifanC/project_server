@@ -24,5 +24,11 @@
         where F_NAME = #{f_name}
         and NUMBER = #{number}
     </update>
+    <delete id="delete">
+        delete
+        from interviewWorks.index
+        where F_NAME = #{f_name}
+        and NUMBER = #{number}
+    </delete>
 
 </mapper>

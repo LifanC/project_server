@@ -16,4 +16,5 @@ public class IndexUrl {
     private String number;
     private int frequency;
     private Date upate_time;
+    private String restfulApi_type;
 }
