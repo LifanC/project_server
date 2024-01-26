@@ -9,9 +9,10 @@
         <id property="upate_time" column="UPDATE_TIME"/>
     </resultMap>
     <select id="select" resultMap="IndexUrl">
-        select * from interviewWorks.index
+        select *
+        from interviewWorks.index
         where F_NAME = #{f_name}
-        and NUMBER = #{number}
+          and NUMBER = #{number}
     </select>
     <insert id="insert">
         insert into interviewWorks.index (F_NAME, NUMBER, FREQUENCY, UPDATE_TIME)
@@ -19,16 +20,16 @@
     </insert>
     <update id="update">
         update interviewWorks.index
-        set FREQUENCY = #{frequency} + 1,
-            UPDATE_TIME    = #{upate_time}
+        set FREQUENCY   = #{frequency} + 1,
+            UPDATE_TIME = #{upate_time}
         where F_NAME = #{f_name}
-        and NUMBER = #{number}
+          and NUMBER = #{number}
     </update>
     <delete id="delete">
         delete
         from interviewWorks.index
         where F_NAME = #{f_name}
-        and NUMBER = #{number}
+          and NUMBER = #{number}
     </delete>
 
 </mapper>
