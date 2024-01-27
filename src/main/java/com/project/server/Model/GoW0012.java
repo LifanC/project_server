@@ -10,19 +10,15 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoW001 {
+public class GoW0012 {
     private int id;
-    private String expense_and_income_number;
-    private String expense_and_income_name;
-    private BigDecimal input_money;
-    private BigDecimal setInputMoney ;
-    private String details;
     private Date new_date;
-    private String radio_group_value;
-    private String radio_items;
-    private Date upate_time;
+    private BigDecimal expense;
+    private BigDecimal income;
+    private BigDecimal totle_money;
     private String f_name;
     private String number;
+    private Date upate_time;
     private String new_date_Format;
 
 }

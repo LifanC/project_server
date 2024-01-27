@@ -67,4 +67,51 @@
             NEW_DATE                  = #{new_date_Format}
         where W001_ID = #{id}
     </update>
+    <resultMap id="W0012" type="com.project.server.Model.GoW0012">
+        <id property="id" column="W0012_ID"/>
+        <id property="new_date_Format" column="NEW_DATE"/>
+        <id property="expense" column="EXPENSE"/>
+        <id property="income" column="INCOME"/>
+        <id property="totle_money" column="TOTLE_MONEY"/>
+        <id property="f_name" column="F_NAME"/>
+        <id property="number" column="NUMBER"/>
+        <id property="upate_time" column="UPDATE_TIME"/>
+    </resultMap>
+    <select id="goW0012_select" resultMap="W0012">
+        select * from interviewworks.w0012
+        <where>
+            <if test="new_date_Format != null and new_date_Format !=''">
+                and NEW_DATE = #{new_date_Format}
+            </if>
+            and F_NAME = #{f_name}
+            and NUMBER = #{number}
+        </where>
+        order by NEW_DATE desc
+    </select>
+    <insert id="goW0012_insert">
+        insert into interviewworks.w0012(NEW_DATE,
+                                         EXPENSE,
+                                         INCOME,
+                                         TOTLE_MONEY,
+                                         F_NAME,
+                                         NUMBER,
+                                         UPDATE_TIME)
+        values (#{new_date_Format},
+                #{expense},
+                #{income},
+                #{totle_money},
+                #{f_name},
+                #{number},
+                #{upate_time})
+    </insert>
+    <update id="goW0012_update">
+        update interviewworks.w0012
+        set EXPENSE     = #{expense},
+            INCOME      = #{income},
+            TOTLE_MONEY = #{totle_money},
+            UPDATE_TIME = #{upate_time}
+        where NEW_DATE = #{new_date_Format}
+          and F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </update>
 </mapper>
