@@ -65,7 +65,7 @@ public class W001Controller {
         return gson.toJson(goW001List);
     }
 
-    @PutMapping("/modify")
+    @PutMapping("/goW001Modify")
     public String modify(@RequestBody Map<String, GoW001> params){
         GoW001 goW001 = params.get("GoW001");
         logger.info("Start goW001Single_search: {}", goW001);
