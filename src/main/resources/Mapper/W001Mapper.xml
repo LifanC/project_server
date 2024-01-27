@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.server.Mapper.W001Mapper">
+    <insert id="goW001_insert">
+        insert into interviewworks.w001(EXPENSE_AND_INCOME_NUMBER,
+                                        INPUT_MONEY,
+                                        DETAILS,
+                                        NEW_DATE,
+                                        RADIO_GROUP_VALUE,
+                                        RADIO_ITEMS,
+                                        F_NAME,
+                                        NUMBER,
+                                        UPDATE_TIME)
+        values (#{expense_and_income_number},
+                #{input_money},
+                #{details},
+                #{new_date_Format},
+                #{radio_group_value},
+                #{radio_items},
+                #{f_name},
+                #{number},
+                #{upate_time})
+    </insert>
+    <resultMap id="W001" type="com.project.server.Model.GoW001">
+        <id property="id" column="W001_ID"/>
+        <id property="expense_and_income_number" column="EXPENSE_AND_INCOME_NUMBER"/>
+        <id property="expense_and_income_name" column="EXPENSE_AND_INCOME_NAME"/>
+        <id property="input_money" column="INPUT_MONEY"/>
+        <id property="details" column="DETAILS"/>
+        <id property="new_date_Format" column="NEW_DATE"/>
+        <id property="radio_group_value" column="RADIO_GROUP_VALUE"/>
+        <id property="radio_items" column="RADIO_ITEMS"/>
+        <id property="f_name" column="F_NAME"/>
+        <id property="number" column="NUMBER"/>
+        <id property="upate_time" column="UPDATE_TIME"/>
+    </resultMap>
+    <select id="goW001_select" resultMap="W001">
+        select W001_ID,EXPENSE_AND_INCOME_NUMBER,
+        case
+        when EXPENSE_AND_INCOME_NUMBER = 'A' then '支出'
+        when EXPENSE_AND_INCOME_NUMBER = 'B' then '收入'
+        end as EXPENSE_AND_INCOME_NAME,
+        INPUT_MONEY,DETAILS,NEW_DATE,RADIO_GROUP_VALUE,RADIO_ITEMS,F_NAME,NUMBER,UPDATE_TIME
+        from interviewworks.w001
+        <where>
+        <if test="new_date_Format != null and new_date_Format !=''">
+            and NEW_DATE = #{new_date_Format}
+        </if>
+            and F_NAME = #{f_name}
+            and NUMBER = #{number}
+        </where>
+        order by EXPENSE_AND_INCOME_NUMBER
+    </select>
+    <delete id="confirmEventDelete">
+        delete
+        from interviewworks.w001
+        where W001_ID = #{id}
+    </delete>
+    <update id="modify">
+        update interviewworks.w001
+        set EXPENSE_AND_INCOME_NUMBER = #{expense_and_income_number},
+            INPUT_MONEY               = #{input_money},
+            DETAILS                   = #{details},
+            RADIO_GROUP_VALUE         = #{radio_group_value},
+            RADIO_ITEMS               = #{radio_items},
+            UPDATE_TIME               = #{upate_time},
+            NEW_DATE                  = #{new_date_Format}
+        where W001_ID = #{id}
+    </update>
+    <resultMap id="W0012" type="com.project.server.Model.GoW0012">
+        <id property="id" column="W0012_ID"/>
+        <id property="new_date_Format" column="NEW_DATE"/>
+        <id property="expense" column="EXPENSE"/>
+        <id property="income" column="INCOME"/>
+        <id property="totle_money" column="TOTLE_MONEY"/>
+        <id property="f_name" column="F_NAME"/>
+        <id property="number" column="NUMBER"/>
+        <id property="upate_time" column="UPDATE_TIME"/>
+    </resultMap>
+    <select id="goW0012_select" resultMap="W0012">
+        select * from interviewworks.w0012
+        <where>
+            <if test="new_date_Format != null and new_date_Format !=''">
+                and NEW_DATE = #{new_date_Format}
+            </if>
+            and F_NAME = #{f_name}
+            and NUMBER = #{number}
+        </where>
+        order by NEW_DATE desc
+    </select>
+    <insert id="goW0012_insert">
+        insert into interviewworks.w0012(NEW_DATE,
+                                         EXPENSE,
+                                         INCOME,
+                                         TOTLE_MONEY,
+                                         F_NAME,
+                                         NUMBER,
+                                         UPDATE_TIME)
+        values (#{new_date_Format},
+                #{expense},
+                #{income},
+                #{totle_money},
+                #{f_name},
+                #{number},
+                #{upate_time})
+    </insert>
+    <update id="goW0012_update">
+        update interviewworks.w0012
+        set EXPENSE     = #{expense},
+            INCOME      = #{income},
+            TOTLE_MONEY = #{totle_money},
+            UPDATE_TIME = #{upate_time}
+        where NEW_DATE = #{new_date_Format}
+          and F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </update>
+</mapper>

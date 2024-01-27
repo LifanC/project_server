@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.server.Mapper.IndexMapper">
+    <resultMap id="IndexUrl" type="com.project.server.Model.IndexUrl">
+        <id property="id" column="ID"/>
+        <id property="f_name" column="F_NAME"/>
+        <id property="number" column="NUMBER"/>
+        <id property="frequency" column="FREQUENCY"/>
+        <id property="upate_time" column="UPDATE_TIME"/>
+    </resultMap>
+    <select id="select" resultMap="IndexUrl">
+        select *
+        from interviewWorks.index
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </select>
+    <insert id="insert">
+        insert into interviewWorks.index (F_NAME, NUMBER, FREQUENCY, UPDATE_TIME)
+        values (#{f_name}, #{number}, 0, #{upate_time})
+    </insert>
+    <update id="update">
+        update interviewWorks.index
+        set FREQUENCY   = #{frequency} + 1,
+            UPDATE_TIME = #{upate_time}
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </update>
+    <delete id="delete">
+        delete
+        from interviewWorks.index
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </delete>
+
+</mapper>
