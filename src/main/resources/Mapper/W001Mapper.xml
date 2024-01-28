@@ -49,14 +49,14 @@
             and F_NAME = #{f_name}
             and NUMBER = #{number}
         </where>
-        order by EXPENSE_AND_INCOME_NUMBER
+        order by NEW_DATE,EXPENSE_AND_INCOME_NUMBER desc
     </select>
-    <delete id="confirmEventDelete">
+    <delete id="goW001_Delete">
         delete
         from interviewworks.w001
         where W001_ID = #{id}
     </delete>
-    <update id="modify">
+    <update id="goW001_modify">
         update interviewworks.w001
         set EXPENSE_AND_INCOME_NUMBER = #{expense_and_income_number},
             INPUT_MONEY               = #{input_money},
@@ -104,7 +104,7 @@
                 #{number},
                 #{upate_time})
     </insert>
-    <update id="goW0012_update">
+    <update id="goW0012_modify">
         update interviewworks.w0012
         set EXPENSE     = #{expense},
             INCOME      = #{income},
@@ -114,4 +114,25 @@
           and F_NAME = #{f_name}
           and NUMBER = #{number}
     </update>
+    <select id="goW0012_select_pickers" resultMap="W0012">
+        select *
+        from interviewworks.w0012
+        where NEW_DATE between #{params0}
+                  and #{params1}
+        order by NEW_DATE desc
+    </select>
+    <select id="goW0012_select_NewDatelist" resultMap="W001" parameterType="arraylist">
+        select W001_ID,EXPENSE_AND_INCOME_NUMBER,
+        case
+        when EXPENSE_AND_INCOME_NUMBER = 'A' then '支出'
+        when EXPENSE_AND_INCOME_NUMBER = 'B' then '收入'
+        end as EXPENSE_AND_INCOME_NAME,
+        INPUT_MONEY,DETAILS,NEW_DATE,RADIO_GROUP_VALUE,RADIO_ITEMS,F_NAME,NUMBER,UPDATE_TIME
+        from interviewworks.w001
+        where NEW_DATE in
+        <foreach item="item" collection="newDatelist" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by NEW_DATE,EXPENSE_AND_INCOME_NUMBER desc
+    </select>
 </mapper>

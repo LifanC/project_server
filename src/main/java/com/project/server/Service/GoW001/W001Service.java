@@ -14,5 +14,7 @@ public interface W001Service {
 
     ArrayList<Object> confirmEventDelete(Map<String, Object> params);
 
-    ArrayList<Object> modify(GoW001 goW001);
+    ArrayList<Object> goW001Modify(GoW001 goW001);
+
+    ArrayList<Object> goW001Search(String[] goW001DatePickersArray);
 }

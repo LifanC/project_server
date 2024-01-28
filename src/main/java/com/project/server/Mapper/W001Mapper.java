@@ -12,13 +12,17 @@ public interface W001Mapper {
 
     void goW0012_insert(GoW0012 goW0012);
 
-    void goW0012_update(GoW0012 goW0012);
+    void goW0012_modify(GoW0012 goW0012);
 
     ArrayList<GoW001> goW001_select(GoW001 goW001);
 
     ArrayList<GoW0012> goW0012_select(GoW0012 goW0012);
 
-    void confirmEventDelete(int id);
+    void goW001_Delete(int id);
 
-    void modify(GoW001 goW001);
+    void goW001_modify(GoW001 goW001);
+
+    ArrayList<GoW0012> goW0012_select_pickers(String params0, String params1);
+
+    ArrayList<GoW001> goW0012_select_NewDatelist(ArrayList<String> newDatelist);
 }

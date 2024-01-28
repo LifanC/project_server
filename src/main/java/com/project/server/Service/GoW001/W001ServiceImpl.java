@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class W001ServiceImpl implements W001Service {
             w001Mapper.goW0012_insert(goW0012);
         } else {
             shared_method(list12, goW001, goW0012);
-            w001Mapper.goW0012_update(goW0012);
+            w001Mapper.goW0012_modify(goW0012);
         }
         return printTheData(goW001, goW0012);
     }
@@ -109,7 +110,7 @@ public class W001ServiceImpl implements W001Service {
         goW001.setExpense_and_income_number(params.get("expense_and_income_number").toString());
         goW001.setInput_money(new BigDecimal(params.get("input_money").toString()));
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select(goW0012);
-        w001Mapper.confirmEventDelete(Integer.parseInt(params.get("id").toString()));
+        w001Mapper.goW001_Delete(Integer.parseInt(params.get("id").toString()));
         BigDecimal AexM = BigDecimal.ZERO;
         BigDecimal BinM = BigDecimal.ZERO;
         for (GoW0012 l12 : list12) {
@@ -127,22 +128,38 @@ public class W001ServiceImpl implements W001Service {
         goW0012.setExpense(AexM);
         goW0012.setIncome(BinM);
         goW0012.setTotle_money(BinM.subtract(AexM));
-        w001Mapper.goW0012_update(goW0012);
+        w001Mapper.goW0012_modify(goW0012);
         BeanUtils.copyProperties(goW001, goW0012);
         return printTheData(goW001, goW0012);
     }
 
     @Override
-    public ArrayList<Object> modify(GoW001 goW001) {
+    public ArrayList<Object> goW001Modify(GoW001 goW001) {
         GoW0012 goW0012 = new GoW0012();
         goW001.setUpate_time(goW001.getNew_date());
         goW001.setNew_date_Format(DateFormat(goW001.getNew_date()));
         BeanUtils.copyProperties(goW001, goW0012);
-        w001Mapper.modify(goW001);
+        w001Mapper.goW001_modify(goW001);
         goW001.setInput_money(goW001.getInput_money().subtract(goW001.getSetInputMoney()));
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select(goW0012);
         shared_method(list12, goW001, goW0012);
-        w001Mapper.goW0012_update(goW0012);
+        w001Mapper.goW0012_modify(goW0012);
         return printTheData(goW001, goW0012);
+    }
+
+    @Override
+    public ArrayList<Object> goW001Search(String[] goW001DatePickersArray) {
+        ArrayList<Object> alo = new ArrayList<>();
+        ArrayList<String> NewDatelist = new ArrayList<>();
+        String params0 = goW001DatePickersArray[0];
+        String params1 = goW001DatePickersArray[1];
+        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1);
+        list12.forEach(entry -> NewDatelist.add(entry.getNew_date_Format()));
+        // 值前後對調
+        Collections.reverse(NewDatelist);
+        ArrayList<GoW001> list1 = w001Mapper.goW0012_select_NewDatelist(NewDatelist);
+        alo.add(list1);
+        alo.add(list12);
+        return alo;
     }
 }
