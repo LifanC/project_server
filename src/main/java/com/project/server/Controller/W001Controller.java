@@ -6,7 +6,6 @@ import com.project.server.Model.GoW001;
 import com.project.server.Service.GoW001.W001Service;
 import jakarta.annotation.Resource;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
