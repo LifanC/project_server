@@ -48,8 +48,7 @@ public class IndexServiceImpl implements IndexService {
         if (StringUtils.isBlank(indexUrl.getF_name()) || StringUtils.isBlank(indexUrl.getNumber())) {
             return false;
         } else {
-            indexMapper.delete(indexUrl);
-            return true;
+            return indexMapper.delete(indexUrl) != 0;
         }
     }
 }

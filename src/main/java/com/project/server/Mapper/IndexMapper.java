@@ -13,5 +13,5 @@ public interface IndexMapper {
 
     void update(IndexUrl indexUrl);
 
-    void delete(IndexUrl indexUrl);
+    int delete(IndexUrl indexUrl);
 }

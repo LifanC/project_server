@@ -73,35 +73,38 @@ public class W001Controller {
         return w001Service.goW001Search(goW001_datePickers_array);
     }
 
-    ArrayList<Map<String, Object>> tert;
     @PostMapping("/goW001printIreport")
     public String goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException {
-        ArrayList<Map<String, Object>> list12 = new ArrayList<>();
+        ArrayList<Map<String, Object>> listData = new ArrayList<>();
+        params.values().forEach(listData::addAll);
+        listData.sort((o1, o2) -> {
+            String value1 = o1.get("new_date_Format").toString().replace("-","");
+            String value2 = o2.get("new_date_Format").toString().replace("-","");
+            return value1.compareTo(value2);
+        });
         ArrayList<String> pdfPathList = new ArrayList<>();
-        params.values().forEach(list12::addAll);
-        Collections.reverse(list12);
-        tert = list12;
+        Collections.reverse(listData);
         final String W001Name = "W001";
         String pdfPath = rootDirectory + W001Name + "reportpdf\\";
         String iReportFilePdfPath = rootDirectory + "server\\ierport\\";
         String iReportFile = iReportFilePdfPath + W001Name + ".jrxml";
-        if (!CollectionUtils.isEmpty(list12)) {
+        if (!CollectionUtils.isEmpty(listData)) {
             Ireport.folderMkdirsFunction(pdfPath);
             Ireport.folderMkdirsFunction(iReportFilePdfPath);
             String pdfName = W001Name + RandomUniqueString();
             String folderNames_pdf = pdfPath + pdfName;
             //新增Ireport的表頭
             Map<String, Object> header = new HashMap<>();
-            header.put("title", "W0011 Report");
+            header.put("title", "W001 Report");
             header.put("W001Name", W001Name);
             header.put("pdfName", pdfName);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             header.put("toDay", simpleDateFormat.format(new Date()));
             //輸出PDF
-            Ireport.exportReportFunctionPDF(list12, iReportFile, header, folderNames_pdf + ".pdf");
+            Ireport.exportReportFunctionPDF(listData, iReportFile, header, folderNames_pdf + ".pdf");
             pdfPathList.add("Success");
             pdfPathList.add(folderNames_pdf + ".pdf");
-            logger.info("W001報表資料數量: {}", list12.size());
+            logger.info("W001報表資料數量: {}", listData.size());
         } else {
             pdfPathList.add("Fail");
             pdfPathList.add("");
