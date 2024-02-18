@@ -150,14 +150,14 @@ public class W001ServiceImpl implements W001Service {
     @Override
     public ArrayList<Object> goW001Search(String[] goW001DatePickersArray) {
         ArrayList<Object> alo = new ArrayList<>();
-        ArrayList<String> NewDatelist = new ArrayList<>();
+        ArrayList<String> newDatelist = new ArrayList<>();
         String params0 = goW001DatePickersArray[0];
         String params1 = goW001DatePickersArray[1];
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1);
-        list12.forEach(entry -> NewDatelist.add(entry.getNew_date_Format()));
+        list12.forEach(entry -> newDatelist.add(entry.getNew_date_Format()));
         // 值前後對調
-        Collections.reverse(NewDatelist);
-        ArrayList<GoW001> list1 = w001Mapper.goW0012_select_NewDatelist(NewDatelist);
+        Collections.reverse(newDatelist);
+        ArrayList<GoW001> list1 = w001Mapper.goW0012_select_NewDatelist(newDatelist);
         alo.add(list1);
         alo.add(list12);
         return alo;
