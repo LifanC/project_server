@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class W001Controller {
     @GetMapping("/goW001")
     public String goW001() {
         logger.info("Start goW001");
-        return "goW001";
+        return "記帳系統";
     }
 
     @GetMapping("/W001UrlDefault")
@@ -43,7 +44,14 @@ public class W001Controller {
     public ArrayList<Object> goW001Add(@RequestBody Map<String, GoW001> params) {
         GoW001 goW001 = params.get("GoW001");
         logger.info("Start goW001Add: {}", goW001);
-        return w001Service.goW001Add(goW001);
+        try {
+            new BigDecimal(String.valueOf(goW001.getInput_money()));
+            return w001Service.goW001Add(goW001);
+        } catch (NumberFormatException e) {
+            logger.info("Start goW001Add Input_money: {}", goW001.getInput_money());
+            logger.info("NumberFormatException: {}", e.getMessage());
+            return null;
+        }
     }
 
     @PostMapping("/goW001Single_search")
@@ -63,7 +71,14 @@ public class W001Controller {
     public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW001> params) {
         GoW001 goW001 = params.get("GoW001");
         logger.info("Start goW001Single_search: {}", goW001);
-        return w001Service.goW001Modify(goW001);
+        try {
+            new BigDecimal(String.valueOf(goW001.getInput_money()));
+            return w001Service.goW001Modify(goW001);
+        } catch (NumberFormatException e) {
+            logger.info("Start goW001Add Input_money: {}", goW001.getInput_money());
+            logger.info("NumberFormatException: {}", e.getMessage());
+            return null;
+        }
     }
 
     @PostMapping("/goW001Search")
