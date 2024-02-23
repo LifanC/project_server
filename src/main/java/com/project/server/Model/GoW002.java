@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoW002 {
+    // m_code_M_CODE
+    // 數量_Quantity_QUANTITY
+    // 金額_Amount_AMOUNT
+    // 總金額_Total_TOTAL
     private int id;
-    private String a_value;
-    private String b_value;
-    private String c_value;
-    private String d_value;
-    private String e_value;
-    private BigDecimal f_value;
-    private BigDecimal g_value;
-    private BigDecimal h_value;
+    private String m_code;
+    private String remark;
+    private String quantity;
+    private String amount;
+    private String total;
+
 }

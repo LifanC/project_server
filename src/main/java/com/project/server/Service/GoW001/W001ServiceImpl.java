@@ -1,5 +1,7 @@
 package com.project.server.Service.GoW001;
 
+import com.project.server.Entity.GoW001Bean;
+import com.project.server.Entity.GoW0012Bean;
 import com.project.server.Mapper.W001Mapper;
 import com.project.server.Model.GoW001;
 import com.project.server.Model.GoW0012;
@@ -27,14 +29,14 @@ public class W001ServiceImpl implements W001Service {
         return sdf.format(newDate);
     }
 
-    private ArrayList<Object> printTheData(GoW001 goW001, GoW0012 goW0012) {
+    private ArrayList<Object> printTheData(GoW001Bean goW001, GoW0012Bean goW0012) {
         ArrayList<Object> alo = new ArrayList<>();
         alo.add(w001Mapper.goW001_select(goW001));
         alo.add(w001Mapper.goW0012_select(goW0012));
         return alo;
     }
 
-    private void shared_method(ArrayList<GoW0012> list12, GoW001 goW001, GoW0012 goW0012) {
+    private void shared_method(ArrayList<GoW0012> list12, GoW001Bean goW001, GoW0012Bean goW0012) {
         BigDecimal AexM = BigDecimal.ZERO;
         BigDecimal BinM = BigDecimal.ZERO;
         for (GoW0012 l12 : list12) {
@@ -55,8 +57,8 @@ public class W001ServiceImpl implements W001Service {
     }
 
     @Override
-    public ArrayList<Object> goW001Add(GoW001 goW001) {
-        GoW0012 goW0012 = new GoW0012();
+    public ArrayList<Object> goW001Add(GoW001Bean goW001) {
+        GoW0012Bean goW0012 = new GoW0012Bean();
         goW001.setNew_date_Format(DateFormat(goW001.getNew_date()));
         goW001.setUpate_time(goW001.getNew_date());
         BeanUtils.copyProperties(goW001, goW0012);
@@ -81,8 +83,8 @@ public class W001ServiceImpl implements W001Service {
     }
 
     @Override
-    public ArrayList<Object> goW001Single_search(GoW001 goW001) {
-        GoW0012 goW0012 = new GoW0012();
+    public ArrayList<Object> goW001Single_search(GoW001Bean goW001) {
+        GoW0012Bean goW0012 = new GoW0012Bean();
         goW001.setNew_date_Format(DateFormat(goW001.getNew_date()));
         BeanUtils.copyProperties(goW001, goW0012);
         return printTheData(goW001, goW0012);
@@ -90,8 +92,8 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public ArrayList<Object> W001UrlDefault(String fName, String number) {
-        GoW001 goW001 = new GoW001();
-        GoW0012 goW0012 = new GoW0012();
+        GoW001Bean goW001 = new GoW001Bean();
+        GoW0012Bean goW0012 = new GoW0012Bean();
         goW001.setF_name(fName);
         goW001.setNumber(number);
         BeanUtils.copyProperties(goW001, goW0012);
@@ -100,8 +102,8 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public ArrayList<Object> confirmEventDelete(Map<String, Object> params) {
-        GoW001 goW001 = new GoW001();
-        GoW0012 goW0012 = new GoW0012();
+        GoW001Bean goW001 = new GoW001Bean();
+        GoW0012Bean goW0012 = new GoW0012Bean();
         goW0012.setNew_date_Format(params.get("new_date_Format").toString());
         goW0012.setF_name(params.get("f_name").toString());
         goW0012.setNumber(params.get("number").toString());
@@ -134,8 +136,8 @@ public class W001ServiceImpl implements W001Service {
     }
 
     @Override
-    public ArrayList<Object> goW001Modify(GoW001 goW001) {
-        GoW0012 goW0012 = new GoW0012();
+    public ArrayList<Object> goW001Modify(GoW001Bean goW001) {
+        GoW0012Bean goW0012 = new GoW0012Bean();
         goW001.setUpate_time(goW001.getNew_date());
         goW001.setNew_date_Format(DateFormat(goW001.getNew_date()));
         BeanUtils.copyProperties(goW001, goW0012);

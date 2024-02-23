@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.server.Mapper.W002Mapper">
+
+    <insert id="goW002_insert">
+        insert into interviewworks.w002(F_NAME,
+                                        NUMBER,
+                                        M_CODE,
+                                        REMARK,
+                                        QUANTITY,
+                                        AMOUNT,
+                                        TOTAL,
+                                        UPDATE_DAY,
+                                        UPDATE_TIME)
+        values (#{f_name},
+                #{number},
+                concat(#{a_value}, #{b_value}, #{c_value}, #{d_value}),
+                #{e_value},
+                #{f_value},
+                #{g_value},
+                #{f_value} * #{g_value},
+                #{upate_day},
+                #{upate_time})
+    </insert>
+    <resultMap id="W002" type="com.project.server.Model.GoW002">
+        <id property="id" column="W002_ID"/>
+        <id property="m_code" column="M_CODE"/>
+        <id property="remark" column="REMARK"/>
+        <id property="quantity" column="QUANTITY"/>
+        <id property="amount" column="AMOUNT"/>
+        <id property="total" column="TOTAL"/>
+    </resultMap>
+    <select id="goW002_select" resultMap="W002">
+        select W002_ID, M_CODE, REMARK, QUANTITY, AMOUNT, TOTAL
+        from interviewworks.w002
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+        order by M_CODE asc
+    </select>
+</mapper>

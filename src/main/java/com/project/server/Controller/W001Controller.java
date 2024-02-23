@@ -2,7 +2,7 @@ package com.project.server.Controller;
 
 import com.google.gson.Gson;
 import com.project.server.Common.Ireport;
-import com.project.server.Model.GoW001;
+import com.project.server.Entity.GoW001Bean;
 import com.project.server.Service.GoW001.W001Service;
 import jakarta.annotation.Resource;
 import net.sf.jasperreports.engine.*;
@@ -41,8 +41,8 @@ public class W001Controller {
     }
 
     @PostMapping("/goW001Add")
-    public ArrayList<Object> goW001Add(@RequestBody Map<String, GoW001> params) {
-        GoW001 goW001 = params.get("GoW001");
+    public ArrayList<Object> goW001Add(@RequestBody Map<String, GoW001Bean> params) {
+        GoW001Bean goW001 = params.get("GoW001");
         logger.info("Start goW001Add: {}", goW001);
         try {
             new BigDecimal(String.valueOf(goW001.getInput_money()));
@@ -55,8 +55,8 @@ public class W001Controller {
     }
 
     @PostMapping("/goW001Single_search")
-    public ArrayList<Object> goW001Single_search(@RequestBody Map<String, GoW001> params) {
-        GoW001 goW001 = params.get("GoW001");
+    public ArrayList<Object> goW001Single_search(@RequestBody Map<String, GoW001Bean> params) {
+        GoW001Bean goW001 = params.get("GoW001");
         logger.info("Start goW001Single_search: {}", goW001);
         return w001Service.goW001Single_search(goW001);
     }
@@ -68,8 +68,8 @@ public class W001Controller {
     }
 
     @PutMapping("/goW001Modify")
-    public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW001> params) {
-        GoW001 goW001 = params.get("GoW001");
+    public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW001Bean> params) {
+        GoW001Bean goW001 = params.get("GoW001");
         logger.info("Start goW001Single_search: {}", goW001);
         try {
             new BigDecimal(String.valueOf(goW001.getInput_money()));
