@@ -35,10 +35,7 @@ public class W002Controller {
         return w002Service.W002UrlDefault(f_name, number);
     }
 
-    @PostMapping("/goW002Add")
-    public ArrayList<Object> goW002Add(@RequestBody Map<String, GoW002Bean> params) {
-        GoW002Bean goW002 = params.get("GoW002");
-        logger.info("Start goW002Add: {}", goW002);
+    private void checking_method(GoW002Bean goW002){
         String[] value_strings = {
                 String.valueOf(goW002.getF_value()),
                 String.valueOf(goW002.getG_value())
@@ -49,9 +46,28 @@ public class W002Controller {
             }
         } catch (NumberFormatException e) {
             logger.info("NumberFormatException: {}", e.getMessage());
-            return null;
         }
+    }
+
+    @PostMapping("/goW002Add")
+    public ArrayList<Object> goW002Add(@RequestBody Map<String, GoW002Bean> params) {
+        GoW002Bean goW002 = params.get("GoW002");
+        logger.info("Start goW002Add: {}", goW002);
+        checking_method(goW002);
         return w002Service.goW002Add(goW002);
     }
 
+    @DeleteMapping("/confirmEventDelete")
+    public ArrayList<Object> confirmEventDelete(@RequestParam Map<String, Object> params) {
+        logger.info("Start confirmEventDelete: {}", params);
+        return w002Service.confirmEventDelete(params);
+    }
+
+    @PutMapping("/goW002Modify")
+    public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW002Bean> params) {
+        GoW002Bean goW002 = params.get("GoW002");
+        logger.info("Start goW002Modify: {}", goW002);
+        checking_method(goW002);
+        return w002Service.goW001Modify(goW002);
+    }
 }

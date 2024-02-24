@@ -10,7 +10,7 @@
                                         QUANTITY,
                                         AMOUNT,
                                         TOTAL,
-                                        UPDATE_DAY,
+                                        NEW_DATE,
                                         UPDATE_TIME)
         values (#{f_name},
                 #{number},
@@ -19,7 +19,7 @@
                 #{f_value},
                 #{g_value},
                 #{f_value} * #{g_value},
-                #{upate_day},
+                #{new_date},
                 #{upate_time})
     </insert>
     <resultMap id="W002" type="com.project.server.Model.GoW002">
@@ -29,12 +29,29 @@
         <id property="quantity" column="QUANTITY"/>
         <id property="amount" column="AMOUNT"/>
         <id property="total" column="TOTAL"/>
+        <id property="new_date" column="NEW_DATE"/>
     </resultMap>
     <select id="goW002_select" resultMap="W002">
-        select W002_ID, M_CODE, REMARK, QUANTITY, AMOUNT, TOTAL
+        select W002_ID, M_CODE, REMARK, QUANTITY, AMOUNT, TOTAL, NEW_DATE
         from interviewworks.w002
         where F_NAME = #{f_name}
           and NUMBER = #{number}
         order by M_CODE asc
     </select>
+    <delete id="goW002_Delete">
+        delete
+        from interviewworks.w002
+        where W002_ID = #{id}
+    </delete>
+    <update id="goW002_modify">
+        update interviewworks.w002
+        set M_CODE = concat(#{a_value}, #{b_value}, #{c_value}, #{d_value}),
+            REMARK = #{e_value},
+            QUANTITY = #{f_value},
+            AMOUNT = #{g_value},
+            TOTAL = #{f_value} * #{g_value},
+            NEW_DATE = #{new_date},
+            UPDATE_TIME = #{upate_time}
+        where W002_ID = #{id}
+    </update>
 </mapper>

@@ -70,12 +70,12 @@ public class W001Controller {
     @PutMapping("/goW001Modify")
     public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW001Bean> params) {
         GoW001Bean goW001 = params.get("GoW001");
-        logger.info("Start goW001Single_search: {}", goW001);
+        logger.info("Start goW001Modify: {}", goW001);
         try {
             new BigDecimal(String.valueOf(goW001.getInput_money()));
             return w001Service.goW001Modify(goW001);
         } catch (NumberFormatException e) {
-            logger.info("Start goW001Add Input_money: {}", goW001.getInput_money());
+            logger.info("Start goW001Modify Input_money: {}", goW001.getInput_money());
             logger.info("NumberFormatException: {}", e.getMessage());
             return null;
         }

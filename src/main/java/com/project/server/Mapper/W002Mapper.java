@@ -10,6 +10,9 @@ import java.util.ArrayList;
 public interface W002Mapper {
     void goW002_insert(GoW002Bean goW002);
 
-
     ArrayList<GoW002> goW002_select(GoW002Bean goW002);
+
+    void goW002_modify(GoW002Bean goW002);
+
+    void goW002_Delete(int id);
 }

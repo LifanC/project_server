@@ -27,6 +27,6 @@ public class GoW002Bean {
     private String e_value;
     private BigDecimal f_value;
     private BigDecimal g_value;
-    private String upate_day;
+    private Date new_date;
     private Date upate_time;
 }

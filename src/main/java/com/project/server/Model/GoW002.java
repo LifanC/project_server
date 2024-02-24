@@ -18,5 +18,6 @@ public class GoW002 {
     private String quantity;
     private String amount;
     private String total;
+    private String new_date;
 
 }
