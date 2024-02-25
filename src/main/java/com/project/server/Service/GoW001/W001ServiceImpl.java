@@ -156,12 +156,14 @@ public class W001ServiceImpl implements W001Service {
         String params0 = goW001DatePickersArray[0];
         String params1 = goW001DatePickersArray[1];
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1);
-        list12.forEach(entry -> newDatelist.add(entry.getNew_date_Format()));
-        // 值前後對調
-        Collections.reverse(newDatelist);
-        ArrayList<GoW001> list1 = w001Mapper.goW0012_select_NewDatelist(newDatelist);
-        alo.add(list1);
-        alo.add(list12);
+        if(!list12.isEmpty()){
+            list12.forEach(entry -> newDatelist.add(entry.getNew_date_Format()));
+            // 值前後對調
+            Collections.reverse(newDatelist);
+            ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist);
+            alo.add(list1);
+            alo.add(list12);
+        }
         return alo;
     }
 }

@@ -15,4 +15,6 @@ public interface W002Mapper {
     void goW002_modify(GoW002Bean goW002);
 
     void goW002_Delete(int id);
+
+    ArrayList<GoW002Bean> goW002_select_value(GoW002Bean goW002);
 }

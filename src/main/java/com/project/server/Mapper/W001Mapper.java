@@ -26,5 +26,5 @@ public interface W001Mapper {
 
     ArrayList<GoW0012> goW0012_select_pickers(String params0, String params1);
 
-    ArrayList<GoW001> goW0012_select_NewDatelist(ArrayList<String> newDatelist);
+    ArrayList<GoW001> goW001_select_NewDatelist(ArrayList<String> newDatelist);
 }

@@ -31,5 +31,23 @@
         where F_NAME = #{f_name}
           and NUMBER = #{number}
     </delete>
+    <delete id="deleteW001">
+        delete
+        from interviewWorks.w001
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </delete>
+    <delete id="deleteW0012">
+        delete
+        from interviewWorks.w0012
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </delete>
+    <delete id="deleteW002">
+        delete
+        from interviewWorks.w002
+        where F_NAME = #{f_name}
+          and NUMBER = #{number}
+    </delete>
 
 </mapper>

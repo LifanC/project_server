@@ -63,7 +63,7 @@ public class W001Controller {
 
     @DeleteMapping("/confirmEventDelete")
     public ArrayList<Object> confirmEventDelete(@RequestParam Map<String, Object> params) {
-        logger.info("Start confirmEventDelete: {}", params);
+        logger.info("Start W001 confirmEventDelete: {}", params);
         return w001Service.confirmEventDelete(params);
     }
 

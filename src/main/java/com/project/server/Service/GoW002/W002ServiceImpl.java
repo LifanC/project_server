@@ -32,6 +32,12 @@ public class W002ServiceImpl implements W002Service {
     }
 
     @Override
+    public boolean goW002Search(GoW002Bean goW002) {
+        ArrayList<GoW002Bean> list = w002Mapper.goW002_select_value(goW002);
+        return list.isEmpty();
+    }
+
+    @Override
     public ArrayList<Object> goW002Add(GoW002Bean goW002) {
         Date today = new Date();
         goW002.setNew_date(goW002.getNew_date());
