@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -88,10 +90,12 @@ public class W001Controller {
     @PostMapping("/goW001Search")
     public ArrayList<Object> goW001Search(@RequestBody Map<String, String[]> params) {
         String[] goW001_datePickers_array = params.getOrDefault("GoW001_datePicker", new String[0]);
-        logger.info("Start goW001Search: {},{}", goW001_datePickers_array[0], goW001_datePickers_array[1]);
-        return w001Service.goW001Search(goW001_datePickers_array);
+        String[] GoW001_fNume_number_array = params.getOrDefault("GoW001_fNume_number", new String[0]);
+        String[] combinedArray = Stream.concat(Arrays.stream(goW001_datePickers_array), Arrays.stream(GoW001_fNume_number_array)).toArray(String[]::new);
+        String goW001SearchLog = String.join(",", combinedArray);
+        logger.info("Start goW001Search: {}", goW001SearchLog);
+        return w001Service.goW001Search(combinedArray);
     }
-
 
     @PostMapping("/goW001printIreport")
     public String goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
@@ -115,13 +119,13 @@ public class W001Controller {
             String pdfName = W001Name + RandomUniqueString();
             String folderNames_pdf = pdfPath + pdfName;
 
-            // 新增Ireport的表頭
-            Map<String, Object> header = Map.of(
-                    "title", "W001 Report",
-                    "W001Name", W001Name,
-                    "pdfName", pdfName,
-                    "toDay", LocalDate.now().format(formatter)
-            );
+            //新增Ireport的表頭
+            Map<String, Object> header = new HashMap<>(Map.ofEntries(
+                    Map.entry("title", "W001 Report"),
+                    Map.entry("W001Name", W001Name),
+                    Map.entry("pdfName", pdfName),
+                    Map.entry("toDay", LocalDate.now().format(formatter))
+            ));
 
             // 輸出PDF
             Ireport.exportReportFunctionPDF(listData, iReportFile, header, folderNames_pdf + ".pdf");
@@ -136,24 +140,28 @@ public class W001Controller {
         return gson.toJson(pdfPathList);
     }
 
-
     private String RandomUniqueString() {
         // 產生所有可能的英文字符和數字
-        String allCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        // 將所有字符轉換為字符陣列
-        char[] charArray = allCharacters.toCharArray();
-        // 隨機排列字符陣列
-        Random random = new Random();
-        for (int i = charArray.length - 1; i > 0; i--) {
-            int index = random.nextInt(i + 1);
-            char temp = charArray[index];
-            charArray[index] = charArray[i];
-            charArray[i] = temp;
-        }
-        // 從字符陣列中選取您需要的字符數量
+        List<Character> characters = IntStream.range('A', 'Z' + 1)
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        // 將所有字符隨機排列
+        Collections.shuffle(characters);
+        // 從字符列表中選取您需要的字符數量
         int desiredLength = 5; // 設定所需長度
-        return new String(charArray, 0, desiredLength);
+        StringBuilder randomString = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < desiredLength; i++) {
+            int randomIndex = random.nextInt(characters.size());
+            randomString.append(characters.get(randomIndex));
+        }
+        return randomString.toString();
     }
 
 
+    @PostMapping("/goW001proportion")
+    public ArrayList<Object> W001proportion(@RequestBody GoW001Bean goW001Bean) {
+        logger.info("Start W001proportion: {}", goW001Bean);
+        return w001Service.W001proportion(goW001Bean);
+    }
 }

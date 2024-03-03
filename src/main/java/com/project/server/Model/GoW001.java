@@ -15,9 +15,7 @@ public class GoW001 {
     private String expense_and_income_number;
     private String expense_and_income_name;
     private BigDecimal input_money;
-    private BigDecimal setInputMoney ;
     private String details;
-    private Date new_date;
     private String radio_group_value;
     private String radio_items;
     private Date upate_time;

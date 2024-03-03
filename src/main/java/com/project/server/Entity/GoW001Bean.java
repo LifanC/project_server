@@ -1,6 +1,7 @@
 package com.project.server.Entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,10 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class GoW001Bean {
     private int id;
     private String expense_and_income_number;
-    private String expense_and_income_name;
     private BigDecimal input_money;
     private BigDecimal setInputMoney ;
     private String details;

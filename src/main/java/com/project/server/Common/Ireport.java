@@ -13,17 +13,6 @@ import java.util.*;
 public class Ireport {
     private static final Logger logger = LoggerFactory.getLogger(Ireport.class);
 
-    public static void folderMkdirsFunction(String pdf) {
-        File folder = new File(pdf);
-        if (!folder.exists() && !folder.isDirectory()) {
-            if (folder.mkdirs()) {
-                logger.info("PdfReport: {},{}", "目錄創建成功", pdf);
-            } else {
-                logger.info("PdfReport: {},{}", "目錄已存在", pdf);
-            }
-        }
-    }
-
     public static void exportReportFunctionPDF(
             List<Map<String, Object>> dataList, String iReportFilePath, Map<String, Object> header, String pdfPath
     ) throws JRException {

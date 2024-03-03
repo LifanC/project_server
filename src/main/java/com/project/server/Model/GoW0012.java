@@ -12,7 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class GoW0012 {
     private int id;
-    private Date new_date;
     private BigDecimal expense;
     private BigDecimal income;
     private BigDecimal totle_money;

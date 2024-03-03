@@ -119,8 +119,9 @@
     <select id="goW0012_select_pickers" resultMap="W0012">
         select *
         from interviewworks.w0012
-        where NEW_DATE between #{params0}
-                  and #{params1}
+        where NEW_DATE between #{params0} and #{params1}
+          and F_NAME = #{params2}
+          and NUMBER = #{params3}
         order by NEW_DATE desc
     </select>
     <select id="goW001_select_NewDatelist" resultMap="W001" parameterType="arraylist">
@@ -135,6 +136,8 @@
         <foreach item="item" collection="newDatelist" open="(" separator="," close=")">
             #{item}
         </foreach>
+        and F_NAME = #{params2}
+        and NUMBER = #{params3}
         order by
         NEW_DATE desc,
         EXPENSE_AND_INCOME_NUMBER desc

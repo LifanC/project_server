@@ -146,10 +146,12 @@ public class W001ServiceImpl implements W001Service {
     }
 
     @Override
-    public ArrayList<Object> goW001Search(String[] goW001DatePickersArray) {
-        String params0 = goW001DatePickersArray[0];
-        String params1 = goW001DatePickersArray[1];
-        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1);
+    public ArrayList<Object> goW001Search(String[] combinedArray) {
+        String params0 = combinedArray[0];
+        String params1 = combinedArray[1];
+        String params2 = combinedArray[2];
+        String params3 = combinedArray[3];
+        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1, params2, params3);
         if (list12.isEmpty()) {
             return new ArrayList<>();
         }
@@ -157,8 +159,19 @@ public class W001ServiceImpl implements W001Service {
                 .map(GoW0012::getNew_date_Format)
                 .collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
-        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist);
+        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, params2, params3);
         return new ArrayList<>(List.of(list1, list12));
+    }
+
+    @Override
+    public ArrayList<Object> W001proportion(GoW001Bean goW001) {
+        // 在需要使用的地方添加 @Builder 注解
+        GoW0012Bean goW0012 = GoW0012Bean.builder()
+                .f_name(goW001.getF_name())
+                .number(goW001.getNumber())
+                .new_date_Format(goW001.getNew_date_Format())
+                .build();
+        return printTheData(goW001, goW0012);
     }
 
 }

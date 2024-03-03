@@ -17,5 +17,7 @@ public interface W001Service {
 
     ArrayList<Object> goW001Modify(GoW001Bean goW001);
 
-    ArrayList<Object> goW001Search(String[] goW001DatePickersArray);
+    ArrayList<Object> goW001Search(String[] combinedArray);
+
+    ArrayList<Object> W001proportion(GoW001Bean goW001);
 }
