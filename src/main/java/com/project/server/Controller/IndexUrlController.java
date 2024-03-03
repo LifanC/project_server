@@ -22,16 +22,17 @@ public class IndexUrlController {
     public ArrayList<String> indexUrl(@RequestBody IndexUrl indexUrl) {
         logger.info("Start indexUrl: {}", indexUrl.getRestfulApi_type());
         ArrayList<String> arrayList = new ArrayList<>();
-        String judge = "";
-        switch (indexUrl.getRestfulApi_type()) {
-            case "Login" -> judge = indexService.login(indexUrl) ? "true" : "false";
-            case "Register" -> judge = indexService.register(indexUrl) ? "true" : "false";
-            case "Delete" -> judge = indexService.delete(indexUrl) ? "true" : "false";
-        }
+        String judge = switch (indexUrl.getRestfulApi_type()) {
+            case "Login" -> indexService.login(indexUrl) ? "true" : "false";
+            case "Register" -> indexService.register(indexUrl) ? "true" : "false";
+            case "Delete" -> indexService.delete(indexUrl) ? "true" : "false";
+            default -> "";
+        };
         String type = indexUrl.getRestfulApi_type();
-        logger.info("indexUrl: {}", StringUtils.pathEquals(judge,"true") ? type+" Success" : type+" Fail");
+        String result = StringUtils.pathEquals(judge, "true") ? type + " Success" : type + " Fail";
+        logger.info("indexUrl: {}", result);
         arrayList.add(judge);
-        arrayList.add(StringUtils.pathEquals(judge,"true") ? type+" Success" : type+" Fail");
+        arrayList.add(result);
         return arrayList;
     }
 }

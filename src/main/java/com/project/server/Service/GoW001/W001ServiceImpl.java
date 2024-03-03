@@ -12,11 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Map;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,15 +23,12 @@ public class W001ServiceImpl implements W001Service {
     private W001Mapper w001Mapper;
 
     private String DateFormat(Date newDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(newDate);
+        return newDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
     }
 
     private ArrayList<Object> printTheData(GoW001Bean goW001, GoW0012Bean goW0012) {
-        ArrayList<Object> alo = new ArrayList<>();
-        alo.add(w001Mapper.goW001_select(goW001));
-        alo.add(w001Mapper.goW0012_select(goW0012));
-        return alo;
+        return new ArrayList<>(List.of(w001Mapper.goW001_select(goW001), w001Mapper.goW0012_select(goW0012)));
+
     }
 
     private void shared_method(ArrayList<GoW0012> list12, GoW001Bean goW001, GoW0012Bean goW0012) {
@@ -93,12 +88,13 @@ public class W001ServiceImpl implements W001Service {
     @Override
     public ArrayList<Object> W001UrlDefault(String fName, String number) {
         GoW001Bean goW001 = new GoW001Bean();
-        GoW0012Bean goW0012 = new GoW0012Bean();
         goW001.setF_name(fName);
         goW001.setNumber(number);
+        GoW0012Bean goW0012 = new GoW0012Bean();
         BeanUtils.copyProperties(goW001, goW0012);
         return printTheData(goW001, goW0012);
     }
+
 
     @Override
     public ArrayList<Object> confirmEventDelete(Map<String, Object> params) {
@@ -151,19 +147,18 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public ArrayList<Object> goW001Search(String[] goW001DatePickersArray) {
-        ArrayList<Object> alo = new ArrayList<>();
-        ArrayList<String> newDatelist = new ArrayList<>();
         String params0 = goW001DatePickersArray[0];
         String params1 = goW001DatePickersArray[1];
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1);
-        if(!list12.isEmpty()){
-            list12.forEach(entry -> newDatelist.add(entry.getNew_date_Format()));
-            // 值前後對調
-            Collections.reverse(newDatelist);
-            ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist);
-            alo.add(list1);
-            alo.add(list12);
+        if (list12.isEmpty()) {
+            return new ArrayList<>();
         }
-        return alo;
+        ArrayList<String> newDatelist = list12.stream()
+                .map(GoW0012::getNew_date_Format)
+                .collect(Collectors.toCollection(ArrayList::new));
+        Collections.reverse(newDatelist);
+        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist);
+        return new ArrayList<>(List.of(list1, list12));
     }
+
 }

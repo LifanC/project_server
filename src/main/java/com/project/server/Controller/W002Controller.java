@@ -34,25 +34,20 @@ public class W002Controller {
         logger.info("Start W002UrlDefault: {},{}", f_name, number);
         return w002Service.W002UrlDefault(f_name, number);
     }
-
     private void checking_method(GoW002Bean goW002) {
-        String[] value_strings = {
-                String.valueOf(goW002.getF_value()),
-                String.valueOf(goW002.getG_value())
-        };
         try {
-            for (String strings : value_strings) {
-                new BigDecimal(strings);
-            }
+            new BigDecimal(String.valueOf(goW002.getF_value()));
+            new BigDecimal(String.valueOf(goW002.getG_value()));
         } catch (NumberFormatException e) {
             logger.info("NumberFormatException: {}", e.getMessage());
         }
     }
 
+
     @PostMapping("/goW002Search")
     public boolean goW002Search(@RequestBody Map<String, GoW002Bean> params) {
         GoW002Bean goW002 = params.get("GoW002");
-        logger.info("Start goW002Add: {}", goW002);
+        logger.info("Start goW002Search: {}", goW002);
         checking_method(goW002);
         return w002Service.goW002Search(goW002);
     }
@@ -72,10 +67,10 @@ public class W002Controller {
     }
 
     @PutMapping("/goW002Modify")
-    public ArrayList<Object> goW001Modify(@RequestBody Map<String, GoW002Bean> params) {
+    public ArrayList<Object> goW002Modify(@RequestBody Map<String, GoW002Bean> params) {
         GoW002Bean goW002 = params.get("GoW002");
         logger.info("Start goW002Modify: {}", goW002);
         checking_method(goW002);
-        return w002Service.goW001Modify(goW002);
+        return w002Service.goW002Modify(goW002);
     }
 }

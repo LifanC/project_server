@@ -14,5 +14,5 @@ public interface W002Service {
 
     ArrayList<Object> confirmEventDelete(Map<String, Object> params);
 
-    ArrayList<Object> goW001Modify(GoW002Bean goW002);
+    ArrayList<Object> goW002Modify(GoW002Bean goW002);
 }

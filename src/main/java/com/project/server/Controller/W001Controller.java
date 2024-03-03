@@ -8,12 +8,16 @@ import jakarta.annotation.Resource;
 import net.sf.jasperreports.engine.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -83,39 +87,43 @@ public class W001Controller {
 
     @PostMapping("/goW001Search")
     public ArrayList<Object> goW001Search(@RequestBody Map<String, String[]> params) {
-        String[] goW001_datePickers_array = params.get("GoW001_datePicker");
+        String[] goW001_datePickers_array = params.getOrDefault("GoW001_datePicker", new String[0]);
         logger.info("Start goW001Search: {},{}", goW001_datePickers_array[0], goW001_datePickers_array[1]);
         return w001Service.goW001Search(goW001_datePickers_array);
     }
 
+
     @PostMapping("/goW001printIreport")
-    public String goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException {
-        ArrayList<Map<String, Object>> listData = new ArrayList<>();
-        params.values().forEach(listData::addAll);
-        listData.sort((o1, o2) -> {
-            String value1 = o1.get("new_date_Format").toString().replace("-","");
-            String value2 = o2.get("new_date_Format").toString().replace("-","");
-            return value1.compareTo(value2);
-        });
+    public String goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
+        ArrayList<Map<String, Object>> listData = params.values().stream().flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
+
+        // 將日期格式化並排序
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        listData.sort(Comparator.comparing(o -> LocalDate.parse(o.get("new_date_Format").toString().replace("-", ""), formatter)));
+
         ArrayList<String> pdfPathList = new ArrayList<>();
         Collections.reverse(listData);
+
         final String W001Name = "W001";
-        String pdfPath = rootDirectory + W001Name + "reportpdf\\";
-        String iReportFilePdfPath = rootDirectory + "server\\ierport\\";
+        String pdfPath = rootDirectory + W001Name + "reportpdf/";
+        String iReportFilePdfPath = rootDirectory + "server/ierport/";
         String iReportFile = iReportFilePdfPath + W001Name + ".jrxml";
-        if (!CollectionUtils.isEmpty(listData)) {
-            Ireport.folderMkdirsFunction(pdfPath);
-            Ireport.folderMkdirsFunction(iReportFilePdfPath);
+
+        if (!listData.isEmpty()) {
+            Files.createDirectories(Paths.get(pdfPath));
+            Files.createDirectories(Paths.get(iReportFilePdfPath));
             String pdfName = W001Name + RandomUniqueString();
             String folderNames_pdf = pdfPath + pdfName;
-            //新增Ireport的表頭
-            Map<String, Object> header = new HashMap<>();
-            header.put("title", "W001 Report");
-            header.put("W001Name", W001Name);
-            header.put("pdfName", pdfName);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            header.put("toDay", simpleDateFormat.format(new Date()));
-            //輸出PDF
+
+            // 新增Ireport的表頭
+            Map<String, Object> header = Map.of(
+                    "title", "W001 Report",
+                    "W001Name", W001Name,
+                    "pdfName", pdfName,
+                    "toDay", LocalDate.now().format(formatter)
+            );
+
+            // 輸出PDF
             Ireport.exportReportFunctionPDF(listData, iReportFile, header, folderNames_pdf + ".pdf");
             pdfPathList.add("Success");
             pdfPathList.add(folderNames_pdf + ".pdf");
@@ -128,23 +136,24 @@ public class W001Controller {
         return gson.toJson(pdfPathList);
     }
 
+
     private String RandomUniqueString() {
         // 產生所有可能的英文字符和數字
         String allCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        // 將所有字符放入ArrayList中，以便洗牌
-        ArrayList<Character> charList = new ArrayList<>();
-        for (char c : allCharacters.toCharArray()) {
-            charList.add(c);
+        // 將所有字符轉換為字符陣列
+        char[] charArray = allCharacters.toCharArray();
+        // 隨機排列字符陣列
+        Random random = new Random();
+        for (int i = charArray.length - 1; i > 0; i--) {
+            int index = random.nextInt(i + 1);
+            char temp = charArray[index];
+            charArray[index] = charArray[i];
+            charArray[i] = temp;
         }
-        // 隨機排列字符
-        Collections.shuffle(charList);
-        // 從ArrayList中選取您需要的字符數量
+        // 從字符陣列中選取您需要的字符數量
         int desiredLength = 5; // 設定所需長度
-        StringBuilder randomString = new StringBuilder();
-        for (int i = 0; i < desiredLength; i++) {
-            randomString.append(charList.get(i));
-        }
-        return randomString.toString();
+        return new String(charArray, 0, desiredLength);
     }
+
 
 }

@@ -29,4 +29,9 @@ public class GoW002Bean {
     private BigDecimal g_value;
     private Date new_date;
     private Date upate_time;
+
+    public GoW002Bean(String fName, String number) {
+        this.f_name = fName;
+        this.number = number;
+    }
 }
