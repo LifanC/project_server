@@ -1,13 +1,15 @@
 package com.project.server.Controller;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import com.project.server.Common.Ireport;
+import com.project.server.Entity.GoW0012Bean;
 import com.project.server.Entity.GoW001Bean;
 import com.project.server.Service.GoW001.W001Service;
 import jakarta.annotation.Resource;
 import net.sf.jasperreports.engine.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 public class W001Controller {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String rootDirectory = "D:\\project3.0\\";
-    private final Gson gson = new Gson();
+//    private final Gson gson = new Gson();
     @Resource
     private W001Service w001Service;
 
@@ -98,7 +100,7 @@ public class W001Controller {
     }
 
     @PostMapping("/goW001printIreport")
-    public String goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
+    public ArrayList<String> goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
         ArrayList<Map<String, Object>> listData = params.values().stream().flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
 
         // 將日期格式化並排序
@@ -113,7 +115,12 @@ public class W001Controller {
         String iReportFilePdfPath = rootDirectory + "server/ierport/";
         String iReportFile = iReportFilePdfPath + W001Name + ".jrxml";
 
-        if (!listData.isEmpty()) {
+        if (CollectionUtils.isEmpty(listData)) {
+            pdfPathList.add("Fail");
+            pdfPathList.add("");
+            logger.info("W001報表資料數量: {}", 0);
+
+        } else {
             Files.createDirectories(Paths.get(pdfPath));
             Files.createDirectories(Paths.get(iReportFilePdfPath));
             String pdfName = W001Name + RandomUniqueString();
@@ -132,12 +139,8 @@ public class W001Controller {
             pdfPathList.add("Success");
             pdfPathList.add(folderNames_pdf + ".pdf");
             logger.info("W001報表資料數量: {}", listData.size());
-        } else {
-            pdfPathList.add("Fail");
-            pdfPathList.add("");
-            logger.info("W001報表資料數量: {}", 0);
         }
-        return gson.toJson(pdfPathList);
+        return pdfPathList;
     }
 
     private String RandomUniqueString() {
@@ -160,8 +163,25 @@ public class W001Controller {
 
 
     @PostMapping("/goW001proportion")
-    public ArrayList<Object> W001proportion(@RequestBody GoW001Bean goW001Bean) {
-        logger.info("Start W001proportion: {}", goW001Bean);
-        return w001Service.W001proportion(goW001Bean);
+    public ArrayList<Object> W001proportion(@RequestBody GoW0012Bean goW0012Bean) {
+        logger.info("Start W001proportion: {}", goW0012Bean);
+        return w001Service.W001proportion(goW0012Bean);
+    }
+
+    @PostMapping("/goW001proportionSingle_search")
+    public ArrayList<Object> goW001proportionSingle_search(@RequestBody GoW001Bean goW001Bean) {
+        logger.info("Start goW001proportionSingle_search: {}", goW001Bean);
+        return w001Service.goW001proportionSingle_search(goW001Bean);
+    }
+
+    @PostMapping("/goW001monthProportion")
+    public ArrayList<Object> goW001monthProportion(@RequestBody Map<String, String[]> params) {
+        String[] GoW001_fNume_number_array = params.getOrDefault("GoW001_fNume_number", new String[0]);
+        String[] GoW001_setDateRange_array = params.getOrDefault("GoW001_setDateRange", new String[0]);
+        String[] combinedArray = Stream.concat(Arrays.stream(GoW001_setDateRange_array), Arrays.stream(GoW001_fNume_number_array)).toArray(String[]::new);
+
+        String goW001monthProportionLog = String.join(",", combinedArray);
+        logger.info("Start goW001monthProportion: {}", goW001monthProportionLog);
+        return w001Service.goW001monthProportion(combinedArray);
     }
 }
