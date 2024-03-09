@@ -104,7 +104,7 @@ public class W001Controller {
         ArrayList<Map<String, Object>> listData = params.values().stream().flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
 
         // 將日期格式化並排序
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         listData.sort(Comparator.comparing(o -> LocalDate.parse(o.get("new_date_Format").toString().replace("-", ""), formatter)));
 
         ArrayList<String> pdfPathList = new ArrayList<>();

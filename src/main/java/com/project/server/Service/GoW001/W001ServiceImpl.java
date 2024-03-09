@@ -212,10 +212,13 @@ public class W001ServiceImpl implements W001Service {
     @Override
     public ArrayList<Object> goW001monthProportion(String[] combinedArray) {
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(combinedArray[0], combinedArray[1], combinedArray[2], combinedArray[3]);
+        if (CollectionUtils.isEmpty(list12)) {
+            return new ArrayList<>();
+        }
         ArrayList<String> newDatelist = list12.stream().map(GoW0012::getNew_date_Format).collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
         ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, combinedArray[2], combinedArray[3]);
-        if (CollectionUtils.isEmpty(list12) && CollectionUtils.isEmpty(list1)) {
+        if (CollectionUtils.isEmpty(list1)) {
             return new ArrayList<>();
         }
         ArrayList<Object> all_result = new ArrayList<>();
