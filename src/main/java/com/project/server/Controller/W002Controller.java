@@ -36,8 +36,10 @@ public class W002Controller {
     }
     private void checking_method(GoW002Bean goW002) {
         try {
-            new BigDecimal(String.valueOf(goW002.getF_value()));
-            new BigDecimal(String.valueOf(goW002.getG_value()));
+            if (goW002.getF_value() != null && goW002.getG_value() != null) {
+                new BigDecimal(String.valueOf(goW002.getF_value()));
+                new BigDecimal(String.valueOf(goW002.getG_value()));
+            }
         } catch (NumberFormatException e) {
             logger.info("NumberFormatException: {}", e.getMessage());
         }
@@ -72,5 +74,13 @@ public class W002Controller {
         logger.info("Start goW002Modify: {}", goW002);
         checking_method(goW002);
         return w002Service.goW002Modify(goW002);
+    }
+
+    @PostMapping("/goW002Query")
+    public ArrayList<Object> goW002Query(@RequestBody Map<String, GoW002Bean> params) {
+        GoW002Bean goW002 = params.get("GoW002");
+        logger.info("Start goW002Query: {}", goW002);
+        checking_method(goW002);
+        return w002Service.goW002Query(goW002);
     }
 }

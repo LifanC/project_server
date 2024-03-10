@@ -1,6 +1,7 @@
 package com.project.server.Entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class GoW002Bean {
     // c 分類_Classification_CLASSIFICATION
     // d Ex_Example_EXAMPLE
@@ -29,9 +31,6 @@ public class GoW002Bean {
     private BigDecimal g_value;
     private Date new_date;
     private Date upate_time;
+    private String new_date_Format;
 
-    public GoW002Bean(String fName, String number) {
-        this.f_name = fName;
-        this.number = number;
-    }
 }

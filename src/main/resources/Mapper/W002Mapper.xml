@@ -30,6 +30,7 @@
         <id property="amount" column="AMOUNT"/>
         <id property="total" column="TOTAL"/>
         <id property="new_date" column="NEW_DATE"/>
+        <id property="new_date_Format" column="NEW_DATE"/>
     </resultMap>
     <select id="goW002_select" resultMap="W002">
         select *
@@ -58,8 +59,16 @@
         select *
         from interviewworks.w002
         where F_NAME = #{f_name}
+            and NUMBER = #{number}
+            and M_CODE = concat(#{a_value}, #{b_value}, #{c_value}, #{d_value})
+        order by M_CODE desc
+    </select>
+    <select id="goW002_query" resultMap="W002">
+        select *
+        from interviewworks.w002
+        where F_NAME = #{f_name}
           and NUMBER = #{number}
-          and M_CODE = concat(#{a_value}, #{b_value}, #{c_value}, #{d_value})
+          and NEW_DATE = #{new_date_Format}
         order by M_CODE desc
     </select>
 </mapper>

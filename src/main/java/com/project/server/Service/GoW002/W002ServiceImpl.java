@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -16,14 +17,21 @@ public class W002ServiceImpl implements W002Service {
     @Resource
     private W002Mapper w002Mapper;
 
+    private String DateFormat(Date newDate) {
+        return newDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
+    }
+
     private ArrayList<Object> printTheData(GoW002Bean goW002) {
         return new ArrayList<>(Collections.singleton(w002Mapper.goW002_select(goW002)));
-
     }
 
     @Override
     public ArrayList<Object> W002UrlDefault(String fName, String number) {
-        return printTheData(new GoW002Bean(fName, number));
+        GoW002Bean goW002 = GoW002Bean.builder()
+                .f_name(fName)
+                .number(number)
+                .build();
+        return printTheData(goW002);
     }
 
     @Override
@@ -48,7 +56,11 @@ public class W002ServiceImpl implements W002Service {
         String number = Objects.toString(params.get("number"), "");
         int id = params.get("id") instanceof Number ? ((Number) params.get("id")).intValue() : 0;
         w002Mapper.goW002_Delete(id);
-        return printTheData(new GoW002Bean(fName, number));
+        GoW002Bean goW002 = GoW002Bean.builder()
+                .f_name(fName)
+                .number(number)
+                .build();
+        return printTheData(goW002);
     }
 
 
@@ -62,6 +74,11 @@ public class W002ServiceImpl implements W002Service {
         return printTheData(goW002);
     }
 
+    @Override
+    public ArrayList<Object> goW002Query(GoW002Bean goW002) {
+        goW002.setNew_date_Format(DateFormat(goW002.getNew_date()));
+        return new ArrayList<>(Collections.singleton(w002Mapper.goW002_query(goW002)));
+    }
 
 
 }
