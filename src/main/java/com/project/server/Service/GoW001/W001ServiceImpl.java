@@ -6,13 +6,13 @@ import com.project.server.Mapper.W001Mapper;
 import com.project.server.Model.GoW001;
 import com.project.server.Model.GoW0012;
 import jakarta.annotation.Resource;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.ZoneId;
 import java.util.*;
@@ -30,7 +30,6 @@ public class W001ServiceImpl implements W001Service {
 
     private ArrayList<Object> printTheData(GoW001Bean goW001, GoW0012Bean goW0012) {
         return new ArrayList<>(List.of(w001Mapper.goW001_select(goW001), w001Mapper.goW0012_select(goW0012)));
-
     }
 
     private void shared_method(ArrayList<GoW0012> list12, GoW001Bean goW001, GoW0012Bean goW0012) {
@@ -53,9 +52,30 @@ public class W001ServiceImpl implements W001Service {
         goW0012.setTotle_money(BinM.subtract(AexM));
     }
 
-    private Map<Integer, ArrayList<BigDecimal>> shared_proportion(ArrayList<GoW001> list1, Map<Integer, ArrayList<BigDecimal>> result, int[] targetValues) {
+    @NotNull
+    private ArrayList<Object> getObjects(ArrayList<GoW001> list1, ArrayList<Object> all_result
+            , Map<Integer, ArrayList<BigDecimal>> result
+            , int[] targetValues
+            , Map<String, Object> s1_result
+            , BigDecimal sumIncome, BigDecimal sumExpense) {
+        s1_result.put("income", sumIncome);
+        s1_result.put("expense", sumExpense);
+        s1_result.put("income_proportion", calculateProportion(
+                sumIncome, shared_proportion(list1, result, targetValues), 1) + "%");
+        for (int i = 2; i <= targetValues.length; i++) {
+            String key = "expense_r" + i + "_proportion";
+            s1_result.put(key, calculateProportion(
+                    sumExpense, shared_proportion(list1, result, targetValues), i) + "%");
+        }
+        all_result.add(s1_result);
+        return all_result;
+    }
+
+    private Map<Integer, ArrayList<BigDecimal>> shared_proportion(
+            ArrayList<GoW001> list1, Map<Integer, ArrayList<BigDecimal>> result, int[] targetValues) {
         for (int target : targetValues) {
-            List<BigDecimal> targetList = list1.stream().filter(a -> Integer.parseInt(a.getRadio_group_value()) == target).map(GoW001::getInput_money).toList();
+            List<BigDecimal> targetList = list1.stream().filter(a -> Integer.parseInt(a.getRadio_group_value()) == target)
+                    .map(GoW001::getInput_money).toList();
             BigDecimal sum = targetList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
             result.put(target, new ArrayList<>(List.of(sum)));
         }
@@ -65,7 +85,13 @@ public class W001ServiceImpl implements W001Service {
     // 500{單項支出金額}/(除)1000{支出總額}=0.5(占比%數)*100 =>公式 Ex:50%
     private BigDecimal calculateProportion(BigDecimal value, Map<Integer, ArrayList<BigDecimal>> result, Integer key) {
         BigDecimal r = new BigDecimal(result.get(key).get(0).toString());
-        return (r.divide(value, MathContext.DECIMAL32).multiply(new BigDecimal(100)).setScale(2, RoundingMode.HALF_UP));
+        if (r.compareTo(BigDecimal.ZERO) != 0) {
+            return (r.divide(value, 2, RoundingMode.HALF_UP)).multiply(new BigDecimal(100))
+                    .setScale(0, RoundingMode.DOWN);
+        } else {
+            return BigDecimal.ZERO;
+        }
+
     }
 
     @Override
@@ -172,7 +198,8 @@ public class W001ServiceImpl implements W001Service {
         if (CollectionUtils.isEmpty(list12)) {
             return new ArrayList<>();
         }
-        ArrayList<String> newDatelist = list12.stream().map(GoW0012::getNew_date_Format).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> newDatelist = list12.stream().map(GoW0012::getNew_date_Format)
+                .collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
         ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, params2, params3);
         return new ArrayList<>(List.of(list1, list12));
@@ -188,19 +215,14 @@ public class W001ServiceImpl implements W001Service {
 
         Map<Integer, ArrayList<BigDecimal>> result = new HashMap<>();
         int[] targetValues = {1, 2, 3, 4, 5, 6, 7};
-
-        list12.forEach(a -> {
-            Map<String, Object> s1_result = new HashMap<>();
-            s1_result.put("income", a.getIncome());
-            s1_result.put("expense", a.getExpense());
-            s1_result.put("income_proportion", calculateProportion(a.getIncome(), shared_proportion(list1, result, targetValues), 1) + "%");
-            for (int i = 2; i <= targetValues.length; i++) {
-                String key = "expense_r" + i + "_proportion";
-                s1_result.put(key, calculateProportion(a.getExpense(), shared_proportion(list1, result, targetValues), i) + "%");
-            }
-            all_result.add(s1_result);
-        });
-        return all_result;
+        Map<String, Object> s1_result = new HashMap<>();
+        BigDecimal sumIncome = BigDecimal.ZERO;
+        BigDecimal sumExpense = BigDecimal.ZERO;
+        for (GoW0012 l12 : list12) {
+            sumIncome = sumIncome.add(l12.getIncome());
+            sumExpense = sumExpense.add(l12.getExpense());
+        }
+        return getObjects(list1, all_result, result, targetValues, s1_result, sumIncome, sumExpense);
     }
 
     @Override
@@ -231,16 +253,7 @@ public class W001ServiceImpl implements W001Service {
         Map<Integer, ArrayList<BigDecimal>> result = new HashMap<>();
         int[] targetValues = {1, 2, 3, 4, 5, 6, 7};
         Map<String, Object> s2_result = new HashMap<>();
-        s2_result.put("income", sumIncome);
-        s2_result.put("expense", sumExpense);
-        s2_result.put("income_proportion", calculateProportion(sumIncome, shared_proportion(list1, result, targetValues), 1) + "%");
-        for (int i = 2; i <= targetValues.length; i++) {
-            String key = "expense_r" + i + "_proportion";
-            s2_result.put(key, calculateProportion(sumExpense, shared_proportion(list1, result, targetValues), i) + "%");
-        }
-        all_result.add(s2_result);
-        return all_result;
+        return getObjects(list1, all_result, result, targetValues, s2_result, sumIncome, sumExpense);
     }
-
 
 }

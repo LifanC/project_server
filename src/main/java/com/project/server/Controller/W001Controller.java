@@ -93,19 +93,24 @@ public class W001Controller {
     public ArrayList<Object> goW001Search(@RequestBody Map<String, String[]> params) {
         String[] goW001_datePickers_array = params.getOrDefault("GoW001_datePicker", new String[0]);
         String[] GoW001_fNume_number_array = params.getOrDefault("GoW001_fNume_number", new String[0]);
-        String[] combinedArray = Stream.concat(Arrays.stream(goW001_datePickers_array), Arrays.stream(GoW001_fNume_number_array)).toArray(String[]::new);
+        String[] combinedArray = Stream.concat(
+                Arrays.stream(goW001_datePickers_array), Arrays.stream(GoW001_fNume_number_array)
+        ).toArray(String[]::new);
         String goW001SearchLog = String.join(",", combinedArray);
         logger.info("Start goW001Search: {}", goW001SearchLog);
         return w001Service.goW001Search(combinedArray);
     }
 
     @PostMapping("/goW001printIreport")
-    public ArrayList<String> goW001printIreport(@RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
-        ArrayList<Map<String, Object>> listData = params.values().stream().flatMap(Collection::stream).collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<String> goW001printIreport(
+            @RequestBody Map<String, ArrayList<Map<String, Object>>> params) throws JRException, IOException {
+        ArrayList<Map<String, Object>> listData = params.values().stream().flatMap(Collection::stream)
+                .collect(Collectors.toCollection(ArrayList::new));
 
         // 將日期格式化並排序
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        listData.sort(Comparator.comparing(o -> LocalDate.parse(o.get("new_date_Format").toString().replace("-", ""), formatter)));
+        listData.sort(Comparator.comparing(
+                o -> LocalDate.parse(o.get("new_date_Format").toString().replace("-", ""), formatter)));
 
         ArrayList<String> pdfPathList = new ArrayList<>();
         Collections.reverse(listData);
@@ -178,8 +183,9 @@ public class W001Controller {
     public ArrayList<Object> goW001monthProportion(@RequestBody Map<String, String[]> params) {
         String[] GoW001_fNume_number_array = params.getOrDefault("GoW001_fNume_number", new String[0]);
         String[] GoW001_setDateRange_array = params.getOrDefault("GoW001_setDateRange", new String[0]);
-        String[] combinedArray = Stream.concat(Arrays.stream(GoW001_setDateRange_array), Arrays.stream(GoW001_fNume_number_array)).toArray(String[]::new);
-
+        String[] combinedArray = Stream.concat(
+                Arrays.stream(GoW001_setDateRange_array), Arrays.stream(GoW001_fNume_number_array)
+        ).toArray(String[]::new);
         String goW001monthProportionLog = String.join(",", combinedArray);
         logger.info("Start goW001monthProportion: {}", goW001monthProportionLog);
         return w001Service.goW001monthProportion(combinedArray);
