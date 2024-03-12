@@ -27,12 +27,14 @@ public class W003Controller {
     @PostMapping("/goW003monthProportion")
     public ArrayList<Object> goW003monthProportion(@RequestBody Map<String, String[]> params) {
         String[] fNume_number_array = params.getOrDefault("GoW003_fNume_number", new String[0]);
-        String[] setDateRangeThis_array = params.getOrDefault("GoW003_setDateRangeThis", new String[0]);
-        String[] setDateRangeLast_array = params.getOrDefault("GoW003_setDateRangeLast", new String[0]);
         logger.info("Start goW003_fNume_numberLog: {}", String.join(",", fNume_number_array));
-        logger.info("Start goW003_setDateRangeThisLog: {}", String.join(",", setDateRangeThis_array));
-        logger.info("Start goW003_setDateRangeLastLog: {}", String.join(",", setDateRangeLast_array));
-        return w003Service.goW003monthProportion(fNume_number_array,setDateRangeThis_array,setDateRangeLast_array);
+        String[] setDateRangeLast_array = params.getOrDefault("GoW003_setDateRangeLast", new String[0]);
+        String[] setDateRangeThis_array = params.getOrDefault("GoW003_setDateRangeThis", new String[0]);
+        String[] setDateRangeNext_array = params.getOrDefault("GoW003_setDateRangeNext", new String[0]);
+        logger.info("Start GoW003_setDateRangeLast: {}", String.join(",", setDateRangeLast_array));
+        logger.info("Start GoW003_setDateRangeThis: {}", String.join(",", setDateRangeThis_array));
+        logger.info("Start GoW003_setDateRangeNext: {}", String.join(",", setDateRangeNext_array));
+        return w003Service.goW003monthProportion(fNume_number_array, setDateRangeLast_array, setDateRangeThis_array, setDateRangeNext_array);
     }
 
 }

@@ -208,7 +208,11 @@ public class W001ServiceImpl implements W001Service {
     @Override
     public ArrayList<Object> W001proportion(GoW0012Bean goW0012) {
         // 在需要使用的地方添加 @Builder 注解
-        GoW001Bean goW001 = GoW001Bean.builder().f_name(goW0012.getF_name()).number(goW0012.getNumber()).new_date_Format(goW0012.getNew_date_Format()).build();
+        GoW001Bean goW001 = GoW001Bean.builder()
+                .f_name(goW0012.getF_name())
+                .number(goW0012.getNumber())
+                .new_date_Format(goW0012.getNew_date_Format())
+                .build();
         ArrayList<GoW001> list1 = w001Mapper.goW001_select(goW001);
         ArrayList<GoW0012> list12 = w001Mapper.goW0012_select(goW0012);
         ArrayList<Object> all_result = new ArrayList<>();
@@ -237,7 +241,9 @@ public class W001ServiceImpl implements W001Service {
         if (CollectionUtils.isEmpty(list12)) {
             return new ArrayList<>();
         }
-        ArrayList<String> newDatelist = list12.stream().map(GoW0012::getNew_date_Format).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> newDatelist = list12.stream()
+                .map(GoW0012::getNew_date_Format)
+                .collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
         ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, combinedArray[2], combinedArray[3]);
         if (CollectionUtils.isEmpty(list1)) {
