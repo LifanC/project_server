@@ -68,7 +68,7 @@ public class W002ServiceImpl implements W002Service {
     @Override
     public ArrayList<Object> goW002Modify(GoW002Bean goW002) {
         Instant now = Instant.now();
-        goW002.setNew_date(Date.from(now));
+        goW002.setNew_date(goW002.getNew_date());
         goW002.setUpate_time(Date.from(now));
         w002Mapper.goW002_modify(goW002);
         return printTheData(goW002);
