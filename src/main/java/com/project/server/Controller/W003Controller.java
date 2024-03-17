@@ -37,4 +37,12 @@ public class W003Controller {
         return w003Service.goW003monthProportion(fNume_number_array, setDateRangeLast_array, setDateRangeThis_array, setDateRangeNext_array);
     }
 
+    @PostMapping("/goW003seasonProportion")
+    public ArrayList<Object> goW003seasonProportion(@RequestBody Map<String, String[]> params) {
+        String[] fNume_number_array = params.getOrDefault("GoW003_fNume_number", new String[0]);
+        logger.info("Start goW003_fNume_numberLog: {}", String.join(",", fNume_number_array));
+        String[] fourSeasons_array = params.getOrDefault("GoW003_fourSeasons", new String[0]);
+        logger.info("Start GoW003_fourSeasons_array: {}", String.join(",", fourSeasons_array));
+        return w003Service.goW003seasonProportion(fNume_number_array, fourSeasons_array);
+    }
 }

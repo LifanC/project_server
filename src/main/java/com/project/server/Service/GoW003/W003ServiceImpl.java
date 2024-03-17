@@ -48,4 +48,17 @@ public class W003ServiceImpl implements W003Service {
         return list;
     }
 
+    @Override
+    public ArrayList<Object> goW003seasonProportion(String[] fNumeNumberArray, String[] fourSeasonsArray) {
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(List.of(
+                getList12(fourSeasonsArray, fNumeNumberArray)
+        ));
+        list.add(List.of(
+                getList2(fourSeasonsArray, fNumeNumberArray)
+        ));
+        return list;
+    }
+
+
 }
