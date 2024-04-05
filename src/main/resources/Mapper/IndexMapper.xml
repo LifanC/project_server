@@ -16,11 +16,11 @@
     </select>
     <insert id="insert">
         insert into interviewWorks.index (F_NAME, NUMBER, FREQUENCY, UPDATE_TIME)
-        values (#{f_name}, #{number}, 0, #{upate_time})
+        values (#{f_name}, #{number}, 1, #{upate_time})
     </insert>
     <update id="update">
         update interviewWorks.index
-        set FREQUENCY   = #{frequency} + 1,
+        set FREQUENCY   = 2,
             UPDATE_TIME = #{upate_time}
         where F_NAME = #{f_name}
           and NUMBER = #{number}

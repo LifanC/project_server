@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,14 +28,13 @@ public class IndexServiceImpl implements IndexService {
         if (StringUtils.isBlank(indexUrl.getF_name()) || StringUtils.isBlank(indexUrl.getNumber())) {
             return false;
         }
-        Date date = new Date();
+        Instant now = Instant.now();
         ArrayList<IndexUrl> list = indexMapper.select(indexUrl);
         if (CollectionUtils.isEmpty(list)) {
-            indexUrl.setUpate_time(date);
+            indexUrl.setUpate_time(Date.from(now));
             indexMapper.insert(indexUrl);
         } else {
-            list.forEach(e -> indexUrl.setFrequency(e.getFrequency()));
-            indexUrl.setUpate_time(date);
+            indexUrl.setUpate_time(Date.from(now));
             indexMapper.update(indexUrl);
         }
         return true;
