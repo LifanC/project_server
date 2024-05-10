@@ -5,7 +5,6 @@
         <id property="id" column="ID"/>
         <id property="f_name" column="F_NAME"/>
         <id property="number" column="NUMBER"/>
-        <id property="frequency" column="FREQUENCY"/>
         <id property="upate_time" column="UPDATE_TIME"/>
     </resultMap>
     <select id="select" resultMap="IndexUrl">
@@ -15,39 +14,36 @@
           and NUMBER = #{number}
     </select>
     <insert id="insert">
-        insert into interviewWorks.index (F_NAME, NUMBER, FREQUENCY, UPDATE_TIME)
-        values (#{f_name}, #{number}, 1, #{upate_time})
+        insert into interviewWorks.index (F_NAME, NUMBER, UPDATE_TIME, PERMISSIONS)
+        values (#{f_name}, #{number}, #{upate_time}, #{permissions_value})
     </insert>
-    <update id="update">
-        update interviewWorks.index
-        set FREQUENCY   = 2,
-            UPDATE_TIME = #{upate_time}
-        where F_NAME = #{f_name}
-          and NUMBER = #{number}
-    </update>
     <delete id="delete">
         delete
         from interviewWorks.index
         where F_NAME = #{f_name}
           and NUMBER = #{number}
+          and PERMISSIONS = #{permissions_value}
     </delete>
     <delete id="deleteW001">
         delete
         from interviewWorks.w001
         where F_NAME = #{f_name}
           and NUMBER = #{number}
+          and PERMISSIONS = #{permissions_value}
     </delete>
     <delete id="deleteW0012">
         delete
         from interviewWorks.w0012
         where F_NAME = #{f_name}
           and NUMBER = #{number}
+          and PERMISSIONS = #{permissions_value}
     </delete>
     <delete id="deleteW002">
         delete
         from interviewWorks.w002
         where F_NAME = #{f_name}
           and NUMBER = #{number}
+          and PERMISSIONS = #{permissions_value}
     </delete>
 
 </mapper>

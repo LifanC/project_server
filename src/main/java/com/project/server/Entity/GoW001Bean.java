@@ -25,5 +25,5 @@ public class GoW001Bean {
     private String f_name;
     private String number;
     private String new_date_Format;
-
+    private String permissions_value;
 }

@@ -10,7 +10,8 @@
                                         RADIO_ITEMS,
                                         F_NAME,
                                         NUMBER,
-                                        UPDATE_TIME)
+                                        UPDATE_TIME,
+                                        PERMISSIONS)
         values (#{expense_and_income_number},
                 #{input_money},
                 #{details},
@@ -19,7 +20,8 @@
                 #{radio_items},
                 #{f_name},
                 #{number},
-                #{upate_time})
+                #{upate_time},
+                #{permissions_value})
     </insert>
     <resultMap id="W001" type="com.project.server.Model.GoW001">
         <id property="id" column="W001_ID"/>
@@ -48,6 +50,7 @@
             </if>
             and F_NAME = #{f_name}
             and NUMBER = #{number}
+            and PERMISSIONS = #{permissions_value}
         </where>
         order by
         NEW_DATE desc,
@@ -87,6 +90,7 @@
             </if>
             and F_NAME = #{f_name}
             and NUMBER = #{number}
+            and PERMISSIONS = #{permissions_value}
         </where>
         order by NEW_DATE desc
     </select>
@@ -97,14 +101,16 @@
                                          TOTLE_MONEY,
                                          F_NAME,
                                          NUMBER,
-                                         UPDATE_TIME)
+                                         UPDATE_TIME,
+                                         PERMISSIONS)
         values (#{new_date_Format},
                 #{expense},
                 #{income},
                 #{totle_money},
                 #{f_name},
                 #{number},
-                #{upate_time})
+                #{upate_time},
+                #{permissions_value})
     </insert>
     <update id="goW0012_modify">
         update interviewworks.w0012
@@ -115,6 +121,7 @@
         where NEW_DATE = #{new_date_Format}
           and F_NAME = #{f_name}
           and NUMBER = #{number}
+          and PERMISSIONS = #{permissions_value}
     </update>
     <select id="goW0012_select_pickers" resultMap="W0012">
         select *
@@ -122,6 +129,7 @@
         where NEW_DATE between #{params0} and #{params1}
           and F_NAME = #{params2}
           and NUMBER = #{params3}
+          and PERMISSIONS = #{params4}
         order by NEW_DATE desc
     </select>
     <select id="goW001_select_NewDatelist" resultMap="W001" parameterType="arraylist">
@@ -138,6 +146,7 @@
         </foreach>
         and F_NAME = #{params2}
         and NUMBER = #{params3}
+        and PERMISSIONS = #{params4}
         order by
         NEW_DATE desc,
         EXPENSE_AND_INCOME_NUMBER desc

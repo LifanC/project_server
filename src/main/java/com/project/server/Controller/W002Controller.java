@@ -29,10 +29,11 @@ public class W002Controller {
     @GetMapping("/W002UrlDefault")
     public ArrayList<Object> W002UrlDefault(
             @RequestParam String f_name,
-            @RequestParam String number
+            @RequestParam String number,
+            @RequestParam String permissions_value
     ) {
-        logger.info("Start W002UrlDefault: {},{}", f_name, number);
-        return w002Service.W002UrlDefault(f_name, number);
+        logger.info("Start W002UrlDefault: {},{},{}", f_name, number, permissions_value);
+        return w002Service.W002UrlDefault(f_name, number, permissions_value);
     }
     private void checking_method(GoW002Bean goW002) {
         try {

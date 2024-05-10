@@ -1,11 +1,11 @@
 package com.project.server.Service;
 
-import com.project.server.Model.IndexUrl;
+import com.project.server.Entity.IndexUrlBean;
 
 public interface IndexService {
-    boolean login(IndexUrl indexUrl);
+    boolean[] login(IndexUrlBean indexUrlBean);
 
-    boolean register(IndexUrl indexUrl);
+    boolean[] register(IndexUrlBean indexUrlBean);
 
-    boolean delete(IndexUrl indexUrl);
+    boolean[] delete(IndexUrlBean indexUrlBean);
 }

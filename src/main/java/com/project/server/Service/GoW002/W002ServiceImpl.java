@@ -3,6 +3,7 @@ package com.project.server.Service.GoW002;
 import com.project.server.Entity.GoW002Bean;
 import com.project.server.Mapper.W002Mapper;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +27,11 @@ public class W002ServiceImpl implements W002Service {
     }
 
     @Override
-    public ArrayList<Object> W002UrlDefault(String fName, String number) {
+    public ArrayList<Object> W002UrlDefault(String fName, String number, String permissions_value) {
         GoW002Bean goW002 = GoW002Bean.builder()
                 .f_name(fName)
                 .number(number)
+                .permissions_value(permissions_value)
                 .build();
         return printTheData(goW002);
     }
@@ -52,11 +54,13 @@ public class W002ServiceImpl implements W002Service {
     public ArrayList<Object> confirmEventDelete(Map<String, Object> params) {
         String fName = Objects.toString(params.get("f_name"), "");
         String number = Objects.toString(params.get("number"), "");
-        int id = params.get("id") instanceof Number ? ((Number) params.get("id")).intValue() : 0;
+        String permissions_value = Objects.toString(params.get("permissions_value"), "");
+        String id = Objects.toString(params.get("id"), "");
         w002Mapper.goW002_Delete(id);
         GoW002Bean goW002 = GoW002Bean.builder()
                 .f_name(fName)
                 .number(number)
+                .permissions_value(permissions_value)
                 .build();
         return printTheData(goW002);
     }

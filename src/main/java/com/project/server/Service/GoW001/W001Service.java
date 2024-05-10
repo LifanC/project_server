@@ -11,7 +11,7 @@ public interface W001Service {
 
     ArrayList<Object> goW001Single_search(GoW001Bean goW001);
 
-    ArrayList<Object> W001UrlDefault(String fName, String number);
+    ArrayList<Object> W001UrlDefault(String fName, String number, String permissions_value);
 
     ArrayList<Object> confirmEventDelete(Map<String, Object> params);
 

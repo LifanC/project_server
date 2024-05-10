@@ -129,10 +129,11 @@ public class W001ServiceImpl implements W001Service {
     }
 
     @Override
-    public ArrayList<Object> W001UrlDefault(String fName, String number) {
+    public ArrayList<Object> W001UrlDefault(String fName, String number, String permissions_value) {
         GoW001Bean goW001 = new GoW001Bean();
         goW001.setF_name(fName);
         goW001.setNumber(number);
+        goW001.setPermissions_value(permissions_value);
         GoW0012Bean goW0012 = new GoW0012Bean();
         BeanUtils.copyProperties(goW001, goW0012);
         return printTheData(goW001, goW0012);
@@ -147,6 +148,7 @@ public class W001ServiceImpl implements W001Service {
         goW0012.setF_name(params.get("f_name").toString());
         goW0012.setNumber(params.get("number").toString());
         goW0012.setUpate_time(new Date());
+        goW0012.setPermissions_value(params.get("permissions_value").toString());
         BeanUtils.copyProperties(goW0012, goW001);
         goW001.setExpense_and_income_number(params.get("expense_and_income_number").toString());
         goW001.setInput_money(new BigDecimal(params.get("input_money").toString()));
@@ -169,6 +171,7 @@ public class W001ServiceImpl implements W001Service {
         goW0012.setExpense(AexM);
         goW0012.setIncome(BinM);
         goW0012.setTotle_money(BinM.subtract(AexM));
+        goW0012.setPermissions_value(params.get("permissions_value").toString());
         w001Mapper.goW0012_modify(goW0012);
         BeanUtils.copyProperties(goW001, goW0012);
         return printTheData(goW001, goW0012);
@@ -194,14 +197,15 @@ public class W001ServiceImpl implements W001Service {
         String params1 = combinedArray[1];
         String params2 = combinedArray[2];
         String params3 = combinedArray[3];
-        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1, params2, params3);
+        String params4 = combinedArray[4];
+        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(params0, params1, params2, params3, params4);
         if (CollectionUtils.isEmpty(list12)) {
             return new ArrayList<>();
         }
         ArrayList<String> newDatelist = list12.stream().map(GoW0012::getNew_date_Format)
                 .collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
-        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, params2, params3);
+        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, params2, params3, params4);
         return new ArrayList<>(List.of(list1, list12));
     }
 
@@ -237,7 +241,8 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public ArrayList<Object> goW001monthProportion(String[] combinedArray) {
-        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(combinedArray[0], combinedArray[1], combinedArray[2], combinedArray[3]);
+        ArrayList<GoW0012> list12 = w001Mapper.goW0012_select_pickers(
+                combinedArray[0], combinedArray[1], combinedArray[2], combinedArray[3], combinedArray[4]);
         if (CollectionUtils.isEmpty(list12)) {
             return new ArrayList<>();
         }
@@ -245,7 +250,8 @@ public class W001ServiceImpl implements W001Service {
                 .map(GoW0012::getNew_date_Format)
                 .collect(Collectors.toCollection(ArrayList::new));
         Collections.reverse(newDatelist);
-        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(newDatelist, combinedArray[2], combinedArray[3]);
+        ArrayList<GoW001> list1 = w001Mapper.goW001_select_NewDatelist(
+                newDatelist, combinedArray[2], combinedArray[3], combinedArray[4]);
         if (CollectionUtils.isEmpty(list1)) {
             return new ArrayList<>();
         }

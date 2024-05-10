@@ -1,26 +1,20 @@
 package com.project.server.Entity;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class GoW0012Bean {
+public class IndexUrlBean {
     private int id;
-    private Date new_date;
-    private BigDecimal expense;
-    private BigDecimal income;
-    private BigDecimal totle_money;
     private String f_name;
     private String number;
     private Date upate_time;
-    private String new_date_Format;
+    private String restfulApi_type;
     private String permissions_value;
 }

@@ -1,5 +1,6 @@
 package com.project.server.Service;
 
+import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Mapper.IndexMapper;
 import com.project.server.Model.IndexUrl;
 import io.micrometer.common.util.StringUtils;
@@ -19,36 +20,41 @@ public class IndexServiceImpl implements IndexService {
     private IndexMapper indexMapper;
 
     @Override
-    public boolean login(IndexUrl indexUrl) {
-        return !CollectionUtils.isEmpty(indexMapper.select(indexUrl));
+    public boolean[] login(IndexUrlBean indexUrlBean) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+            return new boolean[]{false, false};
+        }
+        ArrayList<IndexUrl> list = indexMapper.select(indexUrlBean);
+        return (CollectionUtils.isEmpty(list)) ? new boolean[]{false, false} : new boolean[]{true, true};
     }
 
     @Override
-    public boolean register(IndexUrl indexUrl) {
-        if (StringUtils.isBlank(indexUrl.getF_name()) || StringUtils.isBlank(indexUrl.getNumber())) {
-            return false;
+    public boolean[] register(IndexUrlBean indexUrlBean) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+            return new boolean[]{false, false};
         }
+        boolean[] result;
         Instant now = Instant.now();
-        ArrayList<IndexUrl> list = indexMapper.select(indexUrl);
-        if (CollectionUtils.isEmpty(list)) {
-            indexUrl.setUpate_time(Date.from(now));
-            indexMapper.insert(indexUrl);
-        } else {
-            indexUrl.setUpate_time(Date.from(now));
-            indexMapper.update(indexUrl);
+        ArrayList<IndexUrl> list = indexMapper.select(indexUrlBean);
+        boolean isEmptyList = CollectionUtils.isEmpty(list);
+        result = (isEmptyList) ? new boolean[]{true, true} : new boolean[]{true, false};
+        if (isEmptyList) {
+            indexUrlBean.setUpate_time(Date.from(now));
+            indexMapper.insert(indexUrlBean);
         }
-        return true;
+        return result;
     }
 
     @Override
-    public boolean delete(IndexUrl indexUrl) {
-        if (StringUtils.isBlank(indexUrl.getF_name()) || StringUtils.isBlank(indexUrl.getNumber())) {
-            return false;
+    public boolean[] delete(IndexUrlBean indexUrlBean) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+            return new boolean[]{false, false};
         }
-        indexMapper.deleteW001(indexUrl);
-        indexMapper.deleteW0012(indexUrl);
-        indexMapper.deleteW002(indexUrl);
-        return indexMapper.delete(indexUrl) != 0;
+        indexMapper.deleteW001(indexUrlBean);
+        indexMapper.deleteW0012(indexUrlBean);
+        indexMapper.deleteW002(indexUrlBean);
+        boolean deleteList = indexMapper.delete(indexUrlBean) == 1;
+        return (deleteList) ? new boolean[]{true, true} : new boolean[]{false, false};
     }
 
 }

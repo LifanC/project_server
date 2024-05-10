@@ -1,6 +1,6 @@
 package com.project.server.Controller;
 
-import com.project.server.Model.IndexUrl;
+import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -18,17 +18,28 @@ public class IndexUrlController {
     private IndexService indexService;
 
     @PostMapping("/indexUrl")
-    public List<Object> indexUrl(@RequestBody IndexUrl indexUrl) {
-        logger.info("Start indexUrl: {}", indexUrl.getRestfulApi_type());
-        boolean judge = switch (indexUrl.getRestfulApi_type()) {
-            case "Login" -> indexService.login(indexUrl);
-            case "Register" -> indexService.register(indexUrl);
-            case "Delete" -> indexService.delete(indexUrl);
-            default -> false;
+    public List<Object> indexUrl(@RequestBody IndexUrlBean indexUrlBean) {
+        logger.info("Start indexUrl: {}", indexUrlBean);
+        String type = indexUrlBean.getRestfulApi_type();
+        boolean[] judge = switch (type) {
+            case "Login" -> indexService.login(indexUrlBean);
+            case "Register" -> indexService.register(indexUrlBean);
+            case "Delete" -> indexService.delete(indexUrlBean);
+            default -> new boolean[]{false, false};
         };
-        String type = indexUrl.getRestfulApi_type();
-        String result = judge ? type + " Success" : type + " Fail";
+
+        List<Object> result = new ArrayList<>();
+        result.add(judge[1]);
+        if (judge[0]) {
+            if (judge[1]) {
+                result.add(type + " Success");
+            } else {
+                result.add(type + " Fail，重複註冊");
+            }
+        } else {
+            result.add(type + " Fail");
+        }
         logger.info("indexUrl: {}", result);
-        return List.of(judge,result);
+        return result;
     }
 }

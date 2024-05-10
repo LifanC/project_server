@@ -14,11 +14,11 @@ public interface W002Mapper {
 
     void goW002_modify(GoW002Bean goW002);
 
-    void goW002_Delete(int id);
+    void goW002_Delete(String id);
 
     ArrayList<GoW002Bean> goW002_select_value(GoW002Bean goW002);
 
     ArrayList<GoW002Bean> goW002_query(GoW002Bean goW002);
 
-    ArrayList<GoW002> goW002_select_pickers(String params0, String params1, String params2, String params3);
+    ArrayList<GoW002> goW002_select_pickers(String params0, String params1, String params2, String params3, String params4);
 }
