@@ -42,11 +42,10 @@ public class W001Controller {
     @GetMapping("/W001UrlDefault")
     public ArrayList<Object> W001UrlDefault(
             @RequestParam String f_name,
-            @RequestParam String number,
-            @RequestParam String permissions_value
+            @RequestParam String number
     ) {
-        logger.info("Start W001UrlDefault: {},{},{}", f_name, number, permissions_value);
-        return w001Service.W001UrlDefault(f_name, number, permissions_value);
+        logger.info("Start W001UrlDefault: {},{}", f_name, number);
+        return w001Service.W001UrlDefault(f_name, number);
     }
 
     @PostMapping("/goW001Add")

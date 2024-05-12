@@ -20,5 +20,5 @@ public interface W002Mapper {
 
     ArrayList<GoW002Bean> goW002_query(GoW002Bean goW002);
 
-    ArrayList<GoW002> goW002_select_pickers(String params0, String params1, String params2, String params3, String params4);
+    ArrayList<GoW002> goW002_select_pickers(String params0, String params1, String params2, String params3);
 }

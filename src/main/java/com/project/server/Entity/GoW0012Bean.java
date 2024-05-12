@@ -22,5 +22,4 @@ public class GoW0012Bean {
     private String number;
     private Date upate_time;
     private String new_date_Format;
-    private String permissions_value;
 }

@@ -3,15 +3,14 @@ package com.project.server.Service;
 import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Mapper.IndexMapper;
 import com.project.server.Model.IndexUrl;
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 @Service
 @Transactional
@@ -20,8 +19,15 @@ public class IndexServiceImpl implements IndexService {
     private IndexMapper indexMapper;
 
     @Override
+    public List<Map<String, Object>> indexUrlDefault() {
+        return indexMapper.getPermissions();
+    }
+
+    @Override
     public boolean[] login(IndexUrlBean indexUrlBean) {
-        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name())
+                || StringUtils.isBlank(indexUrlBean.getNumber())
+                || StringUtils.isBlank(indexUrlBean.getPermissions_value())) {
             return new boolean[]{false, false};
         }
         ArrayList<IndexUrl> list = indexMapper.select(indexUrlBean);
@@ -30,7 +36,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public boolean[] register(IndexUrlBean indexUrlBean) {
-        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name())
+                || StringUtils.isBlank(indexUrlBean.getNumber())
+                || StringUtils.isBlank(indexUrlBean.getPermissions_value())) {
             return new boolean[]{false, false};
         }
         boolean[] result;
@@ -47,14 +55,26 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public boolean[] delete(IndexUrlBean indexUrlBean) {
-        if (StringUtils.isBlank(indexUrlBean.getF_name()) || StringUtils.isBlank(indexUrlBean.getNumber())) {
+        if (StringUtils.isBlank(indexUrlBean.getF_name())
+                || StringUtils.isBlank(indexUrlBean.getNumber())
+                || StringUtils.isBlank(indexUrlBean.getPermissions_value())) {
             return new boolean[]{false, false};
         }
-        indexMapper.deleteW001(indexUrlBean);
-        indexMapper.deleteW0012(indexUrlBean);
-        indexMapper.deleteW002(indexUrlBean);
+
         boolean deleteList = indexMapper.delete(indexUrlBean) == 1;
-        return (deleteList) ? new boolean[]{true, true} : new boolean[]{false, false};
+        if (deleteList) {
+            indexMapper.deleteW001(indexUrlBean);
+            indexMapper.deleteW0012(indexUrlBean);
+            indexMapper.deleteW002(indexUrlBean);
+            return new boolean[]{true, true};
+        } else {
+            return new boolean[]{false, false};
+        }
+    }
+
+    @Override
+    public List<IndexUrl> indexUrlPermissions(IndexUrlBean indexUrlBean) {
+        return indexMapper.select(indexUrlBean);
     }
 
 }

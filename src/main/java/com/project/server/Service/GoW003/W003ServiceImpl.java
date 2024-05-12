@@ -21,14 +21,14 @@ public class W003ServiceImpl implements W003Service {
     private ArrayList<GoW0012> getList12(String[] dateRangeArray, String[] fNumeNumberArray) {
         return w001Mapper.goW0012_select_pickers(
                 dateRangeArray[0], dateRangeArray[1],
-                fNumeNumberArray[0], fNumeNumberArray[1], fNumeNumberArray[2]
+                fNumeNumberArray[0], fNumeNumberArray[1]
         );
     }
 
     private ArrayList<GoW002> getList2(String[] dateRangeArray, String[] fNumeNumberArray) {
         return w002Mapper.goW002_select_pickers(
                 dateRangeArray[0], dateRangeArray[1],
-                fNumeNumberArray[0], fNumeNumberArray[1], fNumeNumberArray[2]
+                fNumeNumberArray[0], fNumeNumberArray[1]
         );
     }
 

@@ -11,8 +11,7 @@
                                         AMOUNT,
                                         TOTAL,
                                         NEW_DATE,
-                                        UPDATE_TIME,
-                                        PERMISSIONS)
+                                        UPDATE_TIME)
         values (#{f_name},
                 #{number},
                 concat(#{a_value}, #{b_value}, #{c_value}, #{d_value}),
@@ -21,8 +20,7 @@
                 #{g_value},
                 #{f_value} * #{g_value},
                 #{new_date},
-                #{upate_time},
-                #{permissions_value})
+                #{upate_time})
     </insert>
     <resultMap id="W002" type="com.project.server.Model.GoW002">
         <id property="id" column="W002_ID"/>
@@ -39,7 +37,6 @@
         from interviewworks.w002
         where F_NAME = #{f_name}
           and NUMBER = #{number}
-          and PERMISSIONS = #{permissions_value}
         order by M_CODE desc
     </select>
     <delete id="goW002_Delete">
@@ -64,7 +61,6 @@
         where F_NAME = #{f_name}
           and NUMBER = #{number}
           and M_CODE = concat(#{a_value}, #{b_value}, #{c_value}, #{d_value})
-          and PERMISSIONS = #{permissions_value}
         order by M_CODE desc
     </select>
     <select id="goW002_query" resultMap="W002">
@@ -73,7 +69,6 @@
         where F_NAME = #{f_name}
           and NUMBER = #{number}
           and NEW_DATE = #{new_date_Format}
-          and PERMISSIONS = #{permissions_value}
         order by M_CODE desc
     </select>
     <select id="goW002_select_pickers" resultMap="W002">
@@ -82,7 +77,6 @@
         where NEW_DATE between #{params0} and #{params1}
           and F_NAME = #{params2}
           and NUMBER = #{params3}
-          and PERMISSIONS = #{params4}
         order by M_CODE desc
     </select>
 </mapper>

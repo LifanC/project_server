@@ -4,10 +4,13 @@ import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Model.IndexUrl;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Mapper
 public interface IndexMapper {
+
+    List<Map<String, Object>> getPermissions();
+
     ArrayList<IndexUrl> select(IndexUrlBean indexUrlBean);
 
     void insert(IndexUrlBean indexUrlBean);

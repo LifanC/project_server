@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface W002Service {
-    ArrayList<Object> W002UrlDefault(String fName, String number, String permissions_value);
+    ArrayList<Object> W002UrlDefault(String fName, String number);
 
     boolean goW002Search(GoW002Bean goW002);
 
