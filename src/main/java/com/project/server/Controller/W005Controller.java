@@ -16,7 +16,7 @@ public class W005Controller {
 //    private final Gson gson = new Gson();
 
     @GetMapping("/goW005")
-    public String goW001() {
+    public String goW005() {
         logger.info("Start goW005");
         return "JokeAPI";
     }
