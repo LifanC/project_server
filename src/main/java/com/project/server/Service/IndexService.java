@@ -17,4 +17,10 @@ public interface IndexService {
     boolean[] delete(IndexUrlBean indexUrlBean);
 
     List<IndexUrl> indexUrlPermissions(IndexUrlBean indexUrlBean);
+
+    Map<String, ?> permissionsFunctionSelect(String paramsAccount, String paramsPassword);
+
+    boolean permissionsFunctionAdd(String paramsAccount, String paramsPassword);
+
+    List<Map<String, Object>> permissionsFunctionSelectAdmin();
 }

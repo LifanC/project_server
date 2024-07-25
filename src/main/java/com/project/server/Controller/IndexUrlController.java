@@ -1,13 +1,12 @@
 package com.project.server.Controller;
 
 import com.project.server.Entity.IndexUrlBean;
-import com.project.server.Model.IndexUrl;
 import com.project.server.Service.IndexService;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -19,8 +18,9 @@ public class IndexUrlController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private IndexService indexService;
-    private final static String account = "admin";
-    private final static String password = "456123";
+
+    private final String A = "admin";
+    private final String B = "456123";
 
     @GetMapping("/indexUrlDefault")
     public List<Map<String, Object>> indexUrlDefault() {
@@ -60,18 +60,42 @@ public class IndexUrlController {
         return indexService.indexUrlPermissions(indexUrlBean).size() > 0;
     }
 
-    @GetMapping("/permissionsDefault")
-    public String[] permissionsDefault() {
-        logger.info("Start permissionsDefault");
-        return new String[]{account, password};
+    @PostMapping("/permissionsFunctionSelect")
+    public Map<String, ?> permissionsFunctionSelect(@RequestBody Map<String, Object> params) {
+        logger.info("Start permissionsFunctionSelect: {}", params);
+        String paramsAccount = MapUtils.getString(params, "account");
+        String paramsPassword = MapUtils.getString(params, "password");
+        Map<String, ?> map = new HashMap<>();
+        if (paramsAccount.length() == 10 && paramsPassword.length() == 10) {
+            map = indexService.permissionsFunctionSelect(paramsAccount, paramsPassword);
+        }
+        return map;
     }
 
-    @PostMapping("/permissionsFunction")
-    public boolean permissionsFunction(@RequestBody Map<String, Object> params) {
-        logger.info("Start permissionsFunction: {}", params);
-        String params_account = MapUtils.getString(params, "account").toLowerCase();
-        String params_password = MapUtils.getString(params, "password").toLowerCase();
-        return StringUtils.equals(account, params_account)
-                && StringUtils.equals(password, params_password);
+    @PostMapping("/permissionsFunctionAdd")
+    public boolean permissionsFunctionAdd(@RequestBody Map<String, Object> params) {
+        logger.info("Start permissionsFunctionAdd: {}", params);
+        String paramsAccount = MapUtils.getString(params, "account");
+        String paramsPassword = MapUtils.getString(params, "password");
+        if (paramsAccount.length() == 10 && paramsPassword.length() == 10) {
+            return indexService.permissionsFunctionAdd(paramsAccount, paramsPassword);
+        }
+        return false;
+    }
+
+    @PostMapping("/permissionsFunctionAdmin")
+    public Map<String, ?> permissionsFunctionAdmin(@RequestBody Map<String, Object> params) {
+        logger.info("Start permissionsFunctionAdmin: {}", params);
+        String paramsAccount = MapUtils.getString(params, "account");
+        String paramsPassword = MapUtils.getString(params, "password");
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.pathEquals(A, paramsAccount) && StringUtils.pathEquals(B, paramsPassword)) {
+            map.put("isNotEmpty", true);
+            map.put("selectPrivatedata", indexService.permissionsFunctionSelectAdmin());
+        } else {
+            map.put("isNotEmpty", false);
+            map.put("selectPrivatedata", new HashMap<>());
+        }
+        return map;
     }
 }

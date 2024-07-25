@@ -47,5 +47,28 @@
         where F_NAME = #{f_name}
           and NUMBER = #{number}
     </delete>
-
+    <select id="selectPrivatedata" resultType="java.util.Map">
+        select *
+        from interviewWorks.privatedata
+        where account = #{paramsAccount}
+          and password = #{paramsPassword}
+    </select>
+    <insert id="insertPrivatedata">
+        insert into interviewWorks.privatedata (account, password)
+        values (#{paramsAccount}, #{paramsPassword})
+    </insert>
+    <insert id="insertEncryptionPrivatedata">
+        insert into interviewWorks.encryptionprivatedata (account, password)
+        values (#{paramsAccountEncryption}, #{paramsPasswordEncryption})
+    </insert>
+    <select id="selectPrivatedataAll" resultType="java.util.Map">
+        select *
+        from interviewWorks.privatedata
+        order by account asc
+    </select>
+    <select id="selectEncryptionPrivatedata" resultType="java.util.Map">
+        select *
+        from interviewWorks.encryptionprivatedata
+        order by account asc
+    </select>
 </mapper>

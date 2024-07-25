@@ -22,4 +22,14 @@ public interface IndexMapper {
     void deleteW0012(IndexUrlBean indexUrlBean);
 
     void deleteW002(IndexUrlBean indexUrlBean);
+
+    List<Map<String, Object>> selectPrivatedata(Map<String, String> privatedata);
+
+    void insertPrivatedata(Map<String, String> privatedata);
+
+    void insertEncryptionPrivatedata(Map<String, String> privatedata);
+
+    List<Map<String, Object>> selectPrivatedataAll();
+
+    List<Map<String, Object>> selectEncryptionPrivatedata();
 }
