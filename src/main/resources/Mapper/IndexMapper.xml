@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.server.Mapper.IndexMapper">
+    <resultMap id="IndexUrl" type="com.project.server.Model.IndexUrl">
+        <id property="accountNumber" column="accountNumber"/>
+        <id property="password" column="password"/>
+        <id property="update_time" column="update_time"/>
+        <id property="dataNumber" column="dataNumber"/>
+    </resultMap>
+    <select id="select" resultMap="IndexUrl">
+        select *
+        from interviewWorks.indexx
+        where accountNumber like #{accountNumber}
+          and password like #{password}
+        order by update_time desc
+    </select>
+    <select id="selecth" resultMap="IndexUrl">
+        select *
+        from interviewWorks.indexh
+        where accountNumber like #{accountNumber}
+          and password like #{password}
+        order by update_time desc
+    </select>
+    <insert id="create">
+        INSERT INTO interviewWorks.indexx (accountNumber, password, update_time, dataNumber)
+        VALUES (#{accountNumber}, #{password}, #{update_time}, #{dataNumber});
+    </insert>
+    <insert id="createh">
+        INSERT INTO interviewWorks.indexh (accountNumber, password, update_time)
+        VALUES (#{accountNumber}, #{password}, #{update_time});
+    </insert>
+    <update id="update">
+        update interviewworks.indexx
+        set password = #{password}
+        where accountNumber = #{accountNumber}
+    </update>
+    <delete id="delete">
+        delete
+        from interviewworks.indexx
+        where accountNumber = #{accountNumber}
+          and password = #{password}
+    </delete>
+    <select id="maxSelect" resultType="java.lang.String">
+        SELECT MAX(dataNumber) AS max_dataNumber
+        FROM interviewworks.indexx
+    </select>
+</mapper>
