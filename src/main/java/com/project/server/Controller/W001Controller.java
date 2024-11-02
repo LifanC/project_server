@@ -1,6 +1,7 @@
 package com.project.server.Controller;
 
 //import com.google.gson.Gson;
+import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Entity.W001Bean;
 import com.project.server.Service.W001Service;
 import jakarta.annotation.Resource;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -42,6 +45,18 @@ public class W001Controller {
 
         logger.info("Start submitUpload: {},{},{}", accountNumber, password, fileName);
         return w001Service.submitUpload(w001Bean);
+    }
+
+    @PostMapping("/submitForm")
+    public ResponseEntity<String> submitForm(@RequestBody W001Bean w001Bean) {
+        logger.info("Start submitForm: {}", w001Bean);
+        return w001Service.submitForm(w001Bean);
+    }
+
+    @PostMapping("/submitFormOk")
+    public ResponseEntity<String> submitFormOk(@RequestBody W001Bean w001Bean) {
+        logger.info("Start submitFormOk: {}", w001Bean);
+        return w001Service.submitFormOk(w001Bean);
     }
 
 }

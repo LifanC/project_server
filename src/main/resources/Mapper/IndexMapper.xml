@@ -22,8 +22,8 @@
         order by update_time desc
     </select>
     <insert id="create">
-        INSERT INTO interviewWorks.indexx (accountNumber, password, update_time, dataNumber)
-        VALUES (#{accountNumber}, #{password}, #{update_time}, #{dataNumber});
+        INSERT INTO interviewWorks.indexx (accountNumber, dataNumber, password, update_time)
+        VALUES (#{accountNumber}, #{dataNumber}, #{password}, #{update_time});
     </insert>
     <insert id="createh">
         INSERT INTO interviewWorks.indexh (accountNumber, password, update_time)

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.server.Mapper.W001Mapper">
+    <insert id="create">
+        INSERT INTO interviewWorks.w001 (accountNumber, dataNumber, money, type, number, update_time)
+        VALUES (#{accountNumber}, #{dataNumber}, #{money}, #{type}, #{number},
+                #{update_time})
+    </insert>
+    <insert id="createh">
+        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time)
+        VALUES (#{accountNumber}, #{dataNumber}, #{money}, #{type}, #{number},
+                #{update_time})
+    </insert>
+    <insert id="createBatchh">
+        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time)
+        VALUES
+        <foreach collection="dataParams" item="data" separator=",">
+            (#{data.accountNumber}, #{data.dataNumber}, #{data.money}, #{data.type}, #{data.number},
+            #{data.update_time})
+        </foreach>
+    </insert>
+    <select id="maxNumber" resultType="java.lang.String">
+        SELECT IFNULL(MAX(number), 0) as max_Number
+        FROM interviewworks.w001
+        WHERE accountNumber = #{accountNumber}
+          AND dataNumber = #{dataNumber}
+          AND type = #{type}
+    </select>
+</mapper>
