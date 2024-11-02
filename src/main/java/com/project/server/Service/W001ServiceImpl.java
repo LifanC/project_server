@@ -6,6 +6,7 @@ import com.project.server.Mapper.IndexMapper;
 import com.project.server.Mapper.W001Mapper;
 import com.project.server.Model.IndexUrl;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.ResponseEntity;
@@ -99,12 +100,23 @@ public class W001ServiceImpl implements W001Service {
                 for (Map<String, String> data : params) {
                     line++;
                     String money = data.get("money");
-                    if (StringUtils.isNumeric(money) && StringUtils.isBlank(money)) {
-                        money = "0";
+                    if (StringUtils.isNumeric(money)) {
+                        if (StringUtils.isBlank(money)) {
+                            return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + money + ")金額勿空白");
+                        } else if (Integer.parseInt(money) <= 0) {
+                            return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + money + ")金額小於1");
+                        }
+                    } else {
+                        return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + money + ")金額錯誤");
                     }
                     String type = data.get("type").trim().toUpperCase();
                     if (StringUtils.isBlank(type)) {
-                        return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + type + ")資料錯誤");
+                        return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + type + ")種類勿空白");
+                    } else {
+                        String[] letter = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+                        if (!ArrayUtils.contains(letter, type)) {
+                            return ResponseEntity.internalServerError().body("第" + line + "行，種類(" + type + ")種類錯誤");
+                        }
                     }
                     Map<String, Object> param = new HashMap<>();
                     param.put("accountNumber", accountNumber);
