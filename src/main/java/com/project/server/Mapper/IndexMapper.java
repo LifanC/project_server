@@ -21,4 +21,7 @@ public interface IndexMapper {
     int delete(IndexUrlBean indexUrlBean);
 
     String maxSelect(IndexUrlBean indexUrlBean);
+
+    void deleteW001(IndexUrlBean indexUrlBean);
+    void deleteW001h(IndexUrlBean indexUrlBean);
 }

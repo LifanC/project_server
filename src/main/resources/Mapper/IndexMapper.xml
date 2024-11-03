@@ -41,7 +41,17 @@
           and password = #{password}
     </delete>
     <select id="maxSelect" resultType="java.lang.String">
-        SELECT MAX(dataNumber) AS max_dataNumber
+        SELECT IFNULL(MAX(dataNumber), 0) as max_dataNumber
         FROM interviewworks.indexx
     </select>
+    <delete id="deleteW001">
+        delete
+        from interviewworks.w001
+        where accountNumber = #{accountNumber}
+    </delete>
+    <delete id="deleteW001h">
+        delete
+        from interviewworks.w001h
+        where accountNumber = #{accountNumber}
+    </delete>
 </mapper>

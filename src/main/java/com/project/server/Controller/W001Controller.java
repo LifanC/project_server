@@ -1,7 +1,6 @@
 package com.project.server.Controller;
 
 //import com.google.gson.Gson;
-import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Entity.W001Bean;
 import com.project.server.Service.W001Service;
 import jakarta.annotation.Resource;
@@ -47,6 +46,24 @@ public class W001Controller {
         return w001Service.submitUpload(w001Bean);
     }
 
+    @PostMapping(value = "/submitUploadOk", consumes = "multipart/form-data")
+    public ResponseEntity<String> submitUploadOk(
+            @Param("accountNumber") String accountNumber,
+            @Param("password") String password,
+            @Param("fileName") String fileName,
+            @RequestParam("fileList") MultipartFile file
+    ) {
+        W001Bean w001Bean = W001Bean.builder()
+                .accountNumber(accountNumber)
+                .password(password)
+                .fileName(fileName)
+                .file(file)
+                .build();
+
+        logger.info("Start submitUploadOk: {},{},{}", accountNumber, password, fileName);
+        return w001Service.submitUploadOk(w001Bean);
+    }
+
     @PostMapping("/submitForm")
     public ResponseEntity<String> submitForm(@RequestBody W001Bean w001Bean) {
         logger.info("Start submitForm: {}", w001Bean);
@@ -57,6 +74,11 @@ public class W001Controller {
     public ResponseEntity<String> submitFormOk(@RequestBody W001Bean w001Bean) {
         logger.info("Start submitFormOk: {}", w001Bean);
         return w001Service.submitFormOk(w001Bean);
+    }
+    @PostMapping("/queryForm")
+    public List<Object> queryForm(@RequestBody W001Bean w001Bean) {
+        logger.info("Start queryForm: {}", w001Bean);
+        return w001Service.queryForm(w001Bean);
     }
 
 }

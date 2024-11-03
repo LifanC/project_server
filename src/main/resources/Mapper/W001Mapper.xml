@@ -26,4 +26,18 @@
           AND dataNumber = #{dataNumber}
           AND type = #{type}
     </select>
+    <resultMap id="W001" type="com.project.server.Model.W001">
+        <id property="money" column="money"/>
+        <id property="type" column="type"/>
+        <id property="number" column="number"/>
+        <id property="update_time" column="update_time"/>
+    </resultMap>
+    <select id="select" resultMap="W001">
+        select *
+        from interviewWorks.w001
+        where accountNumber like #{accountNumber}
+          and type like #{type}
+          and money >= #{money}
+        order by number asc
+    </select>
 </mapper>

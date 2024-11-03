@@ -72,6 +72,8 @@ public class IndexServiceImpl implements IndexService {
             case 2 -> {
                 try {
                     int updateNum = indexMapper.update(indexUrlBean);
+                    indexMapper.deleteW001(indexUrlBean);
+                    indexMapper.deleteW001h(indexUrlBean);
                     if (updateNum != 0) {
                         indexMapper.createh(indexUrlBean);
                         result.add("更新成功");
@@ -87,6 +89,8 @@ public class IndexServiceImpl implements IndexService {
             case 3 -> {
                 try {
                     int delNum = indexMapper.delete(indexUrlBean);
+                    indexMapper.deleteW001(indexUrlBean);
+                    indexMapper.deleteW001h(indexUrlBean);
                     if (delNum != 0) {
                         indexMapper.createh(indexUrlBean);
                         result.add("刪除成功");
