@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.project.server.Mapper.W001Mapper">
     <insert id="create">
-        INSERT INTO interviewWorks.w001 (accountNumber, dataNumber, money, type, number, update_time)
+        INSERT INTO interviewWorks.w001 (accountNumber, dataNumber, money, type, number, update_time, update_cd)
         VALUES (#{accountNumber}, #{dataNumber}, #{money}, #{type}, #{number},
-                #{update_time})
+                #{update_time} ,'新增')
     </insert>
     <insert id="createh">
-        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time)
+        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time, update_cd)
         VALUES (#{accountNumber}, #{dataNumber}, #{money}, #{type}, #{number},
-                #{update_time})
+                #{update_time}, #{update_cd})
     </insert>
     <insert id="createBatchh">
-        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time)
+        INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time, update_cd)
         VALUES
         <foreach collection="dataParams" item="data" separator=",">
             (#{data.accountNumber}, #{data.dataNumber}, #{data.money}, #{data.type}, #{data.number},
-            #{data.update_time})
+            #{data.update_time}, '新增')
         </foreach>
     </insert>
     <select id="maxNumber" resultType="java.lang.String">
@@ -31,6 +31,7 @@
         <id property="type" column="type"/>
         <id property="number" column="number"/>
         <id property="update_time" column="update_time"/>
+        <id property="update_cd" column="update_cd"/>
     </resultMap>
     <select id="select" resultMap="W001">
         select *
@@ -40,4 +41,21 @@
           and money >= #{money}
         order by number asc
     </select>
+    <update id="update">
+        update interviewworks.w001
+        set money     = #{money},
+            update_cd = '修改'
+        where accountNumber = #{accountNumber}
+          and dataNumber = #{dataNumber}
+          and number = #{number}
+          and type = #{type}
+    </update>
+    <delete id="delete">
+        delete
+        from interviewworks.w001
+        where accountNumber = #{accountNumber}
+          and dataNumber = #{dataNumber}
+          and number = #{number}
+          and type = #{type}
+    </delete>
 </mapper>

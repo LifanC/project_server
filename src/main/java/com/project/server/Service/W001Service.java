@@ -15,4 +15,8 @@ public interface W001Service {
     ResponseEntity<String> submitFormOk(W001Bean w001Bean);
 
     List<Object> queryForm(W001Bean w001Bean);
+
+    List<Object> modify(W001Bean w001Bean);
+
+    List<Object> eventDelete(W001Bean w001Bean);
 }

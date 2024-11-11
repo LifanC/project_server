@@ -12,13 +12,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class W001Bean {
+public class W002Bean {
     private String accountNumber;
-    private String dataNumber;
     private String password;
-    private String fileName;
-    private MultipartFile file;
-    private BigDecimal money;
     private String type;
-    private String number;
 }

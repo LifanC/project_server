@@ -75,10 +75,23 @@ public class W001Controller {
         logger.info("Start submitFormOk: {}", w001Bean);
         return w001Service.submitFormOk(w001Bean);
     }
+
     @PostMapping("/queryForm")
     public List<Object> queryForm(@RequestBody W001Bean w001Bean) {
         logger.info("Start queryForm: {}", w001Bean);
         return w001Service.queryForm(w001Bean);
+    }
+
+    @PostMapping("/modify")
+    public List<Object> modify(@RequestBody W001Bean w001Bean) {
+        logger.info("Start modify: {}", w001Bean);
+        return w001Service.modify(w001Bean);
+    }
+
+    @PostMapping("/eventDelete")
+    public List<Object> eventDelete(@RequestBody W001Bean w001Bean) {
+        logger.info("Start eventDelete: {}", w001Bean);
+        return w001Service.eventDelete(w001Bean);
     }
 
 }

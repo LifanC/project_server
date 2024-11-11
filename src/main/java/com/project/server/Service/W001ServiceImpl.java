@@ -164,6 +164,7 @@ public class W001ServiceImpl implements W001Service {
             int number = Integer.parseInt(w001Mapper.maxNumber(w001Bean));
             param.put("number", String.format("%07d", number + 1));
             param.put("update_time", date);
+            param.put("update_cd", "新增");
             int create = w001Mapper.create(param);
             createNum += create;
             dataParams.add(param);
@@ -249,14 +250,69 @@ public class W001ServiceImpl implements W001Service {
         param.put("number", String.format("%07d", number + 1));
         param.put("update_time", date);
         int create = w001Mapper.create(param);
+        param.put("update_cd", "新增");
         w001Mapper.createh(param);
         return ResponseEntity.ok().body("成功新增" + create + "筆");
     }
 
     @Override
     public List<Object> queryForm(W001Bean w001Bean) {
-        List<Object> result = new ArrayList<>();
         List<W001> select = w001Mapper.select(w001Bean);
+        List<Object> result = new ArrayList<>();
+        result.add(select);
+        return result;
+    }
+
+    @Override
+    public List<Object> modify(W001Bean w001Bean) {
+        String date = DateFormat(new Date());
+        IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
+        List<IndexUrl> list = indexMapper.select(indexUrlBean);
+        String accountNumber = "";
+        String dataNumber = "";
+        for (IndexUrl listData : list) {
+            accountNumber = listData.getAccountNumber();
+            dataNumber = listData.getDataNumber();
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("money", w001Bean.getMoney());
+        param.put("update_time", date);
+        param.put("accountNumber", accountNumber);
+        param.put("dataNumber", dataNumber);
+        param.put("number", w001Bean.getNumber());
+        param.put("type", w001Bean.getType());
+        w001Mapper.update(param);
+        param.put("update_cd", "修改");
+        w001Mapper.createh(param);
+        List<W001> select = w001Mapper.select(w001Bean);
+        List<Object> result = new ArrayList<>();
+        result.add(select);
+        return result;
+    }
+
+    @Override
+    public List<Object> eventDelete(W001Bean w001Bean) {
+        String date = DateFormat(new Date());
+        IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
+        List<IndexUrl> list = indexMapper.select(indexUrlBean);
+        String accountNumber = "";
+        String dataNumber = "";
+        for (IndexUrl listData : list) {
+            accountNumber = listData.getAccountNumber();
+            dataNumber = listData.getDataNumber();
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("money", w001Bean.getMoney());
+        param.put("update_time", date);
+        param.put("accountNumber", accountNumber);
+        param.put("dataNumber", dataNumber);
+        param.put("number", w001Bean.getNumber());
+        param.put("type", w001Bean.getType());
+        w001Mapper.delete(param);
+        param.put("update_cd", "刪除");
+        w001Mapper.createh(param);
+        List<W001> select = w001Mapper.select(w001Bean);
+        List<Object> result = new ArrayList<>();
         result.add(select);
         return result;
     }

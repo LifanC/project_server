@@ -12,4 +12,5 @@ public class W001 {
     private String type;
     private String number;
     private String update_time;
+    private String update_cd;
 }
