@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class W001 {
+public class W001h {
     private String money;
     private String type;
     private String number;
-    private String update_date;
+    private String update_time;
+    private String update_cd;
     private String typeName;
 }

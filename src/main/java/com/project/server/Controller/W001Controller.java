@@ -1,6 +1,6 @@
 package com.project.server.Controller;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 import com.project.server.Entity.W001Bean;
 import com.project.server.Service.W001Service;
 import jakarta.annotation.Resource;
@@ -92,6 +92,12 @@ public class W001Controller {
     public List<Object> eventDelete(@RequestBody W001Bean w001Bean) {
         logger.info("Start eventDelete: {}", w001Bean);
         return w001Service.eventDelete(w001Bean);
+    }
+
+    @GetMapping("/w001type")
+    public String w001type() {
+        Gson gson = new Gson();
+        return gson.toJson(w001Service.w001type());
     }
 
 }

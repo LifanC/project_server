@@ -16,4 +16,5 @@ public interface W001Mapper {
     List<W001> select(W001Bean w001Bean);
     void update(Map<String, Object> param);
     void delete(Map<String, Object> param);
+    List<Map<String, String>> w001type();
 }

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.project.server.Mapper.W001Mapper">
     <insert id="create">
-        INSERT INTO interviewWorks.w001 (accountNumber, dataNumber, money, type, number, update_time, update_cd)
+        INSERT INTO interviewWorks.w001 (accountNumber, dataNumber, money, type, number, update_date, update_time)
         VALUES (#{accountNumber}, #{dataNumber}, #{money}, #{type}, #{number},
-                #{update_time} ,'新增')
+                #{update_date}, #{update_time})
     </insert>
     <insert id="createh">
         INSERT INTO interviewWorks.w001h (accountNumber, dataNumber, money, type, number, update_time, update_cd)
@@ -30,21 +30,33 @@
         <id property="money" column="money"/>
         <id property="type" column="type"/>
         <id property="number" column="number"/>
-        <id property="update_time" column="update_time"/>
-        <id property="update_cd" column="update_cd"/>
+        <id property="update_date" column="update_date"/>
+        <id property="typeName" column="typeName"/>
     </resultMap>
     <select id="select" resultMap="W001">
         select *
-        from interviewWorks.w001
-        where accountNumber like #{accountNumber}
-          and type like #{type}
-          and money >= #{money}
+        from interviewworks.w001,
+        interviewworks.w001type
+        <where>
+            and interviewworks.w001.`type` = interviewworks.w001type.typeNameNumber
+            and accountNumber like #{accountNumber}
+            <choose>
+                <when test="type != null and type != ''">
+                    and type like #{type}
+                </when>
+                <otherwise>
+                    and type like '%'
+                </otherwise>
+            </choose>
+            <if test="update_date_format != null and update_date_format != ''">
+                and substr(update_date, 1, 10) = substr(#{update_date_format}, 1, 10)
+            </if>
+        </where>
         order by number asc
     </select>
     <update id="update">
         update interviewworks.w001
-        set money     = #{money},
-            update_cd = '修改'
+        set money     = #{money}
         where accountNumber = #{accountNumber}
           and dataNumber = #{dataNumber}
           and number = #{number}
@@ -58,4 +70,8 @@
           and number = #{number}
           and type = #{type}
     </delete>
+    <select id="w001type" resultType="map">
+        select *
+        from interviewWorks.w001type
+    </select>
 </mapper>

@@ -141,7 +141,6 @@ public class W001ServiceImpl implements W001Service {
         if (w001Map) {
             ResponseEntity.internalServerError().body("資料錯誤");
         }
-        String date = DateFormat(new Date());
         List<Map<String, Object>> dataParams = new ArrayList<>();
         IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
         List<IndexUrl> list = indexMapper.select(indexUrlBean);
@@ -151,6 +150,7 @@ public class W001ServiceImpl implements W001Service {
             accountNumber = listData.getAccountNumber();
             dataNumber = listData.getDataNumber();
         }
+        String date = DateFormat(new Date());
         int createNum = 0;
         for (Map<String, String> paramString : params) {
             Map<String, Object> param = new HashMap<>();
@@ -163,10 +163,11 @@ public class W001ServiceImpl implements W001Service {
             w001Bean.setType(type);
             int number = Integer.parseInt(w001Mapper.maxNumber(w001Bean));
             param.put("number", String.format("%07d", number + 1));
+            param.put("update_date", date);
             param.put("update_time", date);
-            param.put("update_cd", "新增");
             int create = w001Mapper.create(param);
             createNum += create;
+            param.put("update_cd", "新增");
             dataParams.add(param);
         }
         w001Mapper.createBatchh(dataParams);
@@ -238,6 +239,7 @@ public class W001ServiceImpl implements W001Service {
             accountNumber = listData.getAccountNumber();
             dataNumber = listData.getDataNumber();
         }
+        String updateDate = DateFormat(w001Bean.getUpdate_date());
         String date = DateFormat(new Date());
         Map<String, Object> param = new HashMap<>();
         param.put("accountNumber", accountNumber);
@@ -248,6 +250,7 @@ public class W001ServiceImpl implements W001Service {
         w001Bean.setType(w001Bean.getType());
         int number = Integer.parseInt(w001Mapper.maxNumber(w001Bean));
         param.put("number", String.format("%07d", number + 1));
+        param.put("update_date", updateDate);
         param.put("update_time", date);
         int create = w001Mapper.create(param);
         param.put("update_cd", "新增");
@@ -257,6 +260,10 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public List<Object> queryForm(W001Bean w001Bean) {
+        if (w001Bean.getUpdate_date() != null) {
+            String updateDate = DateFormat(w001Bean.getUpdate_date());
+            w001Bean.setUpdate_date_format(updateDate);
+        }
         List<W001> select = w001Mapper.select(w001Bean);
         List<Object> result = new ArrayList<>();
         result.add(select);
@@ -315,5 +322,10 @@ public class W001ServiceImpl implements W001Service {
         List<Object> result = new ArrayList<>();
         result.add(select);
         return result;
+    }
+
+    @Override
+    public List<Map<String, String>> w001type() {
+        return w001Mapper.w001type();
     }
 }

@@ -2,42 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.project.server.Mapper.W002Mapper">
     <select id="select" resultType="map">
-        select
-            IFNULL(active_w001.accountNumber, #{accountNumber}) as accountNumber,
-            IFNULL(active_w001.dataNumber, #{dataNumber}) as dataNumber,
-            count(*) as count,
-            IFNULL(sum(money), 0) as sum,
-            IFNULL(avg(money), 0) as avg
-        from
-            (
-                select
-                    *
-                from
-                    interviewworks.w001
-                where
-                    substr(update_time, 1, 7) = substr(#{update_time}, 1, 7)
-                  and accountNumber = #{accountNumber}
-                  and type = #{type}
-            ) as active_w001
+        select IFNULL(active_w001.accountNumber, #{accountNumber})          as accountNumber,
+               IFNULL(active_w001.dataNumber, #{dataNumber})                as dataNumber,
+               count(*)                                                     as count,
+               IFNULL(sum(money), 0)                                        as sum,
+               IFNULL(SUBSTRING_INDEX(CAST(AVG(money) AS CHAR), '.', 1), 0) as avg
+        from (select *
+              from interviewworks.w001
+              where accountNumber = #{accountNumber}
+                and type = #{type}) as active_w001
     </select>
     <resultMap id="W001" type="com.project.server.Model.W001">
         <id property="money" column="money"/>
         <id property="type" column="type"/>
         <id property="number" column="number"/>
-        <id property="update_time" column="update_time"/>
-        <id property="update_cd" column="update_cd"/>
+        <id property="update_date" column="update_date"/>
+        <id property="typeName" column="typeName"/>
     </resultMap>
     <select id="selectW001x" resultMap="W001">
         select *
-        from interviewWorks.w001
-        where accountNumber like #{accountNumber}
+        from interviewworks.w001,
+             interviewworks.w001type
+        where interviewworks.w001.`type` = interviewworks.w001type.typeNameNumber
+          and accountNumber like #{accountNumber}
           and type like #{type}
         order by number asc
     </select>
-    <select id="selectW001h" resultMap="W001">
+    <resultMap id="W001h" type="com.project.server.Model.W001h">
+        <id property="money" column="money"/>
+        <id property="type" column="type"/>
+        <id property="number" column="number"/>
+        <id property="update_time" column="update_time"/>
+        <id property="update_cd" column="update_cd"/>
+        <id property="typeName" column="typeName"/>
+    </resultMap>
+    <select id="selectW001h" resultMap="W001h">
         select *
-        from interviewWorks.w001h
-        where accountNumber like #{accountNumber}
+        from interviewWorks.w001h,
+             interviewworks.w001type
+        where interviewworks.w001h.`type` = interviewworks.w001type.typeNameNumber
+          and accountNumber like #{accountNumber}
           and type like #{type}
         order by update_time desc
     </select>
