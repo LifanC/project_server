@@ -73,5 +73,35 @@
     <select id="w001type" resultType="map">
         select *
         from interviewWorks.w001type
+        order by typeNameNumber
     </select>
+    <select id="typeSelectMax" resultType="java.lang.String">
+        select IFNULL(MAX(typeNameNumber), '0')
+        from interviewworks.w001type
+    </select>
+    <insert id="insertType">
+        INSERT INTO interviewworks.w001type(typeNameNumber, typeName)
+        VALUES (#{typeSelectMax}, #{typeName})
+    </insert>
+    <select id="typeSelect" resultType="java.lang.Integer">
+        select count(*)
+        from interviewWorks.w001type
+        where typeName = #{typeName}
+    </select>
+    <select id="typeSelectList" resultType="map">
+        select *
+        from interviewWorks.w001type
+        order by typeNameNumber
+    </select>
+    <select id="w001typeSelect" resultType="map">
+        select *
+        from interviewWorks.w001type
+        where typeName = #{typeName}
+        order by typeNameNumber
+    </select>
+    <delete id="deleteType">
+        delete
+        from interviewworks.w001type
+        where typeName = #{typeName}
+    </delete>
 </mapper>

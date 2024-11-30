@@ -1,6 +1,7 @@
 package com.project.server.Service;
 
 import com.project.server.Entity.W001Bean;
+import com.project.server.Entity.W001TypeBean;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -22,4 +23,10 @@ public interface W001Service {
     List<Object> eventDelete(W001Bean w001Bean);
 
     List<Map<String, String>> w001type();
+
+    List<Object> typeMethod1(W001TypeBean w001TypeBean);
+
+    List<Object> typeMethod2(W001TypeBean w001TypeBean);
+
+    List<Object> eventDeleteType(String typeName);
 }

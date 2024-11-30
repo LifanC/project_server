@@ -2,6 +2,7 @@ package com.project.server.Service;
 
 import com.project.server.Entity.IndexUrlBean;
 import com.project.server.Entity.W001Bean;
+import com.project.server.Entity.W001TypeBean;
 import com.project.server.Mapper.IndexMapper;
 import com.project.server.Mapper.W001Mapper;
 import com.project.server.Model.IndexUrl;
@@ -82,6 +83,7 @@ public class W001ServiceImpl implements W001Service {
         String dataNumber = "";
         Set<String> types = new HashSet<>();
 
+        System.out.println(!w001Bean.getFileName().contains(".csv"));
         if (!w001Bean.getFileName().contains(".csv")) {
             return ResponseEntity.internalServerError().body("非CSV檔，請重新上傳");
         } else {
@@ -102,11 +104,17 @@ public class W001ServiceImpl implements W001Service {
                     accountNumber = listData.getAccountNumber();
                     dataNumber = listData.getDataNumber();
                 }
+                List<Map<String, String>> letters = w001Mapper.w001type();
+                System.out.println(letters);
+                String[] letter = new String[letters.size()];
+                for (int i = 0; i < letters.size(); i++) {
+                    letter[i] = letters.get(i).get("typeNameNumber");
+                }
                 int line = 0;
                 for (Map<String, String> data : params) {
                     line++;
                     types.add(data.get("type"));
-                    getLogMessage(data, listLogs, line);
+                    getLogMessage(data, listLogs, line, letter);
                 }
             }
         }
@@ -174,7 +182,7 @@ public class W001ServiceImpl implements W001Service {
         return ResponseEntity.ok().body("成功新增" + createNum + "筆");
     }
 
-    private void getLogMessage(Map<String, String> data, List<List<String>> listLogs, int line) {
+    private void getLogMessage(Map<String, String> data, List<List<String>> listLogs, int line, String[] letter) {
         List<String> listLog = new ArrayList<>();
         String log = "第" + line + "行";
         boolean moneyIsNotOk = true;
@@ -194,7 +202,6 @@ public class W001ServiceImpl implements W001Service {
         }
         String type = data.get("type");
         if (StringUtils.isNotBlank(type)) {
-            String[] letter = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
             if (!ArrayUtils.contains(letter, type)) {
                 log += "、種類(" + type + ")格式錯誤";
             } else {
@@ -327,5 +334,52 @@ public class W001ServiceImpl implements W001Service {
     @Override
     public List<Map<String, String>> w001type() {
         return w001Mapper.w001type();
+    }
+
+    @Override
+    public List<Object> typeMethod1(W001TypeBean w001TypeBean) {
+        List<Object> result = new ArrayList<>();
+        List<Map<String, String>> typeList = w001Mapper.typeSelectList();
+        if (typeList.size() == 0) {
+            w001Mapper.insertType(w001TypeBean.getTypeName(), "1");
+        } else if (typeList.size() > 5) {
+            result.add(typeList);
+            return result;
+        } else {
+            List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
+            if (typeSelectTypeName.size() == 0) {
+                int count = 0;
+                for (int i = 0; i < typeList.size(); i++) {
+                    if (Integer.parseInt(typeList.get(i).get("typeNameNumber")) != i + 1) {
+                        w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(i + 1));
+                        break;
+                    }
+                    count++;
+                }
+                if (count == typeList.size()) {
+                    w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(typeList.size() + 1));
+                }
+            }
+        }
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
+        result.add(typeSelectTypeName);
+        return result;
+    }
+
+    @Override
+    public List<Object> typeMethod2(W001TypeBean w001TypeBean) {
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
+        List<Object> result = new ArrayList<>();
+        result.add((typeSelectTypeName.size() > 0) ? typeSelectTypeName : new ArrayList<>());
+        return result;
+    }
+
+    @Override
+    public List<Object> eventDeleteType(String typeName) {
+        int del = w001Mapper.deleteType(typeName);
+        List<Object> result = new ArrayList<>();
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(typeName);
+        result.add(typeSelectTypeName);
+        return result;
     }
 }

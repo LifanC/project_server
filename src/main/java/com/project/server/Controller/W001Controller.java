@@ -2,6 +2,7 @@ package com.project.server.Controller;
 
 import com.google.gson.Gson;
 import com.project.server.Entity.W001Bean;
+import com.project.server.Entity.W001TypeBean;
 import com.project.server.Service.W001Service;
 import jakarta.annotation.Resource;
 import org.apache.ibatis.annotations.Param;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -20,6 +22,7 @@ public class W001Controller {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private W001Service w001Service;
+    private Gson gson = new Gson();
 
     @GetMapping("/goW001")
     public String goW001() {
@@ -98,6 +101,25 @@ public class W001Controller {
     public String w001type() {
         Gson gson = new Gson();
         return gson.toJson(w001Service.w001type());
+    }
+
+    @PostMapping("/typeMethod1")
+    public String typeMethod1(@RequestBody W001TypeBean w001TypeBean) {
+        logger.info("Start type新增: {}", w001TypeBean);
+        return gson.toJson(w001Service.typeMethod1(w001TypeBean));
+    }
+
+    @PostMapping("/typeMethod2")
+    public String typeMethod2(@RequestBody W001TypeBean w001TypeBean) {
+        logger.info("Start type查詢: {}", w001TypeBean);
+        return gson.toJson(w001Service.typeMethod2(w001TypeBean));
+    }
+
+    @PostMapping("/eventDeleteType")
+    public String eventDeleteType(@RequestBody Map<String, Object> params) {
+        String typeName = params.get("typeName").toString();
+        logger.info("Start type刪除: {}", typeName);
+        return gson.toJson(w001Service.eventDeleteType(typeName));
     }
 
 }
