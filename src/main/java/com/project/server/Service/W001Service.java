@@ -29,4 +29,6 @@ public interface W001Service {
     List<Object> typeMethod2(W001TypeBean w001TypeBean);
 
     List<Object> eventDeleteType(String typeName);
+
+    List<Object> typeMethod(W001TypeBean w001TypeBean);
 }

@@ -16,7 +16,7 @@ public class W002Controller {
     @Resource
     private W002Service w001Service;
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @GetMapping("/goW002")
     public String goW001() {

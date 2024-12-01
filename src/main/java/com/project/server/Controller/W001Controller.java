@@ -22,7 +22,7 @@ public class W001Controller {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private W001Service w001Service;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @GetMapping("/goW001")
     public String goW001() {
@@ -114,12 +114,17 @@ public class W001Controller {
         logger.info("Start type查詢: {}", w001TypeBean);
         return gson.toJson(w001Service.typeMethod2(w001TypeBean));
     }
-
     @PostMapping("/eventDeleteType")
     public String eventDeleteType(@RequestBody Map<String, Object> params) {
         String typeName = params.get("typeName").toString();
         logger.info("Start type刪除: {}", typeName);
         return gson.toJson(w001Service.eventDeleteType(typeName));
+    }
+
+    @PostMapping("/typeMethod")
+    public String typeMethod(@RequestBody W001TypeBean w001TypeBean) {
+        logger.info("Start type查詢%: {}", w001TypeBean);
+        return gson.toJson(w001Service.typeMethod(w001TypeBean));
     }
 
 }

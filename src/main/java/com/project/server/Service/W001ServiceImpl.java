@@ -104,7 +104,7 @@ public class W001ServiceImpl implements W001Service {
                     accountNumber = listData.getAccountNumber();
                     dataNumber = listData.getDataNumber();
                 }
-                List<Map<String, String>> letters = w001Mapper.w001type();
+                List<Map<String, String>> letters = w001Mapper.typeSelectList();
                 System.out.println(letters);
                 String[] letter = new String[letters.size()];
                 for (int i = 0; i < letters.size(); i++) {
@@ -333,7 +333,7 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public List<Map<String, String>> w001type() {
-        return w001Mapper.w001type();
+        return w001Mapper.typeSelectList();
     }
 
     @Override
@@ -342,9 +342,6 @@ public class W001ServiceImpl implements W001Service {
         List<Map<String, String>> typeList = w001Mapper.typeSelectList();
         if (typeList.size() == 0) {
             w001Mapper.insertType(w001TypeBean.getTypeName(), "1");
-        } else if (typeList.size() > 5) {
-            result.add(typeList);
-            return result;
         } else {
             List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
             if (typeSelectTypeName.size() == 0) {
@@ -361,7 +358,7 @@ public class W001ServiceImpl implements W001Service {
                 }
             }
         }
-        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.typeSelectList();
         result.add(typeSelectTypeName);
         return result;
     }
@@ -376,10 +373,26 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public List<Object> eventDeleteType(String typeName) {
-        int del = w001Mapper.deleteType(typeName);
         List<Object> result = new ArrayList<>();
-        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(typeName);
+        int del = w001Mapper.deleteType(typeName);
+        if (del > 0) {
+            List<Map<String, String>> typeSelects = w001Mapper.typeSelect(typeName);
+            typeSelects.forEach(typeSelect -> {
+                String typeNameNumber = typeSelect.get("typeNameNumber").toString();
+                w001Mapper.deleteW001(typeNameNumber);
+                w001Mapper.deleteW001h(typeNameNumber);
+            });
+        }
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.typeSelectList();
         result.add(typeSelectTypeName);
+        return result;
+    }
+
+    @Override
+    public List<Object> typeMethod(W001TypeBean w001TypeBean) {
+        List<Object> result = new ArrayList<>();
+        List<Map<String, String>> typeList = w001Mapper.typeSelectList();
+        result.add(typeList);
         return result;
     }
 }

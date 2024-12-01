@@ -70,11 +70,6 @@
           and number = #{number}
           and type = #{type}
     </delete>
-    <select id="w001type" resultType="map">
-        select *
-        from interviewWorks.w001type
-        order by typeNameNumber
-    </select>
     <select id="typeSelectMax" resultType="java.lang.String">
         select IFNULL(MAX(typeNameNumber), '0')
         from interviewworks.w001type
@@ -83,8 +78,8 @@
         INSERT INTO interviewworks.w001type(typeNameNumber, typeName)
         VALUES (#{typeSelectMax}, #{typeName})
     </insert>
-    <select id="typeSelect" resultType="java.lang.Integer">
-        select count(*)
+    <select id="typeSelect" resultType="map">
+        select *
         from interviewWorks.w001type
         where typeName = #{typeName}
     </select>
@@ -96,12 +91,22 @@
     <select id="w001typeSelect" resultType="map">
         select *
         from interviewWorks.w001type
-        where typeName = #{typeName}
+        where typeName like CONCAT('%', #{typeName}, '%')
         order by typeNameNumber
     </select>
     <delete id="deleteType">
         delete
         from interviewworks.w001type
         where typeName = #{typeName}
+    </delete>
+    <delete id="deleteW001">
+        delete
+        from interviewworks.w001
+        where type = #{typeNameNumber}
+    </delete>
+    <delete id="deleteW001h">
+        delete
+        from interviewworks.w001h
+        where type = #{typeNameNumber}
     </delete>
 </mapper>
