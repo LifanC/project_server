@@ -104,7 +104,7 @@ public class W001ServiceImpl implements W001Service {
                     accountNumber = listData.getAccountNumber();
                     dataNumber = listData.getDataNumber();
                 }
-                List<Map<String, String>> letters = w001Mapper.typeSelectList();
+                List<Map<String, String>> letters = w001Mapper.typeSelectList(accountNumber);
                 System.out.println(letters);
                 String[] letter = new String[letters.size()];
                 for (int i = 0; i < letters.size(); i++) {
@@ -230,15 +230,18 @@ public class W001ServiceImpl implements W001Service {
         String maxNumber = w001Mapper.maxNumber(w001Bean);
         int maxNumberNum = Integer.parseInt(maxNumber);
         if (Integer.parseInt(maxNumber) > 0) {
-            return ResponseEntity.ok().body("已有重複資料最大編號為" + maxNumber + "有需要新增" + String.format("%07d", (maxNumberNum + 1)) + "的資料嗎?");
+            return ResponseEntity.ok().body("已有重複資料<br>最大編號為" + maxNumber + "<br>有需要新增" + String.format("%07d", (maxNumberNum + 1)) + "的資料嗎?");
         } else {
-            return ResponseEntity.ok().body("新增編號為" + String.format("%07d", (maxNumberNum + 1)) + "有需要新增嗎?");
+            return ResponseEntity.ok().body("新增編號為" + String.format("%07d", (maxNumberNum + 1)) + "<br>有需要新增嗎?");
         }
     }
 
     @Override
-    public ResponseEntity<String> submitFormOk(W001Bean w001Bean) {
-        IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
+    public List<Object> submitFormOk(W001Bean w001Bean) {
+        IndexUrlBean indexUrlBean = IndexUrlBean.builder()
+                .accountNumber(w001Bean.getAccountNumber())
+                .password(w001Bean.getPassword())
+                .build();
         List<IndexUrl> list = indexMapper.select(indexUrlBean);
         String accountNumber = "";
         String dataNumber = "";
@@ -262,7 +265,12 @@ public class W001ServiceImpl implements W001Service {
         int create = w001Mapper.create(param);
         param.put("update_cd", "新增");
         w001Mapper.createh(param);
-        return ResponseEntity.ok().body("成功新增" + create + "筆");
+        List<Object> result = new ArrayList<>();
+        ResponseEntity<String> string = ResponseEntity.ok().body("成功新增" + create + "筆");
+        result.add(string);
+        List<W001> select = w001Mapper.select(w001Bean);
+        result.add(select);
+        return result;
     }
 
     @Override
@@ -279,6 +287,7 @@ public class W001ServiceImpl implements W001Service {
 
     @Override
     public List<Object> modify(W001Bean w001Bean) {
+        List<Object> result = new ArrayList<>();
         String date = DateFormat(new Date());
         IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
         List<IndexUrl> list = indexMapper.select(indexUrlBean);
@@ -298,14 +307,15 @@ public class W001ServiceImpl implements W001Service {
         w001Mapper.update(param);
         param.put("update_cd", "修改");
         w001Mapper.createh(param);
+        w001Bean.setMoney(null);
         List<W001> select = w001Mapper.select(w001Bean);
-        List<Object> result = new ArrayList<>();
         result.add(select);
         return result;
     }
 
     @Override
     public List<Object> eventDelete(W001Bean w001Bean) {
+        List<Object> result = new ArrayList<>();
         String date = DateFormat(new Date());
         IndexUrlBean indexUrlBean = IndexUrlBean.builder().accountNumber(w001Bean.getAccountNumber()).password(w001Bean.getPassword()).build();
         List<IndexUrl> list = indexMapper.select(indexUrlBean);
@@ -325,73 +335,80 @@ public class W001ServiceImpl implements W001Service {
         w001Mapper.delete(param);
         param.put("update_cd", "刪除");
         w001Mapper.createh(param);
+        w001Bean.setMoney(null);
         List<W001> select = w001Mapper.select(w001Bean);
-        List<Object> result = new ArrayList<>();
         result.add(select);
         return result;
     }
 
     @Override
-    public List<Map<String, String>> w001type() {
-        return w001Mapper.typeSelectList();
+    public List<Map<String, String>> w001type(W001TypeBean w001TypeBean) {
+        return w001Mapper.typeSelectList(w001TypeBean.getAccountNumber());
     }
 
     @Override
     public List<Object> typeMethod1(W001TypeBean w001TypeBean) {
         List<Object> result = new ArrayList<>();
-        List<Map<String, String>> typeList = w001Mapper.typeSelectList();
+        List<Map<String, String>> typeList = w001Mapper.typeSelectList(w001TypeBean.getAccountNumber());
         if (typeList.size() == 0) {
-            w001Mapper.insertType(w001TypeBean.getTypeName(), "1");
+            w001Mapper.insertType(w001TypeBean.getTypeName(), "1", w001TypeBean.getAccountNumber());
         } else {
-            List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
+            List<Map<String, String>> typeSelectTypeName =
+                    w001Mapper.w001typeSelect(w001TypeBean.getTypeName(), w001TypeBean.getAccountNumber());
             if (typeSelectTypeName.size() == 0) {
                 int count = 0;
                 for (int i = 0; i < typeList.size(); i++) {
                     if (Integer.parseInt(typeList.get(i).get("typeNameNumber")) != i + 1) {
-                        w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(i + 1));
+                        w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(i + 1), w001TypeBean.getAccountNumber());
                         break;
                     }
                     count++;
                 }
                 if (count == typeList.size()) {
-                    w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(typeList.size() + 1));
+                    w001Mapper.insertType(w001TypeBean.getTypeName(), String.valueOf(typeList.size() + 1), w001TypeBean.getAccountNumber());
                 }
             }
         }
-        List<Map<String, String>> typeSelectTypeName = w001Mapper.typeSelectList();
+        List<Map<String, String>> typeSelectTypeName =
+                w001Mapper.typeSelectList(w001TypeBean.getAccountNumber());
         result.add(typeSelectTypeName);
         return result;
     }
 
     @Override
     public List<Object> typeMethod2(W001TypeBean w001TypeBean) {
-        List<Map<String, String>> typeSelectTypeName = w001Mapper.w001typeSelect(w001TypeBean.getTypeName());
         List<Object> result = new ArrayList<>();
+        List<Map<String, String>> typeSelectTypeName =
+                w001Mapper.w001typeSelect(w001TypeBean.getTypeName(), w001TypeBean.getAccountNumber());
         result.add((typeSelectTypeName.size() > 0) ? typeSelectTypeName : new ArrayList<>());
         return result;
     }
 
     @Override
-    public List<Object> eventDeleteType(String typeName) {
+    public List<Object> eventDeleteType(String accountNumber, String typeName) {
         List<Object> result = new ArrayList<>();
-        int del = w001Mapper.deleteType(typeName);
-        if (del > 0) {
-            List<Map<String, String>> typeSelects = w001Mapper.typeSelect(typeName);
-            typeSelects.forEach(typeSelect -> {
-                String typeNameNumber = typeSelect.get("typeNameNumber").toString();
-                w001Mapper.deleteW001(typeNameNumber);
-                w001Mapper.deleteW001h(typeNameNumber);
-            });
-        }
-        List<Map<String, String>> typeSelectTypeName = w001Mapper.typeSelectList();
+        List<Map<String, String>> typeSelects = w001Mapper.typeSelect(typeName, accountNumber);
+        typeSelects.forEach(typeSelect -> {
+            String typeNameNumber = typeSelect.get("typeNameNumber").toString();
+            w001Mapper.deleteW001(typeNameNumber, accountNumber);
+            w001Mapper.deleteW001h(typeNameNumber, accountNumber);
+        });
+        w001Mapper.deleteType(typeName, accountNumber);
+        List<Map<String, String>> typeSelectTypeName = w001Mapper.typeSelectList(accountNumber);
         result.add(typeSelectTypeName);
+        W001Bean w001Bean = W001Bean.builder()
+                .accountNumber(accountNumber)
+                .build();
+        List<W001> select = w001Mapper.select(w001Bean);
+        result.add(select);
         return result;
     }
 
     @Override
     public List<Object> typeMethod(W001TypeBean w001TypeBean) {
         List<Object> result = new ArrayList<>();
-        List<Map<String, String>> typeList = w001Mapper.typeSelectList();
+        List<Map<String, String>> typeList =
+                w001Mapper.typeSelectList(w001TypeBean.getAccountNumber());
         result.add(typeList);
         return result;
     }

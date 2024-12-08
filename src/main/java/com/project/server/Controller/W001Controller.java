@@ -74,7 +74,7 @@ public class W001Controller {
     }
 
     @PostMapping("/submitFormOk")
-    public ResponseEntity<String> submitFormOk(@RequestBody W001Bean w001Bean) {
+    public List<Object> submitFormOk(@RequestBody W001Bean w001Bean) {
         logger.info("Start submitFormOk: {}", w001Bean);
         return w001Service.submitFormOk(w001Bean);
     }
@@ -97,10 +97,10 @@ public class W001Controller {
         return w001Service.eventDelete(w001Bean);
     }
 
-    @GetMapping("/w001type")
-    public String w001type() {
-        Gson gson = new Gson();
-        return gson.toJson(w001Service.w001type());
+    @PostMapping("/w001type")
+    public String w001type(@RequestBody W001TypeBean w001TypeBean) {
+        logger.info("Start w001type: {}", w001TypeBean);
+        return gson.toJson(w001Service.w001type(w001TypeBean));
     }
 
     @PostMapping("/typeMethod1")
@@ -116,9 +116,10 @@ public class W001Controller {
     }
     @PostMapping("/eventDeleteType")
     public String eventDeleteType(@RequestBody Map<String, Object> params) {
+        String accountNumber = params.get("accountNumber").toString();
         String typeName = params.get("typeName").toString();
-        logger.info("Start type刪除: {}", typeName);
-        return gson.toJson(w001Service.eventDeleteType(typeName));
+        logger.info("Start type刪除: {},{}", accountNumber, typeName);
+        return gson.toJson(w001Service.eventDeleteType(accountNumber, typeName));
     }
 
     @PostMapping("/typeMethod")

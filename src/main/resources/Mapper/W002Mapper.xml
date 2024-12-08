@@ -24,8 +24,8 @@
         from interviewworks.w001,
              interviewworks.w001type
         where interviewworks.w001.`type` = interviewworks.w001type.typeNameNumber
-          and accountNumber like #{accountNumber}
-          and type like #{type}
+          and w001.accountNumber = #{accountNumber}
+          and type = #{type}
         order by number asc
     </select>
     <resultMap id="W001h" type="com.project.server.Model.W001h">
@@ -41,8 +41,8 @@
         from interviewWorks.w001h,
              interviewworks.w001type
         where interviewworks.w001h.`type` = interviewworks.w001type.typeNameNumber
-          and accountNumber like #{accountNumber}
-          and type like #{type}
+          and w001h.accountNumber = #{accountNumber}
+          and type = #{type}
         order by update_time desc
     </select>
 </mapper>

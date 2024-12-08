@@ -39,10 +39,11 @@
         interviewworks.w001type
         <where>
             and interviewworks.w001.`type` = interviewworks.w001type.typeNameNumber
-            and accountNumber like #{accountNumber}
+            and w001.accountNumber = w001type.accountNumber
+            and w001.accountNumber = #{accountNumber}
             <choose>
                 <when test="type != null and type != ''">
-                    and type like #{type}
+                    and type = #{type}
                 </when>
                 <otherwise>
                     and type like '%'
@@ -50,6 +51,9 @@
             </choose>
             <if test="update_date_format != null and update_date_format != ''">
                 and substr(update_date, 1, 10) = substr(#{update_date_format}, 1, 10)
+            </if>
+            <if test="money != null and money != ''">
+                and interviewworks.w001.money >= #{money}
             </if>
         </where>
         order by number asc
@@ -70,43 +74,46 @@
           and number = #{number}
           and type = #{type}
     </delete>
-    <select id="typeSelectMax" resultType="java.lang.String">
-        select IFNULL(MAX(typeNameNumber), '0')
-        from interviewworks.w001type
-    </select>
     <insert id="insertType">
-        INSERT INTO interviewworks.w001type(typeNameNumber, typeName)
-        VALUES (#{typeSelectMax}, #{typeName})
+        INSERT INTO interviewworks.w001type(accountNumber, typeNameNumber, typeName)
+        VALUES (#{accountNumber}, #{typeSelectMax}, #{typeName})
     </insert>
     <select id="typeSelect" resultType="map">
         select *
         from interviewWorks.w001type
         where typeName = #{typeName}
+          and accountNumber = #{accountNumber}
+        order by typeNameNumber
     </select>
     <select id="typeSelectList" resultType="map">
         select *
         from interviewWorks.w001type
+        where accountNumber = #{accountNumber}
         order by typeNameNumber
     </select>
     <select id="w001typeSelect" resultType="map">
         select *
         from interviewWorks.w001type
         where typeName like CONCAT('%', #{typeName}, '%')
+          and accountNumber = #{accountNumber}
         order by typeNameNumber
     </select>
     <delete id="deleteType">
         delete
         from interviewworks.w001type
         where typeName = #{typeName}
+          and accountNumber = #{accountNumber}
     </delete>
     <delete id="deleteW001">
         delete
         from interviewworks.w001
         where type = #{typeNameNumber}
+          and accountNumber = #{accountNumber}
     </delete>
     <delete id="deleteW001h">
         delete
         from interviewworks.w001h
         where type = #{typeNameNumber}
+          and accountNumber = #{accountNumber}
     </delete>
 </mapper>

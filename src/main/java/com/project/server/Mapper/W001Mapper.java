@@ -24,19 +24,17 @@ public interface W001Mapper {
 
     void delete(Map<String, Object> param);
 
-    String typeSelectMax();
+    void insertType(String typeName, String typeSelectMax, String accountNumber);
 
-    void insertType(String typeName, String typeSelectMax);
+    List<Map<String, String>> typeSelect(String typeName, String accountNumber);
 
-    List<Map<String, String>> typeSelect(String typeName);
+    List<Map<String, String>> typeSelectList(String accountNumber);
 
-    List<Map<String, String>> typeSelectList();
+    List<Map<String, String>> w001typeSelect(String typeName, String accountNumber);
 
-    List<Map<String, String>> w001typeSelect(String typeName);
+    void deleteType(String typeName, String accountNumber);
 
-    int deleteType(String typeName);
+    void deleteW001(String typeNameNumber, String accountNumber);
 
-    void deleteW001(String typeNameNumber);
-
-    void deleteW001h(String typeNameNumber);
+    void deleteW001h(String typeNameNumber, String accountNumber);
 }

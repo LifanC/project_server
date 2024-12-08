@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class W001TypeBean {
+    private String accountNumber;
     private String typeName;
 }

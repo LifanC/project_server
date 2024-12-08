@@ -14,7 +14,7 @@ public interface W001Service {
 
     ResponseEntity<String> submitForm(W001Bean w001Bean);
 
-    ResponseEntity<String> submitFormOk(W001Bean w001Bean);
+    List<Object> submitFormOk(W001Bean w001Bean);
 
     List<Object> queryForm(W001Bean w001Bean);
 
@@ -22,13 +22,13 @@ public interface W001Service {
 
     List<Object> eventDelete(W001Bean w001Bean);
 
-    List<Map<String, String>> w001type();
+    List<Map<String, String>> w001type(W001TypeBean w001TypeBean);
 
     List<Object> typeMethod1(W001TypeBean w001TypeBean);
 
     List<Object> typeMethod2(W001TypeBean w001TypeBean);
 
-    List<Object> eventDeleteType(String typeName);
+    List<Object> eventDeleteType(String accountNumber, String typeName);
 
     List<Object> typeMethod(W001TypeBean w001TypeBean);
 }
