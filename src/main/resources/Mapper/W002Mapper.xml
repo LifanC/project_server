@@ -24,6 +24,7 @@
         from interviewworks.w001,
              interviewworks.w001type
         where interviewworks.w001.`type` = interviewworks.w001type.typeNameNumber
+          and w001.accountNumber = w001type.accountNumber
           and w001.accountNumber = #{accountNumber}
           and type = #{type}
         order by number asc
@@ -41,6 +42,7 @@
         from interviewWorks.w001h,
              interviewworks.w001type
         where interviewworks.w001h.`type` = interviewworks.w001type.typeNameNumber
+          and w001h.accountNumber = w001type.accountNumber
           and w001h.accountNumber = #{accountNumber}
           and type = #{type}
         order by update_time desc
